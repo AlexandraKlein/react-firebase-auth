@@ -2,4 +2,4 @@
 
 Put your credentials to `.env`.
 
-Run `yarn start` to start application.
+Run `yarn start` to start application.# react-firebase-auth
