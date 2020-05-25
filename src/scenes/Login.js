@@ -1,8 +1,10 @@
 import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
 import { Link } from "react-router-dom";
-import app from "./base.js";
-import { AuthContext } from "./Auth.js";
+import app from "../base";
+import { AuthContext } from "../Auth";
+import Form from "../components/Form";
+import Input from "../components/Input";
 
 const Login = ({ history }) => {
   const [error, setError] = React.useState(undefined);
@@ -28,25 +30,21 @@ const Login = ({ history }) => {
   if (currentUser) {
     return <Redirect to="/" />;
   }
-  console.log({ error });
 
   return (
-    <div>
+    <>
       <h1>Log in</h1>
-      <form onSubmit={handleLogin}>
-        <label>
-          Email
-          <input name="email" type="email" placeholder="Email" />
-        </label>
-        <label>
-          Password
-          <input name="password" type="password" placeholder="Password" />
-        </label>
+
+      <Form onSubmit={handleLogin}>
+        <Input label="Email" type="email" placeholder="email" />
+        <Input label="Password" type="password" placeholder="Password" />
         <button type="submit">Log in</button>
-        {error && <p>{error}</p>}
-      </form>
+      </Form>
+
+      {error && <p>{error}</p>}
+
       <Link to="/signup">Sign Up</Link>
-    </div>
+    </>
   );
 };
 

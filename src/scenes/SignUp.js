@@ -1,7 +1,9 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
-import app from "./base";
+import app from "../base";
+import Form from "../components/Form";
+import Input from "../components/Input";
 
 const SignUp = ({ history }) => {
   const [error, setError] = React.useState(undefined);
@@ -26,18 +28,15 @@ const SignUp = ({ history }) => {
   return (
     <div>
       <h1>Sign up</h1>
-      <form onSubmit={handleSignUp}>
-        <label>
-          Email
-          <input name="email" type="email" placeholder="Email" />
-        </label>
-        <label>
-          Password
-          <input name="password" type="password" placeholder="Password" />
-        </label>
+
+      <Form onSubmit={handleSignUp}>
+        <Input label="Email" type="email" placeholder="email" />
+        <Input label="Password" type="password" placeholder="Password" />
         <button type="submit">Sign Up</button>
-        {error && <p>{error}</p>}
-      </form>
+      </Form>
+
+      {error && <p>{error}</p>}
+
       <Link to="/login">Login</Link>
     </div>
   );
