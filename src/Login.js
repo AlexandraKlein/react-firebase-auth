@@ -5,6 +5,8 @@ import app from "./base.js";
 import { AuthContext } from "./Auth.js";
 
 const Login = ({ history }) => {
+  const [error, setError] = React.useState(undefined);
+
   const handleLogin = useCallback(
     async event => {
       event.preventDefault();
@@ -15,7 +17,7 @@ const Login = ({ history }) => {
           .signInWithEmailAndPassword(email.value, password.value);
         history.push("/");
       } catch (error) {
-        alert(error);
+        setError(error.message);
       }
     },
     [history]
@@ -26,6 +28,7 @@ const Login = ({ history }) => {
   if (currentUser) {
     return <Redirect to="/" />;
   }
+  console.log({ error });
 
   return (
     <div>
@@ -40,6 +43,7 @@ const Login = ({ history }) => {
           <input name="password" type="password" placeholder="Password" />
         </label>
         <button type="submit">Log in</button>
+        {error && <p>{error}</p>}
       </form>
       <Link to="/signup">Sign Up</Link>
     </div>

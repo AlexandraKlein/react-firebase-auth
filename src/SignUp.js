@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import app from "./base";
 
 const SignUp = ({ history }) => {
+  const [error, setError] = React.useState(undefined);
+
   const handleSignUp = useCallback(
     async event => {
       event.preventDefault();
@@ -14,7 +16,8 @@ const SignUp = ({ history }) => {
           .createUserWithEmailAndPassword(email.value, password.value);
         history.push("/");
       } catch (error) {
-        alert(error);
+        console.log({ error });
+        setError(error.message);
       }
     },
     [history]
@@ -33,6 +36,7 @@ const SignUp = ({ history }) => {
           <input name="password" type="password" placeholder="Password" />
         </label>
         <button type="submit">Sign Up</button>
+        {error && <p>{error}</p>}
       </form>
       <Link to="/login">Login</Link>
     </div>
