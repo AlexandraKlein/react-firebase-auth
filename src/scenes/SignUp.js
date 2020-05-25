@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import app from "../base";
 import Form from "../components/Form";
 import Input from "../components/Input";
+import Error from "../components/Error";
 
 const SignUp = ({ history }) => {
   const [error, setError] = React.useState(undefined);
@@ -29,13 +30,12 @@ const SignUp = ({ history }) => {
     <div>
       <h1>Sign up</h1>
 
-      <Form onSubmit={handleSignUp}>
+      <Form submitText="Sign Up" onSubmit={handleSignUp}>
         <Input label="Email" type="email" placeholder="email" />
         <Input label="Password" type="password" placeholder="Password" />
-        <button type="submit">Sign Up</button>
       </Form>
 
-      {error && <p>{error}</p>}
+      {error && <Error text={error} />}
 
       <Link to="/login">Login</Link>
     </div>

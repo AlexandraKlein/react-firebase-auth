@@ -1,9 +1,24 @@
 import React from "react";
+import styled from "styled-components";
+import Button from "../components/Button";
 
-const Form = ({ children, onSubmit }) => (
-  <form onSubmit={onSubmit} style={{ display: "flex", marginBottom: 30 }}>
-    <div style={{ display: "flex", flexDirection: "column" }}>{children}</div>
-  </form>
+const StyledForm = styled.form`
+  display: flex;
+  margin-bottom: 30px;
+`;
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Form = ({ submitText, children, onSubmit }) => (
+  <StyledForm onSubmit={onSubmit}>
+    <StyledContainer>
+      {children}
+      <Button isSubmitting text={submitText} />
+    </StyledContainer>
+  </StyledForm>
 );
 
 export default Form;

@@ -5,6 +5,7 @@ import app from "../base";
 import { AuthContext } from "../Auth";
 import Form from "../components/Form";
 import Input from "../components/Input";
+import Error from "../components/Error";
 
 const Login = ({ history }) => {
   const [error, setError] = React.useState(undefined);
@@ -35,13 +36,12 @@ const Login = ({ history }) => {
     <>
       <h1>Log in</h1>
 
-      <Form onSubmit={handleLogin}>
+      <Form submitText="Log In" onSubmit={handleLogin}>
         <Input label="Email" type="email" placeholder="email" />
         <Input label="Password" type="password" placeholder="Password" />
-        <button type="submit">Log in</button>
       </Form>
 
-      {error && <p>{error}</p>}
+      {error && <Error text={error} />}
 
       <Link to="/signup">Sign Up</Link>
     </>
