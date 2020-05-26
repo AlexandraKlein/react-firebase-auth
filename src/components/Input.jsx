@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Colors, Gutters, Type } from "../styles";
 
 const StyledInput = styled.input`
-  background-color: ${Colors.LIGHT_GRAY};
+  background-color: ${Colors.INPUT};
   border: none;
   font-size: ${Type.BODY};
   margin-left: ${Gutters.MEDIUM};

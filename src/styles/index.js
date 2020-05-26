@@ -14,6 +14,7 @@ export const Colors = {
   BLACK_TEXT: "#000000",
   WHITE: "#ffffff",
   LIGHT_GRAY: "#eeeeee",
+  INPUT: "#e3f1ff",
   ERROR: "#ff0033",
 };
 
