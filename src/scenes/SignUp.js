@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import app from "../base";
+import Container from "../components/Container";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
@@ -27,7 +28,7 @@ const SignUp = ({ history }) => {
   );
 
   return (
-    <div>
+    <Container>
       <h1>Sign up</h1>
 
       <Form submitText="Sign Up" onSubmit={handleSignUp}>
@@ -38,7 +39,7 @@ const SignUp = ({ history }) => {
       {error && <Error text={error} />}
 
       <Link to="/login">Login</Link>
-    </div>
+    </Container>
   );
 };
 
