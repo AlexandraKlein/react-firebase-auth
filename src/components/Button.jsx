@@ -16,10 +16,15 @@ const StyledButton = styled.button`
     background-color: ${props => (props.secondary ? "dodgerblue" : "#0073e2")};
     color: white;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 `;
 
-const Button = ({ onClick, type, text, ...props }) => (
-  <StyledButton onClick={onClick} type={type} {...props}>
+const Button = ({ onClick, type, text, isDisabled, ...props }) => (
+  <StyledButton onClick={onClick} disabled={isDisabled} type={type} {...props}>
     {text}
   </StyledButton>
 );

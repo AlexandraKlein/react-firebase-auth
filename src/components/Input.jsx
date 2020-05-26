@@ -18,10 +18,16 @@ const StyledLabel = styled.label`
   margin-bottom: 15px;
 `;
 
-const Input = ({ label, type, placeholder }) => (
+const Input = ({ label, type, placeholder, defaultValue, onChange }) => (
   <StyledLabel>
     {label}
-    <StyledInput name={type} type={type} placeholder={placeholder} />
+    <StyledInput
+      onChange={onChange}
+      defaultValue={defaultValue}
+      name={type}
+      type={type}
+      placeholder={placeholder}
+    />
   </StyledLabel>
 );
 

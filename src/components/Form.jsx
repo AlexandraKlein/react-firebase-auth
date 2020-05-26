@@ -12,11 +12,11 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-const Form = ({ submitText, children, onSubmit }) => (
+const Form = ({ submitText, children, onSubmit, isDisabled }) => (
   <StyledForm onSubmit={onSubmit}>
     <StyledContainer>
       {children}
-      <Button text={submitText} type="submit" />
+      <Button isDisabled={isDisabled} text={submitText} type="submit" />
     </StyledContainer>
   </StyledForm>
 );
