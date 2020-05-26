@@ -1,12 +1,12 @@
 import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
-import { Link } from "react-router-dom";
 import app from "../base";
 import { AuthContext } from "../Auth";
 import Container from "../components/Container";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
+import Link from "../components/Link";
 
 const Login = ({ history }) => {
   const [error, setError] = React.useState(undefined);
@@ -35,7 +35,7 @@ const Login = ({ history }) => {
 
   return (
     <Container>
-      <h1>Log in</h1>
+      <h1>Log In</h1>
       <Form submitText="Log In" onSubmit={handleLogin}>
         <Input label="Email" type="email" placeholder="email" />
         <Input label="Password" type="password" placeholder="Password" />
