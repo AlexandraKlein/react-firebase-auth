@@ -16,7 +16,7 @@ const Form = ({ submitText, children, onSubmit }) => (
   <StyledForm onSubmit={onSubmit}>
     <StyledContainer>
       {children}
-      <Button type="submit">{submitText}</Button>
+      <Button text={submitText} type="submit" />
     </StyledContainer>
   </StyledForm>
 );
