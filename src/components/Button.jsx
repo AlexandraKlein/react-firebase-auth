@@ -5,20 +5,25 @@ const StyledButton = styled.button`
   border: none;
   cursor: pointer;
   padding: 1em 2em;
-  background-color: dodgerblue;
+  background-color: ${props => (props.secondary ? "white" : "dodgerblue")};
+  border: ${props =>
+    props.secondary ? "1px solid dodgerblue" : "1px solid white"};
   margin-top: ${props => props.marginTop || "15px"};
-  color: white;
+  color: ${props => (props.secondary ? "dodgerblue" : "white")};
   font-size: 1em;
 
   &:hover {
-    background-color: #0073e2;
+    background-color: ${props => (props.secondary ? "dodgerblue" : "#0073e2")};
+    color: white;
   }
 `;
 
-const Button = ({ onClick, marginTop, type, text }) => (
-  <StyledButton onClick={onClick} marginTop={marginTop} type={type}>
+const Button = ({ onClick, type, text, ...props }) => (
+  <StyledButton onClick={onClick} type={type} {...props}>
     {text}
   </StyledButton>
 );
+
+Button.displayName = "Button.Primary";
 
 export default Button;
