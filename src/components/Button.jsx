@@ -1,20 +1,25 @@
 import React from "react";
 import styled from "styled-components";
+import { Colors, Type, Gutters } from "../styles";
 
 const StyledButton = styled.button`
   border: none;
   cursor: pointer;
-  padding: 1em 2em;
-  background-color: ${props => (props.secondary ? "white" : "dodgerblue")};
+  padding: ${Gutters.MEDIUM} ${Gutters.LARGE};
+  background-color: ${props =>
+    props.secondary ? Colors.WHITE : Colors.PRIMARY};
   border: ${props =>
-    props.secondary ? "1px solid dodgerblue" : "1px solid white"};
-  margin-top: ${props => props.marginTop || "15px"};
-  color: ${props => (props.secondary ? "dodgerblue" : "white")};
-  font-size: 1em;
+    props.secondary
+      ? `1px solid ${Colors.PRIMARY}`
+      : `1px solid ${Colors.WHITE}`};
+  margin-top: ${props => props.marginTop || Gutters.MEDIUM};
+  color: ${props => (props.secondary ? Colors.PRIMARY : Colors.WHITE)};
+  font-size: ${Type.BODY};
 
   &:hover {
-    background-color: ${props => (props.secondary ? "dodgerblue" : "#0073e2")};
-    color: white;
+    background-color: ${props =>
+      props.secondary ? Colors.PRIMARY : Colors.PRIMARY_HOVER};
+    color: ${Colors.WHITE};
   }
 
   &:disabled {
@@ -28,7 +33,5 @@ const Button = ({ onClick, type, text, isDisabled, ...props }) => (
     {text}
   </StyledButton>
 );
-
-Button.displayName = "Button.Primary";
 
 export default Button;

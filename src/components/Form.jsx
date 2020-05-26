@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Button from "../components/Button";
+import { Gutters } from "../styles";
 
 const StyledForm = styled.form`
   display: flex;
-  margin-bottom: 30px;
+  margin-bottom: ${Gutters.X_LARGE};
 `;
 
 const StyledContainer = styled.div`

@@ -1,17 +1,20 @@
 import * as React from "react";
 import styled from "styled-components";
+import { Colors, Type, Gutters } from "../styles";
 
 const StyledRadiobox = styled.div`
-  background-color: ${props => (props.isChecked ? "dodgerblue" : "white")};
+  background-color: ${props =>
+    props.isChecked ? Colors.PRIMARY : Colors.WHITE};
   border-radius: 50%;
-  border: 1px solid dodgerblue;
+  border: 1px solid ${Colors.PRIMARY};
   width: ${props => props.size || "20px"};
   height: ${props => props.size || "20px"};
-  margin-left: ${props => (props.label !== undefined ? "10px" : "0")};
+  margin-left: ${props => (props.label !== undefined ? Gutters.SMALL : "0")};
   opacity: ${props => (props.isDisabled ? "0.5" : "1")};
 `;
 
 const StyledContainer = styled.div`
+  margin: ${Gutters.MEDIUM} 0;
   display: flex;
   align-items: center;
 `;
@@ -21,10 +24,10 @@ const TouchableContainer = styled(StyledContainer)`
 `;
 
 const StyledLabel = styled.label`
-  margin: 12px 0;
+  font-size: ${Type.BODY};
 `;
 
-class FabricRadiobox extends React.Component {
+class Radiobox extends React.Component {
   state = {
     value: this.props.value === undefined ? this.props.defaultValue : undefined,
   };
@@ -59,27 +62,24 @@ class FabricRadiobox extends React.Component {
 
   renderContent() {
     return (
-      <StyledContainer>
+      <>
         {this.props.label !== undefined && this.renderLabel()}
         <StyledRadiobox isChecked={this.state.value} {...this.props} />
-      </StyledContainer>
+      </>
     );
   }
 
   render() {
     return (
       <>
-        {this.props.onChange === undefined || this.props.isDisabled
-          ? this.renderContent()
-          : this.renderTouchable()}
+        {this.props.onChange === undefined || this.props.isDisabled ? (
+          <StyledContainer>{this.renderContent()}</StyledContainer>
+        ) : (
+          this.renderTouchable()
+        )}
       </>
     );
   }
 }
-
-const DefaultRadiobox = React.memo(props => <FabricRadiobox {...props} />);
-DefaultRadiobox.displayName = "Radiobox";
-
-const Radiobox = DefaultRadiobox;
 
 export default Radiobox;

@@ -1,21 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import { Colors, Gutters, Type } from "../styles";
 
 const StyledInput = styled.input`
-  background-color: #eee;
+  background-color: ${Colors.LIGHT_GRAY};
   border: none;
-  border-radius: 3px;
-  font-size: 1em;
-  margin-left: 15px;
-  padding: 0.5em 1em;
+  font-size: ${Type.BODY};
+  margin-left: ${Gutters.MEDIUM};
+  padding: ${Gutters.SMALL} ${Gutters.MEDIUM};
 `;
 
 const StyledLabel = styled.label`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1em;
-  margin-bottom: 15px;
+  font-size: ${Type.BODY};
+  margin-bottom: ${Gutters.MEDIUM};
 `;
 
 const Input = ({ label, type, placeholder, defaultValue, onChange }) => (
