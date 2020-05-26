@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <h1>Home</h1>
-      <Button text="Sign out" onClick={() => app.auth().signOut()} />
+      <Button onClick={() => app.auth().signOut()}>Sign out</Button>
     </>
   );
 };
