@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Colors, Type, Gutters } from "../styles";
 
 const StyledButton = styled.button`
+  min-width: 220px;
   border: none;
   cursor: pointer;
   padding: ${Gutters.MEDIUM} ${Gutters.LARGE};

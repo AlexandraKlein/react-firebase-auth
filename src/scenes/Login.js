@@ -7,7 +7,6 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
 import Link from "../components/Link";
-import Radiobox from "../components/Radiobox";
 
 const Login = ({ history }) => {
   const [error, setError] = React.useState(undefined);

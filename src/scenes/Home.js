@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
+import ImageUpload from "../components/ImageUpload";
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -56,6 +57,7 @@ const Home = () => {
           placeholder="name"
         />
       </Form>
+      <ImageUpload />
 
       {error && <Error text={error} />}
 
