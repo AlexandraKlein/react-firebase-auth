@@ -7,6 +7,14 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
 import ImageUpload from "../components/ImageUpload";
+import styled from "styled-components";
+import { Gutters } from "../styles";
+
+const SignOutButton = styled(Button)`
+  position: absolute;
+  top: ${Gutters.MEDIUM};
+  right: ${Gutters.MEDIUM};
+`;
 
 const Home = () => {
   const { currentUser } = useContext(AuthContext);
@@ -61,7 +69,8 @@ const Home = () => {
 
       {error && <Error text={error} />}
 
-      <Button
+      <SignOutButton
+        marginTop="0"
         secondary={true}
         text="Sign out"
         onClick={() => app.auth().signOut()}

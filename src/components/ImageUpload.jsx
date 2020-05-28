@@ -41,7 +41,7 @@ const Progress = styled.div`
 
 class ImageUpload extends Component {
   state = {
-    image: null,
+    image: undefined,
     url: "",
     progress: 0,
   };
@@ -56,7 +56,7 @@ class ImageUpload extends Component {
   handleUpload = () => {
     const { image } = this.state;
 
-    if (image === null) {
+    if (image === undefined) {
       return;
     }
     const uploadTask = firebase
@@ -97,13 +97,14 @@ class ImageUpload extends Component {
             <ProgressContainer>
               <Progress progress={this.state.progress} />
             </ProgressContainer>
-            <input type="file" onChange={this.handleChange} />
-            <Button
-              secondary={true}
-              isDisabled={this.state.image === null}
-              text="Upload Image"
-              onClick={this.handleUpload}
-            />
+            <Container>
+              <input type="file" onChange={this.handleChange} />
+              <Button
+                isDisabled={this.state.image === undefined}
+                text="Upload Image"
+                onClick={this.handleUpload}
+              />
+            </Container>
             <ImageContainer>
               <Image
                 src={this.state.url || authContext.currentUser.photoURL}
