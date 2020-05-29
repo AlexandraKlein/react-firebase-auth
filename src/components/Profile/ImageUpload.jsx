@@ -1,11 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/storage";
 import styled from "styled-components";
-import { AuthContext } from "../Auth";
-import Button from "./Button";
-import Container from "./Container";
-import { Gutters, Colors } from "../styles";
+import { AuthContext } from "../../Auth";
+import Button from "../Button";
+import Container from "../Container";
+import Error from "../Error";
+import { Gutters, Colors } from "../../styles";
 
 const ImageContainer = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const ImageContainer = styled.div`
   justify-content: center;
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
-  margin: ${Gutters.LARGE} 0;
+  margin-right: ${Gutters.MEDIUM};
   width: 160px;
   height: 160px;
   border-radius: 50%;
@@ -21,6 +22,7 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
+  width: 100%;
   object-fit: cover;
 `;
 
@@ -39,23 +41,21 @@ const Progress = styled.div`
   background-color: ${Colors.PRIMARY};
 `;
 
-class ImageUpload extends Component {
-  state = {
-    image: undefined,
-    url: "",
-    progress: 0,
-  };
+export const ImageUpload = () => {
+  const { currentUser } = React.useContext(AuthContext);
+  const [image, setImage] = React.useState(undefined);
+  const [url, setUrl] = React.useState(undefined);
+  const [progress, setProgress] = React.useState(undefined);
+  const [error, setError] = React.useState(undefined);
 
-  handleChange = event => {
+  const handleChange = event => {
     if (event.target.files[0]) {
       const image = event.target.files[0];
-      this.setState({ image });
+      setImage(image);
     }
   };
 
-  handleUpload = () => {
-    const { image } = this.state;
-
+  const handleUpload = () => {
     if (image === undefined) {
       return;
     }
@@ -66,14 +66,13 @@ class ImageUpload extends Component {
     uploadTask.on(
       "state_changed",
       snapshot => {
-        // progress function ...
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        this.setState({ progress });
+        setProgress(progress);
       },
       error => {
-        console.error(error);
+        setError(error);
       },
       () => {
         firebase
@@ -82,41 +81,37 @@ class ImageUpload extends Component {
           .child(image.name)
           .getDownloadURL()
           .then(url => {
-            this.setState({ url });
+            setUrl(url);
             firebase.auth().currentUser.updateProfile({ photoURL: url });
           });
       }
     );
   };
-  render() {
-    return (
-      <AuthContext.Consumer>
-        {authContext => (
-          <Container>
-            {console.log(this.state.progress)}
-            <ProgressContainer>
-              <Progress progress={this.state.progress} />
-            </ProgressContainer>
-            <Container>
-              <input type="file" onChange={this.handleChange} />
-              <Button
-                isDisabled={this.state.image === undefined}
-                text="Upload Image"
-                onClick={this.handleUpload}
-              />
-            </Container>
-            <ImageContainer>
-              <Image
-                src={this.state.url || authContext.currentUser.photoURL}
-                alt="Uploaded Images"
-                width="200"
-              />
-            </ImageContainer>
-          </Container>
-        )}
-      </AuthContext.Consumer>
-    );
-  }
-}
+
+  return (
+    <>
+      <ProgressContainer>
+        <Progress progress={progress} />
+      </ProgressContainer>
+      <Container direction="row">
+        <ImageContainer>
+          <Image
+            src={url || currentUser.photoURL}
+            alt={currentUser.displayName}
+          />
+        </ImageContainer>
+        <Container>
+          <input type="file" onChange={handleChange} />
+          <Button
+            isDisabled={image === undefined}
+            text="Upload Image"
+            onClick={handleUpload}
+          />
+        </Container>
+      </Container>
+      {error && <Error text={error} />}
+    </>
+  );
+};
 
 export default ImageUpload;
