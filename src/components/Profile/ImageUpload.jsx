@@ -94,9 +94,7 @@ export const ImageUpload = () => {
     ? url
     : currentUser.photoURL
     ? currentUser.photoURL
-    : "https://airthinx.io/images/profile-placeholder-639a7f5511.png";
-
-  console.log({ currentUser });
+    : "https://firebasestorage.googleapis.com/v0/b/fir-react-auth-7849e.appspot.com/o/images%2Fprofile-placeholder.jpg?alt=media&token=17ebab1a-01de-4f8c-8b64-207ebf7b6664";
 
   return (
     <>
