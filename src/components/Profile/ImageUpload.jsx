@@ -83,10 +83,17 @@ export const ImageUpload = () => {
           .then(url => {
             setUrl(url);
             firebase.auth().currentUser.updateProfile({ photoURL: url });
-          });
+          })
+          .finally(() => setProgress(0));
       }
     );
   };
+
+  const imgSrc = url
+    ? url
+    : currentUser.photoURL
+    ? currentUser.photoURL
+    : "https://airthinx.io/images/profile-placeholder-639a7f5511.png";
 
   return (
     <>
@@ -95,16 +102,7 @@ export const ImageUpload = () => {
       </ProgressContainer>
       <Container direction="row">
         <ImageContainer>
-          <Image
-            src={
-              url
-                ? url
-                : currentUser.photoURL
-                ? currentUser.photoURL
-                : "https://airthinx.io/images/profile-placeholder-639a7f5511.png"
-            }
-            alt={currentUser.displayName}
-          />
+          <Image src={imgSrc} alt={currentUser.displayName} />
         </ImageContainer>
         <Container>
           <input type="file" onChange={handleChange} />

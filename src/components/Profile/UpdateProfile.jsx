@@ -13,6 +13,7 @@ const UpdateProfile = () => {
   const [userInfo, setUserInfo] = React.useState(undefined);
   const [error, setError] = React.useState(false);
   const [isUpdating, setIsUpdating] = React.useState(false);
+  const [isDisabled, setIsDisabled] = React.useState(true);
 
   const writeUserData = user => {
     setIsUpdating(true);
@@ -44,6 +45,7 @@ const UpdateProfile = () => {
   };
 
   const onChangeUserInfo = (key, e) => {
+    setIsDisabled(false);
     profile[key] = e.currentTarget.value.trim();
     setProfile(profile);
   };
@@ -60,7 +62,7 @@ const UpdateProfile = () => {
   return (
     <>
       <Form
-        isDisabled={isUpdating}
+        isDisabled={isUpdating || isDisabled}
         submitText="Update Profile"
         onSubmit={updateUserInfo}
         marginTop={Gutters.LARGE}
