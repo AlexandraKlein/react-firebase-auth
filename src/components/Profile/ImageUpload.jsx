@@ -96,7 +96,13 @@ export const ImageUpload = () => {
       <Container direction="row">
         <ImageContainer>
           <Image
-            src={url || currentUser.photoURL}
+            src={
+              url
+                ? url
+                : currentUser.photoURL
+                ? currentUser.photoURL
+                : "https://airthinx.io/images/profile-placeholder-639a7f5511.png"
+            }
             alt={currentUser.displayName}
           />
         </ImageContainer>
