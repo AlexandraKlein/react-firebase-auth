@@ -59,9 +59,10 @@ export const ImageUpload = () => {
     if (image === undefined) {
       return;
     }
+
     const uploadTask = firebase
       .storage()
-      .ref(`images/${image.name}`)
+      .ref(`images/${image.name}-${new Date().getTime() / 1000}`)
       .put(image);
     uploadTask.on(
       "state_changed",
@@ -94,6 +95,8 @@ export const ImageUpload = () => {
     : currentUser.photoURL
     ? currentUser.photoURL
     : "https://airthinx.io/images/profile-placeholder-639a7f5511.png";
+
+  console.log({ currentUser });
 
   return (
     <>
