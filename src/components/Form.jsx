@@ -6,6 +6,7 @@ import { Gutters } from "../styles";
 const StyledForm = styled.form`
   display: flex;
   margin-bottom: ${Gutters.X_LARGE};
+  margin-top: ${props => props.marginTop || "0px"};
 `;
 
 const StyledContainer = styled.div`
@@ -13,8 +14,8 @@ const StyledContainer = styled.div`
   flex-direction: column;
 `;
 
-const Form = ({ submitText, children, onSubmit, isDisabled }) => (
-  <StyledForm onSubmit={onSubmit}>
+const Form = ({ submitText, children, onSubmit, isDisabled, marginTop }) => (
+  <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
     <StyledContainer>
       {children}
       <Button isDisabled={isDisabled} text={submitText} type="submit" />

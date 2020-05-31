@@ -5,6 +5,7 @@ import { AuthContext } from "../../Auth";
 import Form from "../Form";
 import Input from "../Input";
 import Error from "../Error";
+import { Gutters } from "../../styles";
 
 const UpdateProfile = () => {
   const { currentUser } = React.useContext(AuthContext);
@@ -62,6 +63,7 @@ const UpdateProfile = () => {
         isDisabled={isUpdating}
         submitText="Update Profile"
         onSubmit={updateUserInfo}
+        marginTop={Gutters.LARGE}
       >
         <Input
           onChange={e => onChangeUserInfo("fullName", e)}
