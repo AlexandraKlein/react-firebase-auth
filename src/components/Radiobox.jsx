@@ -1,8 +1,10 @@
 import * as React from "react";
 import styled from "styled-components";
 import { Colors, Type, Gutters } from "../styles";
+import { Row } from "../components/Container";
 
-const StyledRadiobox = styled.div`
+const StyledRadiobox = styled(Row)`
+  position: relative;
   background-color: ${props =>
     props.isChecked ? Colors.PRIMARY : Colors.WHITE};
   border-radius: 50%;
@@ -11,6 +13,15 @@ const StyledRadiobox = styled.div`
   height: ${props => props.size || "20px"};
   margin-left: ${props => (props.label !== undefined ? Gutters.SMALL : "0")};
   opacity: ${props => (props.isDisabled ? "0.5" : "1")};
+
+  &:after {
+    content: "";
+    position: absolute;
+    border: 2px solid ${Colors.WHITE};
+    border-radius: 50%;
+    width: 80%;
+    height: 80%;
+  }
 `;
 
 const StyledContainer = styled.div`
