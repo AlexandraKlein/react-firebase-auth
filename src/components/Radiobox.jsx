@@ -32,6 +32,11 @@ class Radiobox extends React.Component {
     value: this.props.value === undefined ? this.props.defaultValue : undefined,
   };
 
+  static defaultProps = {
+    defaultValue: false,
+    isDisabled: false,
+  };
+
   onClick = () => {
     const newValue = !this.state.value;
 

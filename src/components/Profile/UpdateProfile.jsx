@@ -2,96 +2,150 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
 import { AuthContext } from "../../Auth";
+import { Row } from "../Container";
 import Form from "../Form";
 import Input from "../Input";
+import Radiobox from "../Radiobox";
 import Error from "../Error";
 import { Gutters } from "../../styles";
 
-const UpdateProfile = () => {
-  const { currentUser } = React.useContext(AuthContext);
-  const [profile, setProfile] = React.useState({});
-  const [userInfo, setUserInfo] = React.useState(undefined);
-  const [error, setError] = React.useState(false);
-  const [isUpdating, setIsUpdating] = React.useState(false);
-  const [isDisabled, setIsDisabled] = React.useState(true);
+class UpdateProfile extends React.Component {
+  state = {
+    profile: {},
+    userInfo: undefined,
+    error: false,
+    isDisabled: true,
+    isUpdating: false,
+  };
 
-  const writeUserData = user => {
-    setIsUpdating(true);
+  componentDidMount() {
+    firebase
+      .database()
+      .ref("users/" + this.props.authContext.currentUser.uid)
+      .once("value", snap => {
+        this.setState({
+          userInfo: snap.val(),
+        });
+      });
+  }
+
+  writeUserData = user => {
+    this.setState({ isUpdating: true });
     firebase
       .database()
       .ref("users/" + user.uid)
       .set(user)
-      .then(() => setIsUpdating(false))
+      .then(() => this.setState({ isUpdating: false }))
       .catch(error => {
-        setError(error.message);
+        this.setState({ error: error.message });
       });
   };
 
-  const updateUserInfo = event => {
+  updateUserInfo = event => {
     event.preventDefault();
 
     try {
       const user = {
-        uid: currentUser.uid,
-        email: currentUser.email,
-        ...userInfo,
-        ...profile,
+        uid: this.props.authContext.currentUser.uid,
+        email: this.props.authContext.currentUser.email,
+        ...this.state.userInfo,
+        ...this.state.profile,
       };
 
-      writeUserData(user);
+      this.writeUserData(user);
     } catch (error) {
-      setError(error.message);
+      this.setState({ error: error.message });
     }
   };
 
-  const onChangeUserInfo = (key, e) => {
-    setIsDisabled(false);
-    profile[key] = e.currentTarget.value.trim();
-    setProfile(profile);
+  onChangeUserInfo = (key, e) => {
+    this.setState({ isDisabled: false });
+
+    const profile = this.state.profile;
+    profile[key] = typeof e !== "boolean" ? e.currentTarget.value.trim() : e;
+
+    this.setState({ profile });
   };
 
-  React.useEffect(() => {
-    firebase
-      .database()
-      .ref("users/" + currentUser.uid)
-      .once("value", snap => {
-        setUserInfo(snap.val());
-      });
-  }, [currentUser.uid]);
+  render() {
+    const { isUpdating, isDisabled, userInfo, error } = this.state;
 
-  return (
-    <>
-      <Form
-        isDisabled={isUpdating || isDisabled}
-        submitText="Update Profile"
-        onSubmit={updateUserInfo}
-        marginTop={Gutters.LARGE}
-      >
-        <Input
-          onChange={e => onChangeUserInfo("fullName", e)}
-          defaultValue={userInfo && userInfo.fullName ? userInfo.fullName : ""}
-          label="Full Name"
-          type="name"
-        />
-        <Input
-          onChange={e => onChangeUserInfo("address", e)}
-          defaultValue={userInfo && userInfo.address ? userInfo.address : ""}
-          label="Address"
-          type="address"
-        />
-        <Input
-          onChange={e => onChangeUserInfo("favoriteColor", e)}
-          defaultValue={
-            userInfo && userInfo.favoriteColor ? userInfo.favoriteColor : ""
-          }
-          label="Favorite Color"
-          type="text"
-        />
-      </Form>
+    if (userInfo === undefined) {
+      return null;
+    }
 
-      {error && <Error text={error} />}
-    </>
-  );
-};
+    return (
+      <>
+        <Form
+          isDisabled={isUpdating || isDisabled}
+          submitText="Update Profile"
+          onSubmit={this.updateUserInfo}
+          marginTop={Gutters.LARGE}
+        >
+          <Input
+            onChange={e => this.onChangeUserInfo("fullName", e)}
+            defaultValue={
+              userInfo && userInfo.fullName ? userInfo.fullName : ""
+            }
+            label="Full Name"
+            type="name"
+          />
+          <Input
+            onChange={e => this.onChangeUserInfo("address", e)}
+            defaultValue={userInfo && userInfo.address ? userInfo.address : ""}
+            label="Address"
+            type="address"
+          />
+          <Input
+            onChange={e => this.onChangeUserInfo("favoriteColor", e)}
+            defaultValue={
+              userInfo && userInfo.favoriteColor ? userInfo.favoriteColor : ""
+            }
+            label="Favorite Color"
+            type="text"
+          />
 
-export default UpdateProfile;
+          <p>
+            I like:{" "}
+            <small>
+              <i>(please check all that apply)</i>
+            </small>
+          </p>
+
+          <Row justify="space-between">
+            <Radiobox
+              defaultValue={userInfo && userInfo.pizza}
+              onChange={e => this.onChangeUserInfo("pizza", e)}
+              label="Pizza"
+            />
+            <Radiobox
+              defaultValue={userInfo && userInfo.bagels}
+              onChange={e => this.onChangeUserInfo("bagels", e)}
+              label="Bagels"
+            />
+            <Radiobox
+              defaultValue={userInfo && userInfo.cats}
+              onChange={e => this.onChangeUserInfo("cats", e)}
+              label="Cats"
+            />
+            <Radiobox
+              defaultValue={userInfo && userInfo.dogs}
+              onChange={e => this.onChangeUserInfo("dogs", e)}
+              label="Dogs"
+            />
+          </Row>
+        </Form>
+
+        {error && <Error text={error} />}
+      </>
+    );
+  }
+}
+
+const DataProvidedUpdateProfile = React.memo(() => (
+  <AuthContext.Consumer>
+    {authContext => <UpdateProfile authContext={authContext} />}
+  </AuthContext.Consumer>
+));
+
+export default DataProvidedUpdateProfile;
