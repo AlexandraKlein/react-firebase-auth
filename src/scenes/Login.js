@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
 import app from "../base";
 import { AuthContext } from "../Auth";
-import Container from "../components/Container";
+import { Column } from "../components/Container";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
@@ -34,7 +34,7 @@ const Login = ({ history }) => {
   }
 
   return (
-    <Container>
+    <Column>
       <h1>Log In</h1>
       <Form submitText="Log In" onSubmit={handleLogin}>
         <Input label="Email" type="email" placeholder="email" />
@@ -42,7 +42,7 @@ const Login = ({ history }) => {
       </Form>
       {error && <Error text={error} />}
       <Link to="/signup">Sign Up</Link>
-    </Container>
+    </Column>
   );
 };
 

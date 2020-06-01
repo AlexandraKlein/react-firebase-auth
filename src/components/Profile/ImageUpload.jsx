@@ -4,7 +4,7 @@ import "firebase/storage";
 import styled from "styled-components";
 import { AuthContext } from "../../Auth";
 import Button from "../Button";
-import Container from "../Container";
+import { Row, Column } from "../Container";
 import Error from "../Error";
 import { Gutters, Colors } from "../../styles";
 
@@ -101,19 +101,19 @@ export const ImageUpload = () => {
       <ProgressContainer>
         <Progress progress={progress} />
       </ProgressContainer>
-      <Container direction="row">
+      <Row>
         <ImageContainer>
           <Image src={imgSrc} alt={currentUser.displayName} />
         </ImageContainer>
-        <Container>
+        <Column>
           <input type="file" onChange={handleChange} />
           <Button
             isDisabled={image === undefined}
             text="Upload Image"
             onClick={handleUpload}
           />
-        </Container>
-      </Container>
+        </Column>
+      </Row>
       {error && <Error text={error} />}
     </>
   );

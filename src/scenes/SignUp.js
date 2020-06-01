@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router";
 import app from "../base";
-import Container from "../components/Container";
+import { Column } from "../components/Container";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
@@ -41,7 +41,7 @@ const SignUp = ({ history }) => {
   );
 
   return (
-    <Container>
+    <Column>
       <h1>Sign Up</h1>
 
       <Form
@@ -74,7 +74,7 @@ const SignUp = ({ history }) => {
       {error && <Error text={error} />}
 
       <Link to="/login">Login</Link>
-    </Container>
+    </Column>
   );
 };
 

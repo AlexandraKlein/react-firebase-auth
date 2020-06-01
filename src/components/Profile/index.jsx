@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "../Container";
+import { Column } from "../Container";
 import ImageUpload from "./ImageUpload";
 // import UpdateName from "./UpdateName";
 import UpdateProfile from "./UpdateProfile";
@@ -7,11 +7,11 @@ import UpdateProfile from "./UpdateProfile";
 class Profile extends React.Component {
   render() {
     return (
-      <Container>
+      <Column>
         {/* <UpdateName /> */}
         <ImageUpload />
         <UpdateProfile />
-      </Container>
+      </Column>
     );
   }
 }
