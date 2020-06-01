@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "../components/Button";
+import Button from "./Button";
+import { Column } from "./Container";
 import { Gutters } from "../styles";
 
 const StyledForm = styled.form`
@@ -9,17 +10,12 @@ const StyledForm = styled.form`
   margin-top: ${props => props.marginTop || "0px"};
 `;
 
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const Form = ({ submitText, children, onSubmit, isDisabled, marginTop }) => (
   <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
-    <StyledContainer>
+    <Column align="unset" justify="unset">
       {children}
       <Button isDisabled={isDisabled} text={submitText} type="submit" />
-    </StyledContainer>
+    </Column>
   </StyledForm>
 );
 

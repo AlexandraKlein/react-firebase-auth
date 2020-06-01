@@ -7,6 +7,7 @@ import Form from "../Form";
 import Input from "../Input";
 import Radiobox from "../Radiobox";
 import Error from "../Error";
+import { Caption, Paragraph } from "../Text";
 import { Gutters } from "../../styles";
 
 class UpdateProfile extends React.Component {
@@ -105,12 +106,9 @@ class UpdateProfile extends React.Component {
             type="text"
           />
 
-          <p>
-            I like:{" "}
-            <small>
-              <i>(please check all that apply)</i>
-            </small>
-          </p>
+          <Paragraph>
+            I like: <Caption>(please check all that apply)</Caption>
+          </Paragraph>
 
           <Row justify="space-between">
             <Radiobox

@@ -1,10 +1,11 @@
 import React from "react";
+import styled from "styled-components";
 import app from "../base";
 import { AuthContext } from "../Auth";
 import { Column } from "../components/Container";
+import { Heading, Subheading } from "../components/Text";
 import Button from "../components/Button";
 import Profile from "../components/Profile";
-import styled from "styled-components";
 import { Gutters } from "../styles";
 
 const SignOutButton = styled(Button)`
@@ -18,8 +19,8 @@ const Home = () => {
 
   return (
     <Column>
-      <h1>Home</h1>
-      <h3>Hello, {currentUser.displayName || "Friend"}</h3>
+      <Heading>Home</Heading>
+      <Subheading>Hello, {currentUser.displayName || "Friend"}</Subheading>
       <Profile />
       <SignOutButton
         marginTop="0"

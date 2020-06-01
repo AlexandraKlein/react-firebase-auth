@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Colors } from "../styles";
+import { Paragraph } from "./Text";
 
-const StyledError = styled.p`
+const StyledError = styled(Paragraph)`
   color: ${Colors.ERROR};
 `;
 

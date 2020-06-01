@@ -1,7 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
-import { Colors, Type, Gutters } from "../styles";
-import { Row } from "../components/Container";
+import { Colors, Gutters } from "../styles";
+import { Row } from "./Container";
+import { Paragraph } from "./Text";
 
 const StyledRadiobox = styled(Row)`
   position: relative;
@@ -32,10 +33,6 @@ const StyledContainer = styled.div`
 
 const TouchableContainer = styled(StyledContainer)`
   cursor: pointer;
-`;
-
-const StyledLabel = styled.label`
-  font-size: ${Type.BODY};
 `;
 
 class Radiobox extends React.Component {
@@ -73,7 +70,7 @@ class Radiobox extends React.Component {
   }
 
   renderLabel() {
-    return <StyledLabel>{this.props.label}</StyledLabel>;
+    return <Paragraph>{this.props.label}</Paragraph>;
   }
 
   renderContent() {

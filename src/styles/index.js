@@ -13,6 +13,7 @@ export const Colors = {
   LIGHT_TEXT: "#ffffff",
   BLACK_TEXT: "#000000",
   WHITE: "#ffffff",
+  DARK_GRAY: "#8a8a8a",
   LIGHT_GRAY: "#eeeeee",
   INPUT: "#e3f1ff",
   ERROR: "#ff0033",
