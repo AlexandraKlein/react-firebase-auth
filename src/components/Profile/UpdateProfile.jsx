@@ -43,7 +43,7 @@ class UpdateProfile extends React.Component {
 
   updateUserInfo = event => {
     event.preventDefault();
-
+    this.setState({ isDisabled: true });
     try {
       const user = {
         uid: this.props.authContext.currentUser.uid,
