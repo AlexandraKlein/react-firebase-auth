@@ -62,7 +62,7 @@ export const ImageUpload = () => {
 
     const uploadTask = firebase
       .storage()
-      .ref(`images/${image.name}-${new Date().getTime() / 1000}`)
+      .ref(`images/${currentUser.uid}/${image.name}`)
       .put(image);
     uploadTask.on(
       "state_changed",
@@ -78,7 +78,7 @@ export const ImageUpload = () => {
       () => {
         firebase
           .storage()
-          .ref("images")
+          .ref(`images/${currentUser.uid}`)
           .child(image.name)
           .getDownloadURL()
           .then(url => {
