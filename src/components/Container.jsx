@@ -4,6 +4,7 @@ const Container = styled.div`
   display: ${props => props.display || "flex"};
   flex-direction: ${props => props.direction || "column"};
   align-items: ${props => props.align || "center"};
+  flex: ${props => props.flex || "unset"};
 `;
 
 export const Row = styled.div`
@@ -11,6 +12,7 @@ export const Row = styled.div`
   flex-direction: row;
   align-items: ${props => props.align || "center"};
   justify-content: ${props => props.justify || "center"};
+  flex: ${props => props.flex || "unset"};
 `;
 
 export const Column = styled.div`
@@ -18,6 +20,7 @@ export const Column = styled.div`
   flex-direction: column;
   align-items: ${props => props.align || "center"};
   justify-content: ${props => props.justify || "center"};
+  flex: ${props => props.flex || "unset"};
 `;
 
 export default Container;

@@ -8,11 +8,15 @@ const StyledForm = styled.form`
   display: flex;
   margin-bottom: ${Gutters.X_LARGE};
   margin-top: ${props => props.marginTop || "0px"};
+
+  @media (min-width: 768px) {
+    min-width: 400px;
+  }
 `;
 
 const Form = ({ submitText, children, onSubmit, isDisabled, marginTop }) => (
   <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
-    <Column align="unset" justify="unset">
+    <Column flex={1} align="unset" justify="unset">
       {children}
       <Button isDisabled={isDisabled} text={submitText} type="submit" />
     </Column>
