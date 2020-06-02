@@ -6,7 +6,7 @@ import { Gutters } from "../styles";
 
 const StyledForm = styled.form`
   display: flex;
-  margin-bottom: ${Gutters.X_LARGE};
+  margin-bottom: ${Gutters.LARGE};
   margin-top: ${props => props.marginTop || "0px"};
 
   @media (min-width: 768px) {

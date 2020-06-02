@@ -7,6 +7,8 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
 import Link from "../components/Link";
+import SocialSignIn from "../components/SocialSignIn";
+import { Paragraph } from "../components/Text";
 
 const Login = ({ history }) => {
   const [error, setError] = React.useState(undefined);
@@ -41,6 +43,8 @@ const Login = ({ history }) => {
         <Input label="Password" type="password" placeholder="Password" />
       </Form>
       {error && <Error text={error} />}
+      <Paragraph>- OR -</Paragraph>
+      <SocialSignIn googleButtonText="Sign in with Google" />
       <Link to="/signup">Sign Up</Link>
     </Column>
   );
