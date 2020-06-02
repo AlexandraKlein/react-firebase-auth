@@ -85,7 +85,10 @@ export const ImageUpload = () => {
             setUrl(url);
             firebase.auth().currentUser.updateProfile({ photoURL: url });
           })
-          .finally(() => setProgress(0));
+          .finally(() => {
+            setImage(undefined);
+            setProgress(0);
+          });
       }
     );
   };
