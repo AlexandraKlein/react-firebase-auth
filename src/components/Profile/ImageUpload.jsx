@@ -4,7 +4,7 @@ import "firebase/storage";
 import styled from "styled-components";
 import { AuthContext } from "../../Auth";
 import Button from "../Button";
-import { Row, Column, Container } from "../Container";
+import { Column, Container } from "../Container";
 import Error from "../Error";
 import { BreakPoint, Gutters, Colors } from "../../styles";
 
