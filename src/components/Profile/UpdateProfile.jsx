@@ -27,11 +27,12 @@ const inputs = [
     type: "text",
   },
 ];
-const choices = ["pizza", "bagels", "dogs", "cats"];
+const choices = ["pizza", "bagels", "salads", "poke"];
+const preferences = ["cats", "dogs"];
 
 class UpdateProfile extends React.Component {
   state = {
-    profile: {},
+    profile: { animal: [] },
     userInfo: undefined,
     error: false,
     isDisabled: true,
@@ -45,6 +46,7 @@ class UpdateProfile extends React.Component {
       .once("value", snap => {
         this.setState({
           userInfo: snap.val(),
+          profile: snap.val(),
         });
       });
   }
@@ -68,7 +70,6 @@ class UpdateProfile extends React.Component {
       const user = {
         uid: this.props.authContext.currentUser.uid,
         email: this.props.authContext.currentUser.email,
-        ...this.state.userInfo,
         ...this.state.profile,
       };
 
@@ -98,8 +99,18 @@ class UpdateProfile extends React.Component {
     });
   };
 
+  onSelectPreference = key => () => {
+    this.setState({
+      isDisabled: false,
+      profile: {
+        ...this.state.profile,
+        animal: this.state.profile.animal !== key ? key : "",
+      },
+    });
+  };
+
   render() {
-    const { isUpdating, isDisabled, userInfo, error } = this.state;
+    const { isUpdating, isDisabled, userInfo, profile, error } = this.state;
 
     if (userInfo === undefined) {
       return null;
@@ -117,25 +128,40 @@ class UpdateProfile extends React.Component {
             <Input
               key={input.key}
               onChange={e => this.onChangeUserInfo([input.key], e)}
-              defaultValue={
-                userInfo && userInfo[input.key] ? userInfo[input.key] : ""
-              }
+              defaultValue={userInfo[input.key] ? userInfo[input.key] : ""}
               label={input.label}
               type={input.type}
             />
           ))}
 
           <Paragraph>
-            I like: <Caption>(please check all that apply)</Caption>
+            I Like: <Caption>(please check all that apply)</Caption>
           </Paragraph>
 
           <Row justify="space-between">
             {choices.map(choice => (
               <Radiobox
                 key={choice}
-                defaultValue={userInfo && userInfo[choice]}
+                defaultValue={userInfo[choice]}
                 onChange={e => this.onSelectChoice(choice, e)}
-                label={choice.toUpperCase()}
+                label={`${choice.charAt(0).toUpperCase()}${choice.slice(1)}`}
+              />
+            ))}
+          </Row>
+
+          <Paragraph>
+            I Prefer: <Caption>(please check only one)</Caption>
+          </Paragraph>
+
+          <Row justify="space-evenly">
+            {preferences.map(preference => (
+              <Radiobox
+                key={preference}
+                value={profile.animal === preference}
+                onChange={this.onSelectPreference(preference)}
+                label={`${preference.charAt(0).toUpperCase()}${preference.slice(
+                  1
+                )}`}
               />
             ))}
           </Row>

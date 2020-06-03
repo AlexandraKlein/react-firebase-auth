@@ -35,6 +35,10 @@ const TouchableContainer = styled(StyledContainer)`
   cursor: pointer;
 `;
 
+const Label = styled(Paragraph)`
+  margin: 0;
+`;
+
 class Radiobox extends React.Component {
   state = {
     isControlled: this.props.value !== undefined,
@@ -79,17 +83,14 @@ class Radiobox extends React.Component {
   }
 
   renderLabel() {
-    return <Paragraph>{this.props.label}</Paragraph>;
+    return <Label>{this.props.label}</Label>;
   }
 
   renderContent() {
     return (
       <>
         {this.props.label !== undefined && this.renderLabel()}
-        <StyledRadiobox
-          isChecked={this.state.value ? this.state.value : this.props.value}
-          {...this.props}
-        />
+        <StyledRadiobox isChecked={this.getValue()} {...this.props} />
       </>
     );
   }
