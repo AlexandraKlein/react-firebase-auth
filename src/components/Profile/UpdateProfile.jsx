@@ -27,8 +27,12 @@ const inputs = [
     type: "text",
   },
 ];
-const choices = ["pizza", "bagels", "salads", "poke"];
-const preferences = ["cats", "dogs"];
+const choices = ["pizza", "salads", "poke"];
+const animals = ["cats", "dogs"];
+const icecream = ["chocolate", "vanilla"];
+const bands = ["beatles", "stones"];
+
+const capitalize = val => `${val.charAt(0).toUpperCase()}${val.slice(1)}`;
 
 class UpdateProfile extends React.Component {
   state = {
@@ -97,12 +101,12 @@ class UpdateProfile extends React.Component {
     });
   };
 
-  onSelectPreference = key => () => {
+  onSelectPreference = (key, category) => () => {
     this.setState({
       isDisabled: false,
       profile: {
         ...this.state.profile,
-        animal: this.state.profile.animal !== key ? key : "",
+        [category]: this.state.profile[category] !== key ? key : "",
       },
     });
   };
@@ -138,30 +142,50 @@ class UpdateProfile extends React.Component {
             I Like: <Caption>(please check all that apply)</Caption>
           </Paragraph>
 
-          <Row justify="space-between">
+          <Row justify="space-evenly">
             {choices.map(choice => (
               <Radiobox
                 key={choice}
                 defaultValue={profile && profile[choice]}
                 onChange={e => this.onSelectChoice(choice, e)}
-                label={`${choice.charAt(0).toUpperCase()}${choice.slice(1)}`}
+                label={capitalize(choice)}
               />
             ))}
           </Row>
 
           <Paragraph>
-            I Prefer: <Caption>(please check only one)</Caption>
+            I Prefer: <Caption>(please check only one from each set)</Caption>
           </Paragraph>
 
           <Row justify="space-evenly">
-            {preferences.map(preference => (
+            {animals.map(val => (
               <Radiobox
-                key={preference}
-                value={profile && profile.animal === preference}
-                onChange={this.onSelectPreference(preference)}
-                label={`${preference.charAt(0).toUpperCase()}${preference.slice(
-                  1
-                )}`}
+                key={val}
+                value={profile && profile.animal === val}
+                onChange={this.onSelectPreference(val, "animal")}
+                label={capitalize(val)}
+              />
+            ))}
+          </Row>
+
+          <Row justify="space-evenly">
+            {icecream.map(val => (
+              <Radiobox
+                key={val}
+                value={profile && profile.icecream === val}
+                onChange={this.onSelectPreference(val, "icecream")}
+                label={capitalize(val)}
+              />
+            ))}
+          </Row>
+
+          <Row justify="space-evenly">
+            {bands.map(val => (
+              <Radiobox
+                key={val}
+                value={profile && profile.bands === val}
+                onChange={this.onSelectPreference(val, "bands")}
+                label={capitalize(val)}
               />
             ))}
           </Row>
