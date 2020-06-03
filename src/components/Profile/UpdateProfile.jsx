@@ -10,6 +10,23 @@ import Error from "../Error";
 import { Caption, Paragraph } from "../Text";
 import { Gutters } from "../../styles";
 
+const inputs = [
+  {
+    key: "fullName",
+    label: "Full Name",
+    type: "name",
+  },
+  {
+    key: "address",
+    label: "Address",
+    type: "address",
+  },
+  {
+    key: "favoriteColor",
+    label: "Favorite Color",
+    type: "text",
+  },
+];
 const choices = ["pizza", "bagels", "dogs", "cats"];
 
 class UpdateProfile extends React.Component {
@@ -61,22 +78,22 @@ class UpdateProfile extends React.Component {
     }
   };
 
-  onChangeUserInfo = (key, e) => {
+  onChangeUserInfo = (key, event) => {
     this.setState({
       isDisabled: false,
       profile: {
         ...this.state.profile,
-        [key]: e.currentTarget.value.trim(),
+        [key]: event.currentTarget.value.trim(),
       },
     });
   };
 
-  onSelectChoice = (key, e) => {
+  onSelectChoice = (key, event) => {
     this.setState({
       isDisabled: false,
       profile: {
         ...this.state.profile,
-        [key]: e,
+        [key]: event,
       },
     });
   };
@@ -96,28 +113,17 @@ class UpdateProfile extends React.Component {
           onSubmit={this.updateUserInfo}
           marginTop={Gutters.LARGE}
         >
-          <Input
-            onChange={e => this.onChangeUserInfo("fullName", e)}
-            defaultValue={
-              userInfo && userInfo.fullName ? userInfo.fullName : ""
-            }
-            label="Full Name"
-            type="name"
-          />
-          <Input
-            onChange={e => this.onChangeUserInfo("address", e)}
-            defaultValue={userInfo && userInfo.address ? userInfo.address : ""}
-            label="Address"
-            type="address"
-          />
-          <Input
-            onChange={e => this.onChangeUserInfo("favoriteColor", e)}
-            defaultValue={
-              userInfo && userInfo.favoriteColor ? userInfo.favoriteColor : ""
-            }
-            label="Favorite Color"
-            type="text"
-          />
+          {inputs.map(input => (
+            <Input
+              key={input.key}
+              onChange={e => this.onChangeUserInfo([input.key], e)}
+              defaultValue={
+                userInfo && userInfo[input.key] ? userInfo[input.key] : ""
+              }
+              label={input.label}
+              type={input.type}
+            />
+          ))}
 
           <Paragraph>
             I like: <Caption>(please check all that apply)</Caption>
