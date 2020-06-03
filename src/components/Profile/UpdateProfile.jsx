@@ -27,10 +27,13 @@ const inputs = [
     type: "text",
   },
 ];
-const choices = ["pizza", "salads", "poke"];
-const animals = ["cats", "dogs"];
-const icecream = ["chocolate", "vanilla"];
-const bands = ["beatles", "stones"];
+const choicesMultiple = ["pizza", "salads", "poke"];
+
+const choiceData = {
+  animals: ["cats", "dogs"],
+  icecream: ["chocolate", "vanilla"],
+  bands: ["beatles", "stones"],
+};
 
 const capitalize = val => `${val.charAt(0).toUpperCase()}${val.slice(1)}`;
 
@@ -143,7 +146,7 @@ class UpdateProfile extends React.Component {
           </Paragraph>
 
           <Row justify="space-evenly">
-            {choices.map(choice => (
+            {choicesMultiple.map(choice => (
               <Radiobox
                 key={choice}
                 defaultValue={profile && profile[choice]}
@@ -157,38 +160,20 @@ class UpdateProfile extends React.Component {
             I Prefer: <Caption>(please check only one from each set)</Caption>
           </Paragraph>
 
-          <Row justify="space-evenly">
-            {animals.map(val => (
-              <Radiobox
-                key={val}
-                value={profile && profile.animal === val}
-                onChange={this.onSelectPreference(val, "animal")}
-                label={capitalize(val)}
-              />
-            ))}
-          </Row>
-
-          <Row justify="space-evenly">
-            {icecream.map(val => (
-              <Radiobox
-                key={val}
-                value={profile && profile.icecream === val}
-                onChange={this.onSelectPreference(val, "icecream")}
-                label={capitalize(val)}
-              />
-            ))}
-          </Row>
-
-          <Row justify="space-evenly">
-            {bands.map(val => (
-              <Radiobox
-                key={val}
-                value={profile && profile.bands === val}
-                onChange={this.onSelectPreference(val, "bands")}
-                label={capitalize(val)}
-              />
-            ))}
-          </Row>
+          {Object.entries(choiceData).map(data => {
+            return (
+              <Row justify="space-evenly" key={data[0]}>
+                {data[1].map(d => (
+                  <Radiobox
+                    key={d}
+                    value={profile && profile[data[0]] === d}
+                    onChange={this.onSelectPreference(d, data[0])}
+                    label={capitalize(d)}
+                  />
+                ))}
+              </Row>
+            );
+          })}
         </Form>
 
         {error && <Error text={error} />}
