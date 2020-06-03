@@ -10,6 +10,8 @@ import Error from "../Error";
 import { Caption, Paragraph } from "../Text";
 import { Gutters } from "../../styles";
 
+const choices = ["pizza", "bagels", "dogs", "cats"];
+
 class UpdateProfile extends React.Component {
   state = {
     profile: {},
@@ -61,11 +63,22 @@ class UpdateProfile extends React.Component {
 
   onChangeUserInfo = (key, e) => {
     this.setState({ isDisabled: false });
+    this.setState({
+      profile: {
+        ...this.state.profile,
+        [key]: e.currentTarget.value.trim(),
+      },
+    });
+  };
 
-    const profile = this.state.profile;
-    profile[key] = typeof e !== "boolean" ? e.currentTarget.value.trim() : e;
-
-    this.setState({ profile });
+  onSelectChoice = (key, e) => {
+    this.setState({ isDisabled: false });
+    this.setState({
+      profile: {
+        ...this.state.profile,
+        [key]: e,
+      },
+    });
   };
 
   render() {
@@ -111,26 +124,14 @@ class UpdateProfile extends React.Component {
           </Paragraph>
 
           <Row justify="space-between">
-            <Radiobox
-              defaultValue={userInfo && userInfo.pizza}
-              onChange={e => this.onChangeUserInfo("pizza", e)}
-              label="Pizza"
-            />
-            <Radiobox
-              defaultValue={userInfo && userInfo.bagels}
-              onChange={e => this.onChangeUserInfo("bagels", e)}
-              label="Bagels"
-            />
-            <Radiobox
-              defaultValue={userInfo && userInfo.cats}
-              onChange={e => this.onChangeUserInfo("cats", e)}
-              label="Cats"
-            />
-            <Radiobox
-              defaultValue={userInfo && userInfo.dogs}
-              onChange={e => this.onChangeUserInfo("dogs", e)}
-              label="Dogs"
-            />
+            {choices.map(choice => (
+              <Radiobox
+                key={choice}
+                defaultValue={userInfo && userInfo[choice]}
+                onChange={e => this.onSelectChoice(choice, e)}
+                label={choice.toUpperCase()}
+              />
+            ))}
           </Row>
         </Form>
 
