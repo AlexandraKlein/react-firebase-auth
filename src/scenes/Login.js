@@ -1,14 +1,33 @@
 import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
+import styled from "styled-components";
 import app from "../base";
 import { AuthContext } from "../Auth";
-import { Column } from "../components/Container";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
 import Link from "../components/Link";
 import SocialSignIn from "../components/SocialSignIn";
-import { Paragraph } from "../components/Text";
+import { Paragraph, Heading } from "../components/Text";
+import { BreakPoint } from "../styles";
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  ${BreakPoint.TABLET} {
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  align-self: center;
+`;
+
+const StyledLink = styled(Link)`
+  align-self: center;
+`;
 
 const Login = ({ history }) => {
   const [error, setError] = React.useState(undefined);
@@ -36,17 +55,17 @@ const Login = ({ history }) => {
   }
 
   return (
-    <Column>
-      <h1>Log In</h1>
+    <StyledContainer>
+      <Heading align="center">Log In</Heading>
       <Form submitText="Log In" onSubmit={handleLogin}>
         <Input label="Email" type="email" placeholder="email" />
         <Input label="Password" type="password" placeholder="Password" />
       </Form>
       {error && <Error text={error} />}
-      <Paragraph>- OR -</Paragraph>
+      <StyledParagraph>- OR -</StyledParagraph>
       <SocialSignIn googleButtonText="Sign in with Google" />
-      <Link to="/signup">Sign Up</Link>
-    </Column>
+      <StyledLink to="/signup">Sign Up</StyledLink>
+    </StyledContainer>
   );
 };
 

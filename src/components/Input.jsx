@@ -1,21 +1,30 @@
 import React from "react";
 import styled from "styled-components";
-import { Colors, Gutters, Type } from "../styles";
+import { BreakPoint, Colors, Gutters, Type } from "../styles";
+
+const StyledLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  font-size: ${Type.BODY};
+  margin-bottom: ${Gutters.MEDIUM};
+
+  ${BreakPoint.TABLET} {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;
 
 const StyledInput = styled.input`
   background-color: ${Colors.INPUT};
   border: none;
   font-size: ${Type.BODY};
-  margin-left: ${Gutters.MEDIUM};
+  margin: ${Gutters.SMALL} 0 ${Gutters.MEDIUM};
   padding: ${Gutters.SMALL} ${Gutters.MEDIUM};
-`;
 
-const StyledLabel = styled.label`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: ${Type.BODY};
-  margin-bottom: ${Gutters.MEDIUM};
+  ${BreakPoint.TABLET} {
+    margin: 0 0 0 ${Gutters.MEDIUM};
+  }
 `;
 
 const Input = ({ label, type, placeholder, defaultValue, onChange }) => (

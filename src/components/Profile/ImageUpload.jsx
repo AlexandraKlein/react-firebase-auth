@@ -4,21 +4,35 @@ import "firebase/storage";
 import styled from "styled-components";
 import { AuthContext } from "../../Auth";
 import Button from "../Button";
-import { Row, Column } from "../Container";
+import { Row, Column, Container } from "../Container";
 import Error from "../Error";
-import { Gutters, Colors } from "../../styles";
+import { BreakPoint, Gutters, Colors } from "../../styles";
 
-const ImageContainer = styled.div`
+const StyledContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+
+  ${BreakPoint.TABLET} {
+    flex-direction: row;
+  }
+`;
+
+const ImageContainer = styled(Container)`
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
-  margin-right: ${Gutters.MEDIUM};
+  margin-right: 0;
+  margin-bottom: ${Gutters.MEDIUM};
   width: 160px;
   height: 160px;
   border-radius: 50%;
   overflow: hidden;
+
+  ${BreakPoint.TABLET} {
+    margin-bottom: 0;
+    margin-right: ${Gutters.MEDIUM};
+  }
 `;
 
 const Image = styled.img`
@@ -104,7 +118,7 @@ export const ImageUpload = () => {
       <ProgressContainer>
         <Progress progress={progress} />
       </ProgressContainer>
-      <Row>
+      <StyledContainer>
         <ImageContainer>
           <Image src={imgSrc} alt={currentUser.displayName} />
         </ImageContainer>
@@ -116,7 +130,7 @@ export const ImageUpload = () => {
             onClick={handleUpload}
           />
         </Column>
-      </Row>
+      </StyledContainer>
       {error && <Error text={error} />}
     </>
   );

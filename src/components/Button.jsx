@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Colors, Type, Gutters } from "../styles";
+import { BreakPoint, Colors, Type, Gutters } from "../styles";
 
 const StyledButton = styled.button`
-  min-width: 220px;
+  min-width: 180px;
   border: none;
   cursor: pointer;
   padding: ${Gutters.MEDIUM} ${Gutters.LARGE};
@@ -16,6 +16,10 @@ const StyledButton = styled.button`
   margin-top: ${props => props.marginTop || Gutters.MEDIUM};
   color: ${props => (props.secondary ? Colors.PRIMARY : Colors.WHITE)};
   font-size: ${Type.BODY};
+
+  ${BreakPoint.TABLET} {
+    min-width: 220px;
+  }
 
   &:hover {
     background-color: ${props =>

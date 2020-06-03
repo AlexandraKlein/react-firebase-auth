@@ -10,16 +10,20 @@ const StyledForm = styled.form`
   margin-top: ${props => props.marginTop || "0px"};
 
   ${BreakPoint.TABLET} {
-    min-width: 400px;
+    width: 400px;
   }
+`;
+
+const StyledColumn = styled(Column)`
+  padding: ${Gutters.MEDIUM};
 `;
 
 const Form = ({ submitText, children, onSubmit, isDisabled, marginTop }) => (
   <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
-    <Column flex={1} align="unset" justify="unset">
+    <StyledColumn flex={1} align="unset" justify="unset">
       {children}
       <Button isDisabled={isDisabled} text={submitText} type="submit" />
-    </Column>
+    </StyledColumn>
   </StyledForm>
 );
 
