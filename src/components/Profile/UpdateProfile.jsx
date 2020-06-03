@@ -62,8 +62,8 @@ class UpdateProfile extends React.Component {
   };
 
   onChangeUserInfo = (key, e) => {
-    this.setState({ isDisabled: false });
     this.setState({
+      isDisabled: false,
       profile: {
         ...this.state.profile,
         [key]: e.currentTarget.value.trim(),
@@ -72,8 +72,8 @@ class UpdateProfile extends React.Component {
   };
 
   onSelectChoice = (key, e) => {
-    this.setState({ isDisabled: false });
     this.setState({
+      isDisabled: false,
       profile: {
         ...this.state.profile,
         [key]: e,
