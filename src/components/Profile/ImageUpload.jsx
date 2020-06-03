@@ -55,6 +55,10 @@ const Progress = styled.div`
   background-color: ${Colors.PRIMARY};
 `;
 
+const UploadInput = styled.input`
+  width: 200px;
+`;
+
 export const ImageUpload = () => {
   const { currentUser } = React.useContext(AuthContext);
   const [image, setImage] = React.useState(undefined);
@@ -123,7 +127,7 @@ export const ImageUpload = () => {
           <Image src={imgSrc} alt={currentUser.displayName} />
         </ImageContainer>
         <Column>
-          <input type="file" onChange={handleChange} />
+          <UploadInput type="file" onChange={handleChange} />
           <Button
             isDisabled={image === undefined}
             text="Upload Image"
