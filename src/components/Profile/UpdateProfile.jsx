@@ -32,8 +32,7 @@ const preferences = ["cats", "dogs"];
 
 class UpdateProfile extends React.Component {
   state = {
-    profile: { animal: [] },
-    userInfo: undefined,
+    profile: undefined,
     error: false,
     isDisabled: true,
     isUpdating: false,
@@ -45,8 +44,7 @@ class UpdateProfile extends React.Component {
       .ref("users/" + this.props.authContext.currentUser.uid)
       .once("value", snap => {
         this.setState({
-          userInfo: snap.val(),
-          profile: snap.val(),
+          profile: { animal: undefined, ...snap.val() },
         });
       });
   }
@@ -63,7 +61,7 @@ class UpdateProfile extends React.Component {
       });
   };
 
-  updateUserInfo = event => {
+  updateProfile = event => {
     event.preventDefault();
     this.setState({ isDisabled: true });
     try {
@@ -110,10 +108,10 @@ class UpdateProfile extends React.Component {
   };
 
   render() {
-    const { isUpdating, isDisabled, userInfo, profile, error } = this.state;
+    const { isUpdating, isDisabled, profile, error } = this.state;
 
-    if (userInfo === undefined) {
-      return null;
+    if (profile === undefined) {
+      return <>Loading...</>;
     }
 
     return (
@@ -121,14 +119,16 @@ class UpdateProfile extends React.Component {
         <Form
           isDisabled={isUpdating || isDisabled}
           submitText="Update Profile"
-          onSubmit={this.updateUserInfo}
+          onSubmit={this.updateProfile}
           marginTop={Gutters.LARGE}
         >
           {inputs.map(input => (
             <Input
               key={input.key}
               onChange={e => this.onChangeUserInfo([input.key], e)}
-              defaultValue={userInfo[input.key] ? userInfo[input.key] : ""}
+              defaultValue={
+                profile && profile[input.key] ? profile[input.key] : ""
+              }
               label={input.label}
               type={input.type}
             />
@@ -142,7 +142,7 @@ class UpdateProfile extends React.Component {
             {choices.map(choice => (
               <Radiobox
                 key={choice}
-                defaultValue={userInfo[choice]}
+                defaultValue={profile && profile[choice]}
                 onChange={e => this.onSelectChoice(choice, e)}
                 label={`${choice.charAt(0).toUpperCase()}${choice.slice(1)}`}
               />
@@ -157,7 +157,7 @@ class UpdateProfile extends React.Component {
             {preferences.map(preference => (
               <Radiobox
                 key={preference}
-                value={profile.animal === preference}
+                value={profile && profile.animal === preference}
                 onChange={this.onSelectPreference(preference)}
                 label={`${preference.charAt(0).toUpperCase()}${preference.slice(
                   1
