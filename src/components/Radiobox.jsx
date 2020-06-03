@@ -37,6 +37,7 @@ const TouchableContainer = styled(StyledContainer)`
 
 class Radiobox extends React.Component {
   state = {
+    isControlled: this.props.value !== undefined,
     value: this.props.value === undefined ? this.props.defaultValue : undefined,
   };
 
@@ -45,10 +46,18 @@ class Radiobox extends React.Component {
     isDisabled: false,
   };
 
-  onClick = () => {
-    const newValue = !this.state.value;
+  getValue() {
+    return this.state.isControlled ? this.props.value : this.state.value;
+  }
 
-    this.setState({ value: newValue });
+  onClick = () => {
+    const newValue = !this.getValue();
+
+    if (!this.state.isControlled) {
+      this.setState({
+        value: newValue,
+      });
+    }
 
     if (this.props.onChange !== undefined) {
       this.props.onChange(newValue);
@@ -77,7 +86,10 @@ class Radiobox extends React.Component {
     return (
       <>
         {this.props.label !== undefined && this.renderLabel()}
-        <StyledRadiobox isChecked={this.state.value} {...this.props} />
+        <StyledRadiobox
+          isChecked={this.state.value ? this.state.value : this.props.value}
+          {...this.props}
+        />
       </>
     );
   }
