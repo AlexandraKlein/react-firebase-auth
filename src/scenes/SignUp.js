@@ -8,17 +8,7 @@ import Error from "../components/Error";
 import SocialSignIn from "../components/SocialSignIn";
 import Link from "../components/Link";
 import { Paragraph, Heading } from "../components/Text";
-import { BreakPoint } from "../styles";
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  ${BreakPoint.TABLET} {
-    align-items: center;
-    justify-content: center;
-  }
-`;
+import { Column } from "../components/Container";
 
 const StyledParagraph = styled(Paragraph)`
   align-self: center;
@@ -61,7 +51,7 @@ const SignUp = ({ history }) => {
   );
 
   return (
-    <StyledContainer>
+    <Column>
       <Heading align="center">Sign Up</Heading>
       <Form
         isDisabled={isDisabled}
@@ -95,7 +85,7 @@ const SignUp = ({ history }) => {
       {error && <Error text={error} />}
 
       <StyledLink to="/login">Login</StyledLink>
-    </StyledContainer>
+    </Column>
   );
 };
 

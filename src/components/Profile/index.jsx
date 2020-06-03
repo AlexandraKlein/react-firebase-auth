@@ -7,7 +7,7 @@ import UpdateProfile from "./UpdateProfile";
 class Profile extends React.Component {
   render() {
     return (
-      <Column>
+      <Column align="unset">
         {/* <UpdateName /> */}
         <ImageUpload />
         <UpdateProfile />

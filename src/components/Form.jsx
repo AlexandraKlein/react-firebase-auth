@@ -10,7 +10,7 @@ const StyledForm = styled.form`
   margin-top: ${props => props.marginTop || "0px"};
 
   ${BreakPoint.TABLET} {
-    width: 400px;
+    width: 480px;
   }
 `;
 

@@ -27,10 +27,11 @@ const Home = () => {
           onClick={() => app.auth().signOut()}
         />
       </Row>
-
       <Column>
-        <Heading>Home</Heading>
-        <Subheading>Hello, {currentUser.displayName || "Friend"}</Subheading>
+        <Heading align="center">Home</Heading>
+        <Subheading align="center">
+          Hello, {currentUser.displayName || "Friend"}
+        </Subheading>
         <Profile />
       </Column>
     </>

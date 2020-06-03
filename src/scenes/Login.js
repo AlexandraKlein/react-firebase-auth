@@ -9,17 +9,7 @@ import Error from "../components/Error";
 import Link from "../components/Link";
 import SocialSignIn from "../components/SocialSignIn";
 import { Paragraph, Heading } from "../components/Text";
-import { BreakPoint } from "../styles";
-
-const StyledContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  ${BreakPoint.TABLET} {
-    align-items: center;
-    justify-content: center;
-  }
-`;
+import { Column } from "../components/Container";
 
 const StyledParagraph = styled(Paragraph)`
   align-self: center;
@@ -55,7 +45,7 @@ const Login = ({ history }) => {
   }
 
   return (
-    <StyledContainer>
+    <Column>
       <Heading align="center">Log In</Heading>
       <Form submitText="Log In" onSubmit={handleLogin}>
         <Input label="Email" type="email" placeholder="email" />
@@ -65,7 +55,7 @@ const Login = ({ history }) => {
       <StyledParagraph>- OR -</StyledParagraph>
       <SocialSignIn googleButtonText="Sign in with Google" />
       <StyledLink to="/signup">Sign Up</StyledLink>
-    </StyledContainer>
+    </Column>
   );
 };
 
