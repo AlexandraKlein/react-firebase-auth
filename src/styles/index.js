@@ -26,3 +26,18 @@ export const Type = {
   HEADING: "32px",
   TITLE: "36px",
 };
+
+const deviceSize = {
+  MOBILE_S: "320px",
+  MOBILE_M: "375px",
+  MOBILE_L: "425px",
+  TABLET: "768px",
+  LAPTOP: "1024px",
+  LAPTOP_L: "1440px",
+  DESKTOP: "2560px",
+};
+
+export const BreakPoint = Object.keys(deviceSize).reduce((acc, cur) => {
+  acc[cur] = `@media (min-width: ${deviceSize[cur]})`;
+  return acc;
+}, {});
