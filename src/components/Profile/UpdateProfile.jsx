@@ -7,7 +7,7 @@ import Form from "../Form";
 import Input from "../Input";
 import Radiobox from "../Radiobox";
 import Error from "../Error";
-import { Caption, Paragraph, Subheading } from "../Text";
+import { Subheading } from "../Text";
 import { Gutters } from "../../styles";
 
 const inputs = [
