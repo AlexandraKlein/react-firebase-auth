@@ -127,8 +127,8 @@ class UpdateProfile extends React.Component {
           isDisabled={isUpdating || isDisabled}
           submitText="Update Profile"
           onSubmit={this.updateProfile}
-          marginTop={Gutters.LARGE}
         >
+          <Subheading>Details:</Subheading>
           {inputs.map(input => (
             <Input
               key={input.key}
