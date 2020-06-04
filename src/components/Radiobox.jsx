@@ -26,7 +26,6 @@ const StyledRadiobox = styled(Row)`
 `;
 
 const StyledContainer = styled.div`
-  margin: ${Gutters.MEDIUM} 0;
   display: flex;
   align-items: center;
 `;

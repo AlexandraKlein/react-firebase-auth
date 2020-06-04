@@ -2,14 +2,8 @@ import styled from "styled-components";
 import { BreakPoint } from "../styles";
 
 export const Container = styled.div`
-  display: ${props => props.display || "flex"};
-  flex-direction: ${props => props.direction || "column"};
-  align-items: ${props => props.align || "stretch"};
-  flex: ${props => props.flex || "unset"};
-
-  ${BreakPoint.TABLET} {
-    align-items: ${props => props.align || "center"};
-  }
+  margin: ${props => props.margin || 0};
+  padding: ${props => props.padding || 0};
 `;
 
 export const Row = styled.div`

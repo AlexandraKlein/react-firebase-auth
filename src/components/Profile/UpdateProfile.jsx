@@ -2,12 +2,12 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
 import { AuthContext } from "../../Auth";
-import { Row } from "../Container";
+import { Container, Row } from "../Container";
 import Form from "../Form";
 import Input from "../Input";
 import Radiobox from "../Radiobox";
 import Error from "../Error";
-import { Caption, Paragraph } from "../Text";
+import { Caption, Paragraph, Subheading } from "../Text";
 import { Gutters } from "../../styles";
 
 const inputs = [
@@ -141,39 +141,42 @@ class UpdateProfile extends React.Component {
             />
           ))}
 
-          <Paragraph>
-            I Like: <Caption>(please check all that apply)</Caption>
-          </Paragraph>
+          <Container margin={`${Gutters.MEDIUM} 0`}>
+            <Subheading>I Like:</Subheading>
 
-          <Row justify="space-evenly">
-            {choicesMultiple.map(choice => (
-              <Radiobox
-                key={choice}
-                defaultValue={profile && profile[choice]}
-                onChange={e => this.onSelectChoice(choice, e)}
-                label={capitalize(choice)}
-              />
-            ))}
-          </Row>
+            <Row justify="space-evenly">
+              {choicesMultiple.map(choice => (
+                <Radiobox
+                  key={choice}
+                  defaultValue={profile && profile[choice]}
+                  onChange={e => this.onSelectChoice(choice, e)}
+                  label={capitalize(choice)}
+                />
+              ))}
+            </Row>
+          </Container>
 
-          <Paragraph>
-            I Prefer: <Caption>(please check only one from each set)</Caption>
-          </Paragraph>
+          <Container margin={`${Gutters.MEDIUM} 0`}>
+            {/* <Subheading>I Prefer:</Subheading> */}
 
-          {Object.entries(choiceData).map(data => {
-            return (
-              <Row justify="space-evenly" key={data[0]}>
-                {data[1].map(d => (
-                  <Radiobox
-                    key={d}
-                    value={profile && profile[data[0]] === d}
-                    onChange={this.onSelectPreference(d, data[0])}
-                    label={capitalize(d)}
-                  />
-                ))}
-              </Row>
-            );
-          })}
+            {Object.entries(choiceData).map(data => {
+              return (
+                <>
+                  <Subheading>{`${capitalize(data[0])}:`}</Subheading>
+                  <Row justify="space-evenly" key={data[0]}>
+                    {data[1].map(d => (
+                      <Radiobox
+                        key={d}
+                        value={profile && profile[data[0]] === d}
+                        onChange={this.onSelectPreference(d, data[0])}
+                        label={capitalize(d)}
+                      />
+                    ))}
+                  </Row>
+                </>
+              );
+            })}
+          </Container>
         </Form>
 
         {error && <Error text={error} />}

@@ -22,8 +22,8 @@ export const Colors = {
 export const Type = {
   CAPTION: "14px",
   BODY: "16px",
-  SUB_HEADING: "24px",
-  HEADING: "32px",
+  SUB_HEADING: "20px",
+  HEADING: "28px",
   TITLE: "36px",
 };
 
