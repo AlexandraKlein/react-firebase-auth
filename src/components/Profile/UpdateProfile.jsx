@@ -9,6 +9,7 @@ import Radiobox from "../Radiobox";
 import Error from "../Error";
 import { Subheading } from "../Text";
 import { Gutters } from "../../styles";
+import { capitalize } from "../../helpers";
 
 const inputs = [
   {
@@ -33,9 +34,8 @@ const choiceData = {
   animals: ["cats", "dogs"],
   icecream: ["chocolate", "vanilla"],
   bands: ["beatles", "stones"],
+  vegetable: ["peas", "carrots"],
 };
-
-const capitalize = val => `${val.charAt(0).toUpperCase()}${val.slice(1)}`;
 
 class UpdateProfile extends React.Component {
   state = {
@@ -144,7 +144,7 @@ class UpdateProfile extends React.Component {
           <Container margin={`${Gutters.MEDIUM} 0`}>
             <Subheading>I Like:</Subheading>
 
-            <Row justify="space-evenly">
+            <Row justify="flex-start">
               {choicesMultiple.map(choice => (
                 <Radiobox
                   key={choice}
@@ -163,7 +163,7 @@ class UpdateProfile extends React.Component {
               return (
                 <>
                   <Subheading>{`${capitalize(data[0])}:`}</Subheading>
-                  <Row justify="space-evenly" key={data[0]}>
+                  <Row justify="flex-start">
                     {data[1].map(d => (
                       <Radiobox
                         key={d}

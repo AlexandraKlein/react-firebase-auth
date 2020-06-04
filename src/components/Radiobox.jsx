@@ -4,6 +4,20 @@ import { Colors, Gutters } from "../styles";
 import { Row } from "./Container";
 import { Paragraph } from "./Text";
 
+const StyledContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: ${props => props.marginRight || Gutters.MEDIUM};
+`;
+
+const TouchableContainer = styled(StyledContainer)`
+  cursor: pointer;
+`;
+
+const Label = styled(Paragraph)`
+  margin: 0;
+`;
+
 const StyledRadiobox = styled(Row)`
   position: relative;
   background-color: ${props =>
@@ -23,19 +37,6 @@ const StyledRadiobox = styled(Row)`
     width: 80%;
     height: 80%;
   }
-`;
-
-const StyledContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const TouchableContainer = styled(StyledContainer)`
-  cursor: pointer;
-`;
-
-const Label = styled(Paragraph)`
-  margin: 0;
 `;
 
 class Radiobox extends React.Component {
