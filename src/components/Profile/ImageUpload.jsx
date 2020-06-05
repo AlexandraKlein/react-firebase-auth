@@ -4,15 +4,12 @@ import "firebase/storage";
 import styled from "styled-components";
 import { AuthContext } from "../../Auth";
 import Button from "../Button";
-import { Column, Container } from "../Container";
+import { Column, Container, Row } from "../Container";
 import Error from "../Error";
 import { BreakPoint, Gutters, Colors } from "../../styles";
 
-const StyledContainer = styled.div`
-  display: flex;
+const StyledRow = styled(Row)`
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
   ${BreakPoint.TABLET} {
     flex-direction: row;
@@ -122,7 +119,7 @@ export const ImageUpload = () => {
       <ProgressContainer>
         <Progress progress={progress} />
       </ProgressContainer>
-      <StyledContainer>
+      <StyledRow justify="space-around">
         <ImageContainer>
           <Image src={imgSrc} alt={currentUser.displayName} />
         </ImageContainer>
@@ -134,7 +131,7 @@ export const ImageUpload = () => {
             onClick={handleUpload}
           />
         </Column>
-      </StyledContainer>
+      </StyledRow>
       {error && <Error text={error} />}
     </>
   );
