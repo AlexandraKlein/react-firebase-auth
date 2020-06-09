@@ -54,7 +54,11 @@ class UpdateProfile extends React.Component {
       .ref("users/" + this.props.authContext.currentUser.uid)
       .once("value", snap => {
         this.setState({
-          profile: { ...profile, ...snap.val() },
+          profile: {
+            photoURL: this.props.authContext.currentUser.photoURL,
+            ...profile,
+            ...snap.val(),
+          },
         });
       });
   }
