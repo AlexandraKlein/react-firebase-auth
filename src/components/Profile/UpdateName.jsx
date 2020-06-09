@@ -3,6 +3,7 @@ import { AuthContext } from "../../Auth";
 import Form from "../Form";
 import Input from "../Input";
 import Error from "../Error";
+import { Subheading } from "../Text";
 
 const UpdateProfile = () => {
   const { currentUser } = React.useContext(AuthContext);
@@ -33,7 +34,9 @@ const UpdateProfile = () => {
 
   return (
     <>
-      <p>Hello, {currentUser.displayName || "Friend"}</p>
+      <Subheading align="center">
+        Hello, {currentUser.displayName || "Friend"}
+      </Subheading>
 
       <Form
         isDisabled={isUpdating || name === currentUser.displayName}

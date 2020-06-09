@@ -41,8 +41,6 @@ let profile = {};
 Object.keys(choiceData).forEach(k => (profile[k] = ""));
 
 class UpdateProfile extends React.Component {
-  _isMounted = false;
-
   state = {
     profile: undefined,
     error: false,
@@ -51,26 +49,18 @@ class UpdateProfile extends React.Component {
   };
 
   componentDidMount() {
-    this._isMounted = true;
-
     firebase
       .database()
       .ref("users/" + this.props.authContext.currentUser.uid)
       .once("value", snap => {
-        if (this._isMounted) {
-          this.setState({
-            profile: {
-              photoURL: this.props.authContext.currentUser.photoURL,
-              ...profile,
-              ...snap.val(),
-            },
-          });
-        }
+        this.setState({
+          profile: {
+            photoURL: this.props.authContext.currentUser.photoURL,
+            ...profile,
+            ...snap.val(),
+          },
+        });
       });
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
   }
 
   writeUserData = user => {
