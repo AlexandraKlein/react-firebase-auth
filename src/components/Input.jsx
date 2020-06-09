@@ -17,6 +17,7 @@ const StyledLabel = styled.label`
 
 const StyledInput = styled.input`
   background-color: ${Colors.INPUT};
+  border-radius: 0;
   border: none;
   font-size: ${Type.BODY};
   margin: ${Gutters.SMALL} 0 ${Gutters.MEDIUM};
