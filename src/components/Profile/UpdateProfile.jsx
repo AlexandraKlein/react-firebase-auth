@@ -13,8 +13,8 @@ import { capitalize } from "../../helpers";
 
 const inputs = [
   {
-    key: "fullName",
-    label: "Full Name",
+    key: "nickName",
+    label: "Nick Name",
     type: "name",
   },
   {
