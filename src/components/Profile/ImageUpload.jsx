@@ -3,10 +3,88 @@ import * as firebase from "firebase/app";
 import "firebase/storage";
 import styled from "styled-components";
 import { AuthContext } from "../../Auth";
-import Button from "../Button";
+import FileUploadButton from "../FileUploadButton";
 import { Column, Container, Row } from "../Container";
 import Error from "../Error";
 import { BreakPoint, Gutters, Colors } from "../../styles";
+
+export const ImageUpload = () => {
+  const { currentUser } = React.useContext(AuthContext);
+  const [image, setImage] = React.useState(undefined);
+  const [url, setUrl] = React.useState(undefined);
+  const [progress, setProgress] = React.useState(undefined);
+  const [error, setError] = React.useState(undefined);
+
+  const handleChange = file => {
+    if (file[0]) {
+      const image = file[0];
+      setImage(image);
+    }
+  };
+
+  React.useEffect(() => {
+    if (image === undefined) {
+      return;
+    }
+
+    const uploadTask = firebase
+      .storage()
+      .ref(`images/${currentUser.uid}/${image.name}`)
+      .put(image);
+    uploadTask.on(
+      "state_changed",
+      snapshot => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progress);
+      },
+      error => {
+        setError(error);
+      },
+      () => {
+        firebase
+          .storage()
+          .ref(`images/${currentUser.uid}`)
+          .child(image.name)
+          .getDownloadURL()
+          .then(url => {
+            setUrl(url);
+            firebase.auth().currentUser.updateProfile({ photoURL: url });
+          })
+          .finally(() => {
+            setImage(undefined);
+            setProgress(0);
+          });
+      }
+    );
+  }, [image, currentUser.uid]);
+
+  const imgSrc = url
+    ? url
+    : currentUser.photoURL
+    ? currentUser.photoURL
+    : "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277";
+
+  return (
+    <>
+      <ProgressContainer>
+        <Progress progress={progress} />
+      </ProgressContainer>
+      <StyledRow justify="space-around">
+        <ImageContainer>
+          <Image src={imgSrc} alt={currentUser.displayName} />
+        </ImageContainer>
+        <Column>
+          <FileUploadButton text="Upload Image" onDropFiles={handleChange} />
+        </Column>
+      </StyledRow>
+      {error && <Error text={error} />}
+    </>
+  );
+};
+
+export default ImageUpload;
 
 const StyledRow = styled(Row)`
   flex-direction: column;
@@ -51,90 +129,3 @@ const Progress = styled.div`
   height: 2px;
   background-color: ${Colors.PRIMARY};
 `;
-
-const UploadInput = styled.input`
-  width: 200px;
-`;
-
-export const ImageUpload = () => {
-  const { currentUser } = React.useContext(AuthContext);
-  const [image, setImage] = React.useState(undefined);
-  const [url, setUrl] = React.useState(undefined);
-  const [progress, setProgress] = React.useState(undefined);
-  const [error, setError] = React.useState(undefined);
-
-  const handleChange = event => {
-    if (event.target.files[0]) {
-      const image = event.target.files[0];
-      setImage(image);
-    }
-  };
-
-  const handleUpload = () => {
-    if (image === undefined) {
-      return;
-    }
-
-    const uploadTask = firebase
-      .storage()
-      .ref(`images/${currentUser.uid}/${image.name}`)
-      .put(image);
-    uploadTask.on(
-      "state_changed",
-      snapshot => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setProgress(progress);
-      },
-      error => {
-        setError(error);
-      },
-      () => {
-        firebase
-          .storage()
-          .ref(`images/${currentUser.uid}`)
-          .child(image.name)
-          .getDownloadURL()
-          .then(url => {
-            setUrl(url);
-            firebase.auth().currentUser.updateProfile({ photoURL: url });
-          })
-          .finally(() => {
-            setImage(undefined);
-            setProgress(0);
-          });
-      }
-    );
-  };
-
-  const imgSrc = url
-    ? url
-    : currentUser.photoURL
-    ? currentUser.photoURL
-    : "https://firebasestorage.googleapis.com/v0/b/fir-react-auth-7849e.appspot.com/o/images%2Fprofile-placeholder.jpg?alt=media&token=17ebab1a-01de-4f8c-8b64-207ebf7b6664";
-
-  return (
-    <>
-      <ProgressContainer>
-        <Progress progress={progress} />
-      </ProgressContainer>
-      <StyledRow justify="space-around">
-        <ImageContainer>
-          <Image src={imgSrc} alt={currentUser.displayName} />
-        </ImageContainer>
-        <Column>
-          <UploadInput type="file" onChange={handleChange} />
-          <Button
-            isDisabled={image === undefined}
-            text="Upload Image"
-            onClick={handleUpload}
-          />
-        </Column>
-      </StyledRow>
-      {error && <Error text={error} />}
-    </>
-  );
-};
-
-export default ImageUpload;

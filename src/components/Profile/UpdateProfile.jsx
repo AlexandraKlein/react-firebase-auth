@@ -157,11 +157,9 @@ class UpdateProfile extends React.Component {
           </Container>
 
           <Container margin={`${Gutters.MEDIUM} 0`}>
-            {/* <Subheading>I Prefer:</Subheading> */}
-
-            {Object.entries(choiceData).map(data => {
+            {Object.entries(choiceData).map((data, index) => {
               return (
-                <>
+                <div key={`${data[0]}${index}`}>
                   <Subheading>{`${capitalize(data[0])}:`}</Subheading>
                   <Row justify="flex-start">
                     {data[1].map(d => (
@@ -173,7 +171,7 @@ class UpdateProfile extends React.Component {
                       />
                     ))}
                   </Row>
-                </>
+                </div>
               );
             })}
           </Container>
