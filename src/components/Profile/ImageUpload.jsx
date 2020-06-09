@@ -95,6 +95,8 @@ const StyledRow = styled(Row)`
 `;
 
 const ImageContainer = styled(Container)`
+  display: flex;
+  justify-content: center;
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
   margin-right: 0;
