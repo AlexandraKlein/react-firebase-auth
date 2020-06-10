@@ -6,12 +6,13 @@ import SignUp from "./scenes/SignUp";
 import Profile from "./scenes/Profile";
 import { AuthProvider } from "./Auth";
 import PrivateRoute from "./PrivateRoute";
+import { Gutters } from "./styles";
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <div>
+        <div style={{ marginBottom: Gutters.X_LARGE }}>
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <Route exact path="/login" component={Login} />
