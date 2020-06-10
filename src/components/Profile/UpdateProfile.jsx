@@ -85,8 +85,6 @@ class UpdateProfile extends React.Component {
         ...this.state.profile,
       };
 
-      console.log({ user });
-
       this.writeUserData(user);
     } catch (error) {
       this.setState({ error: error.message });
