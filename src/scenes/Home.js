@@ -31,7 +31,9 @@ class Home extends React.PureComponent {
           <Subheading align="center">
             Below are your fellow teammates.
           </Subheading>
-          <Caption>Please be sure to fill out your profile</Caption>
+          <Caption align="center">
+            Please be sure to fill out your profile
+          </Caption>
         </Column>
         <Column margin={`${Gutters.X_LARGE} 0 0 0`}>
           {allUserInfo !== null &&
