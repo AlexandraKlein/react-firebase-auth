@@ -1,20 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import * as firebase from "firebase/app";
-import app from "../base";
 import { AuthContext } from "../Auth";
-import { Column, Row } from "../components/Container";
+import { Column } from "../components/Container";
 import { Heading, Subheading } from "../components/Text";
-import Button from "../components/Button";
-import Link from "../components/Link";
-import { Gutters } from "../styles";
-
-const SignOutButton = styled(Button)`
-  position: relative;
-  margin-top: ${Gutters.SMALL};
-  margin-right: ${Gutters.SMALL};
-`;
-
 class Home extends React.PureComponent {
   state = {
     allUserInfo: null,
@@ -39,21 +27,11 @@ class Home extends React.PureComponent {
 
     return (
       <>
-        <Row justify="flex-end">
-          <SignOutButton
-            marginTop="0"
-            secondary={true}
-            text="Sign out"
-            onClick={() => app.auth().signOut()}
-          />
-        </Row>
-
         <Column>
           <Heading align="center">Home</Heading>
           <Subheading align="center">
             Hello, {currentUser.displayName || "Friend"}
           </Subheading>
-          <Link to="/profile">My Profile</Link>
         </Column>
         {/* <Column>
           {allUserInfo !== null &&

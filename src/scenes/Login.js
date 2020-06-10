@@ -30,7 +30,7 @@ const Login = ({ history }) => {
         await app
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-        history.push("/");
+        history.push("/home");
       } catch (error) {
         setError(error.message);
       }

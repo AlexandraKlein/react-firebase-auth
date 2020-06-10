@@ -16,6 +16,7 @@ export const Colors = {
   DARK_GRAY: "#8a8a8a",
   LIGHT_GRAY: "#eeeeee",
   INPUT: "#e3f1ff",
+  PRIMARY_LIGHT: "#e3f1ff",
   ERROR: "#ff0033",
 };
 
