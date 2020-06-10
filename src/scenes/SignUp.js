@@ -16,6 +16,7 @@ const StyledParagraph = styled(Paragraph)`
 
 const StyledLink = styled(Link)`
   align-self: center;
+  font-weight: 700;
 `;
 
 const SignUp = ({ history }) => {
@@ -81,7 +82,7 @@ const SignUp = ({ history }) => {
 
         {error && <Error text={error} />}
       </Form>
-      <StyledParagraph>- OR -</StyledParagraph>
+      <StyledParagraph fontWeight={700}>- OR -</StyledParagraph>
       <SocialSignIn googleButtonText="Continue with Google" />
 
       <StyledLink to="/login">Login</StyledLink>
