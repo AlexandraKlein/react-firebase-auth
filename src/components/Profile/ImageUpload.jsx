@@ -8,39 +8,44 @@ import { Column, Container, Row } from "../Container";
 import Error from "../Error";
 import { BreakPoint, Gutters, Colors } from "../../styles";
 
-export const ImageUpload = () => {
-  const { currentUser } = React.useContext(AuthContext);
-  const [image, setImage] = React.useState(undefined);
-  const [url, setUrl] = React.useState(undefined);
-  const [progress, setProgress] = React.useState(undefined);
-  const [error, setError] = React.useState(undefined);
+class ImageUpload extends React.PureComponent {
+  state = {
+    image: undefined,
+    url: undefined,
+    progress: undefined,
+    error: undefined,
+  };
 
-  const handleChange = file => {
+  handleChange = file => {
     if (file[0]) {
       const image = file[0];
-      setImage(image);
+      this.setState({ image }, this.handleImageUpload);
     }
   };
 
-  React.useEffect(() => {
-    if (image === undefined) {
+  handleImageUpload = () => {
+    if (this.state.image === undefined) {
       return;
     }
+
+    const { image } = this.state;
+    const { currentUser } = this.props.authContext;
 
     const uploadTask = firebase
       .storage()
       .ref(`images/${currentUser.uid}/${image.name}`)
       .put(image);
+
     uploadTask.on(
       "state_changed",
       snapshot => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        setProgress(progress);
+        this.setState({ progress });
       },
       error => {
-        setError(error);
+        this.setState({ error });
       },
       () => {
         firebase
@@ -49,42 +54,58 @@ export const ImageUpload = () => {
           .child(image.name)
           .getDownloadURL()
           .then(url => {
-            setUrl(url);
+            this.setState({ url });
             firebase.auth().currentUser.updateProfile({ photoURL: url });
           })
           .finally(() => {
-            setImage(undefined);
-            setProgress(0);
+            this.setState({
+              image: undefined,
+              progress: 0,
+            });
           });
       }
     );
-  }, [image, currentUser.uid]);
+  };
 
-  const imgSrc = url
-    ? url
-    : currentUser.photoURL
-    ? currentUser.photoURL
-    : "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277";
+  render() {
+    const { url, progress, error } = this.state;
+    const { currentUser } = this.props.authContext;
 
-  return (
-    <>
-      <ProgressContainer>
-        <Progress progress={progress} />
-      </ProgressContainer>
-      <StyledRow justify="space-around">
-        <ImageContainer>
-          <Image src={imgSrc} alt={currentUser.displayName} />
-        </ImageContainer>
-        <Column>
-          <FileUploadButton text="Upload Image" onDropFiles={handleChange} />
-        </Column>
-      </StyledRow>
-      {error && <Error text={error} />}
-    </>
-  );
-};
+    const imgSrc = url
+      ? url
+      : currentUser.photoURL
+      ? currentUser.photoURL
+      : "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277";
 
-export default ImageUpload;
+    return (
+      <>
+        <ProgressContainer>
+          <Progress progress={progress} />
+        </ProgressContainer>
+        <StyledRow justify="space-around">
+          <ImageContainer>
+            <Image src={imgSrc} alt={currentUser.displayName} />
+          </ImageContainer>
+          <Column>
+            <FileUploadButton
+              text="Upload Image"
+              onDropFiles={this.handleChange}
+            />
+          </Column>
+        </StyledRow>
+        {error && <Error text={error} />}
+      </>
+    );
+  }
+}
+
+const DataProvidedImageUpload = React.memo(() => (
+  <AuthContext.Consumer>
+    {authContext => <ImageUpload authContext={authContext} />}
+  </AuthContext.Consumer>
+));
+
+export default DataProvidedImageUpload;
 
 const StyledRow = styled(Row)`
   flex-direction: column;

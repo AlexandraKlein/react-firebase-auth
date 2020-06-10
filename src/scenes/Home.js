@@ -5,7 +5,10 @@ import User from "../components/User";
 import { Column } from "../components/Container";
 import { Gutters } from "../styles";
 import { Caption, Heading, Subheading } from "../components/Text";
+
 class Home extends React.PureComponent {
+  isUnmounted = false;
+
   state = {
     allUserInfo: null,
     error: undefined,
@@ -16,9 +19,18 @@ class Home extends React.PureComponent {
 
     ref.on(
       "value",
-      snapshot => this.setState({ allUserInfo: snapshot.val() }),
+      snapshot => {
+        if (this.isUnmounted) {
+          return;
+        }
+        this.setState({ allUserInfo: snapshot.val() });
+      },
       error => this.setState({ error })
     );
+  }
+
+  componentWillUnmount() {
+    this.isUnmounted = true;
   }
 
   render() {
@@ -32,7 +44,7 @@ class Home extends React.PureComponent {
             Below are your fellow teammates.
           </Subheading>
           <Caption align="center">
-            Please be sure to fill out your profile
+            Please be sure to fill out your profile.
           </Caption>
         </Column>
         <Column margin={`${Gutters.X_LARGE} 0 0 0`}>

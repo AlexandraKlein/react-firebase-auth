@@ -7,6 +7,6 @@ const StyledError = styled(Paragraph)`
   color: ${Colors.ERROR};
 `;
 
-const Error = ({ text }) => <StyledError>{text}</StyledError>;
+const Error = ({ text }) => <StyledError align="center">{text}</StyledError>;
 
 export default Error;
