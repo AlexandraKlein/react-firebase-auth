@@ -49,9 +49,8 @@ const UpdateProfile = () => {
           label="Display Name"
           type="name"
         />
+        {error && <Error text={error} />}
       </Form>
-
-      {error && <Error text={error} />}
     </>
   );
 };

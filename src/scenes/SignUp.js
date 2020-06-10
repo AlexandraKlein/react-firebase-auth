@@ -78,11 +78,11 @@ const SignUp = ({ history }) => {
           label="Password"
           type="password"
         />
+
+        {error && <Error text={error} />}
       </Form>
       <StyledParagraph>- OR -</StyledParagraph>
       <SocialSignIn googleButtonText="Continue with Google" />
-
-      {error && <Error text={error} />}
 
       <StyledLink to="/login">Login</StyledLink>
     </Column>

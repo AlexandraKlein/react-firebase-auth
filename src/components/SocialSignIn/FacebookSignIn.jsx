@@ -24,8 +24,9 @@ const FacebookSignIn = ({ history, facbeookButtonText }) => {
 
   return (
     <>
-      <Form submitText={facbeookButtonText} onSubmit={handleFacebookoSignIn} />
-      {error && <Error text={error} />}
+      <Form submitText={facbeookButtonText} onSubmit={handleFacebookoSignIn}>
+        {error && <Error text={error} />}
+      </Form>
     </>
   );
 };

@@ -3,6 +3,7 @@ import * as firebase from "firebase/app";
 import "firebase/database";
 import { AuthContext } from "../../Auth";
 import { Container, Row } from "../Container";
+import ImageUpload from "./ImageUpload";
 import Form from "../Form";
 import Input from "../Input";
 import Radiobox from "../Radiobox";
@@ -129,60 +130,63 @@ class UpdateProfile extends React.Component {
     }
 
     return (
-      <Form
-        isDisabled={isUpdating || isDisabled}
-        submitText="Update Profile"
-        onSubmit={this.updateProfile}
-      >
-        <Subheading>Details:</Subheading>
-        {inputs.map(input => (
-          <Input
-            key={input.key}
-            onChange={e => this.onChangeUserInfo([input.key], e)}
-            defaultValue={
-              profile && profile[input.key] ? profile[input.key] : ""
-            }
-            label={input.label}
-            type={input.type}
-          />
-        ))}
+      <>
+        <ImageUpload />
+        <Form
+          isDisabled={isUpdating || isDisabled}
+          submitText="Update Profile"
+          onSubmit={this.updateProfile}
+        >
+          <Subheading>Details:</Subheading>
+          {inputs.map(input => (
+            <Input
+              key={input.key}
+              onChange={e => this.onChangeUserInfo([input.key], e)}
+              defaultValue={
+                profile && profile[input.key] ? profile[input.key] : ""
+              }
+              label={input.label}
+              type={input.type}
+            />
+          ))}
 
-        <Container margin={`${Gutters.MEDIUM} 0`}>
-          <Subheading>I Like:</Subheading>
+          <Container margin={`${Gutters.MEDIUM} 0`}>
+            <Subheading>I Like:</Subheading>
 
-          <Row justify="flex-start">
-            {choicesMultiple.map(choice => (
-              <Radiobox
-                key={choice}
-                defaultValue={profile && profile[choice]}
-                onChange={e => this.onSelectChoice(choice, e)}
-                label={capitalize(choice)}
-              />
-            ))}
-          </Row>
-        </Container>
+            <Row justify="flex-start">
+              {choicesMultiple.map(choice => (
+                <Radiobox
+                  key={choice}
+                  defaultValue={profile && profile[choice]}
+                  onChange={e => this.onSelectChoice(choice, e)}
+                  label={capitalize(choice)}
+                />
+              ))}
+            </Row>
+          </Container>
 
-        <Container margin={`${Gutters.MEDIUM} 0`}>
-          {Object.entries(choiceData).map((data, index) => {
-            return (
-              <div key={`${data[0]}${index}`}>
-                <Subheading>{`${capitalize(data[0])}:`}</Subheading>
-                <Row justify="flex-start">
-                  {data[1].map(d => (
-                    <Radiobox
-                      key={d}
-                      value={profile && profile[data[0]] === d}
-                      onChange={this.onSelectPreference(d, data[0])}
-                      label={capitalize(d)}
-                    />
-                  ))}
-                </Row>
-              </div>
-            );
-          })}
-        </Container>
-        {error && <Error text={error} />}
-      </Form>
+          <Container margin={`${Gutters.MEDIUM} 0`}>
+            {Object.entries(choiceData).map((data, index) => {
+              return (
+                <div key={`${data[0]}${index}`}>
+                  <Subheading>{`${capitalize(data[0])}:`}</Subheading>
+                  <Row justify="flex-start">
+                    {data[1].map(d => (
+                      <Radiobox
+                        key={d}
+                        value={profile && profile[data[0]] === d}
+                        onChange={this.onSelectPreference(d, data[0])}
+                        label={capitalize(d)}
+                      />
+                    ))}
+                  </Row>
+                </div>
+              );
+            })}
+          </Container>
+          {error && <Error text={error} />}
+        </Form>
+      </>
     );
   }
 }

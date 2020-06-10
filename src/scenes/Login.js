@@ -50,8 +50,8 @@ const Login = ({ history }) => {
       <Form submitText="Log In" onSubmit={handleLogin}>
         <Input label="Email" type="email" placeholder="email" />
         <Input label="Password" type="password" placeholder="Password" />
+        {error && <Error text={error} />}
       </Form>
-      {error && <Error text={error} />}
       <StyledParagraph>- OR -</StyledParagraph>
       <SocialSignIn googleButtonText="Sign in with Google" />
       <StyledLink to="/signup">Sign Up</StyledLink>

@@ -24,8 +24,9 @@ const GoogleSignIn = ({ history, googleButtonText }) => {
 
   return (
     <>
-      <Form submitText={googleButtonText} onSubmit={handleGoogleSignIn} />
-      {error && <Error text={error} />}
+      <Form submitText={googleButtonText} onSubmit={handleGoogleSignIn}>
+        {error && <Error text={error} />}
+      </Form>
     </>
   );
 };
