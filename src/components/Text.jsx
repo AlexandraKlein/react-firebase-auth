@@ -11,8 +11,11 @@ export const Caption = styled.small`
 
 export const Paragraph = styled.p`
   font-family: "Roboto Mono", serif;
+  font-weight: ${props => props.fontWeight || 300};
   font-size: ${Type.BODY};
   text-align: ${props => props.align || "left"};
+  margin-top: ${props => props.marginTop || "1em"};
+  margin-bottom: ${props => props.marginBottom || "1em"};
 `;
 
 export const Subheading = styled.h3`

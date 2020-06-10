@@ -12,6 +12,7 @@ export const Row = styled.div`
   align-items: ${props => props.align || "center"};
   justify-content: ${props => props.justify || "center"};
   flex: ${props => props.flex || "unset"};
+  margin: ${props => props.margin || "0"};
 `;
 
 export const Column = styled.div`
@@ -20,6 +21,7 @@ export const Column = styled.div`
   align-items: ${props => props.align || "stretch"};
   justify-content: ${props => props.justify || "center"};
   flex: ${props => props.flex || "unset"};
+  margin: ${props => props.margin || "0"};
 
   ${BreakPoint.TABLET} {
     align-items: ${props => props.align || "center"};

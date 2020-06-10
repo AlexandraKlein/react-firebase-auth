@@ -1,8 +1,10 @@
 import React from "react";
 import * as firebase from "firebase/app";
 import { AuthContext } from "../Auth";
+import User from "../components/User";
 import { Column } from "../components/Container";
-import { Heading, Subheading } from "../components/Text";
+import { Gutters } from "../styles";
+import { Caption, Heading, Subheading } from "../components/Text";
 class Home extends React.PureComponent {
   state = {
     allUserInfo: null,
@@ -20,30 +22,23 @@ class Home extends React.PureComponent {
   }
 
   render() {
-    const { currentUser } = this.props.authContext;
     const { allUserInfo } = this.state;
-
-    console.log({ allUserInfo });
 
     return (
       <>
         <Column>
           <Heading align="center">Home</Heading>
           <Subheading align="center">
-            Hello, {currentUser.displayName || "Friend"}
+            Below are your fellow teammates.
           </Subheading>
+          <Caption>Please be sure to fill out your profile</Caption>
         </Column>
-        {/* <Column>
+        <Column margin={`${Gutters.X_LARGE} 0 0 0`}>
           {allUserInfo !== null &&
             Object.values(allUserInfo).map((info, index) => (
-              <Row key={info.email + index}>
-                <div>
-                  <img src={info.photoURL} alt={info.nickName || "User"} />
-                </div>
-                <p>{info.email}</p>
-              </Row>
+              <User key={index} userInfo={info} />
             ))}
-        </Column> */}
+        </Column>
       </>
     );
   }
