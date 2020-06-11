@@ -4,6 +4,7 @@ import "firebase/storage";
 import styled from "styled-components";
 import { AuthContext } from "../../Auth";
 import FileUploadButton from "../FileUploadButton";
+import ProfileImage from "../ProfileImage";
 import { Column, Container, Row } from "../Container";
 import { Paragraph } from "../Text";
 import Error from "../Error";
@@ -87,14 +88,16 @@ class ImageUpload extends React.PureComponent {
     return (
       <>
         <StyledRow justify="space-around">
-          <ImageContainer>
-            <Image src={imgSrc} alt={currentUser.displayName} />
+          <ProfileImage
+            imgSrc={imgSrc}
+            alt={currentUser.displayName || "User Profile"}
+          >
             {progress !== 0 && (
               <ProgressOverlay>
                 <Paragraph color={Colors.WHITE}>{progress}</Paragraph>
               </ProgressOverlay>
             )}
-          </ImageContainer>
+          </ProfileImage>
           <Column>
             <FileUploadButton
               text="Upload Image"
