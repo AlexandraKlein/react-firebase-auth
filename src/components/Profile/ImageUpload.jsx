@@ -5,10 +5,10 @@ import styled from "styled-components";
 import { AuthContext } from "../../Auth";
 import FileUploadButton from "../FileUploadButton";
 import ProfileImage from "../ProfileImage";
-import { Column, Container, Row } from "../Container";
+import { Column, Row } from "../Container";
 import { Paragraph } from "../Text";
 import Error from "../Error";
-import { BreakPoint, Gutters, Colors } from "../../styles";
+import { BreakPoint, Colors } from "../../styles";
 
 class ImageUpload extends React.PureComponent {
   state = {
