@@ -85,7 +85,6 @@ class UpdateProfile extends React.Component {
         ...this.state.profile,
         uid: this.props.authContext.currentUser.uid,
         email: this.props.authContext.currentUser.email,
-        photoURL: this.props.authContext.currentUser.photoURL,
       };
 
       this.writeUserData(user);
