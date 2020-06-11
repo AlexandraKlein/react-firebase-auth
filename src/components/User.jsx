@@ -17,7 +17,9 @@ const User = ({ userInfo }) => (
       <Paragraph fontWeight="bold" marginTop="0px" marginBottom="0px">
         {userInfo.nickName || "Anonymous"}
       </Paragraph>
-      <Paragraph marginTop={Gutters.X_SMALL}>{userInfo.email}</Paragraph>
+      <Paragraph marginTop={Gutters.X_SMALL} marginBottom="0px">
+        {userInfo.email}
+      </Paragraph>
     </TextContainer>
   </StyledContainer>
 );
