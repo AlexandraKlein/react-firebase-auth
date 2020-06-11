@@ -51,7 +51,11 @@ class Home extends React.PureComponent {
         <Column margin={`${Gutters.X_LARGE} 0 0 0`}>
           {allUserInfo !== null &&
             Object.values(allUserInfo).map((info, index) => (
-              <User key={index} userInfo={info} />
+              <User
+                animationDelay={`${index / 5}s`}
+                key={index}
+                userInfo={info}
+              />
             ))}
         </Column>
       </>
