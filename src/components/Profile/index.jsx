@@ -7,7 +7,6 @@ class Profile extends React.Component {
   render() {
     return (
       <Column align="unset">
-        {/* <UpdateName /> */}
         <UpdateProfile />
       </Column>
     );

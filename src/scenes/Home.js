@@ -15,18 +15,19 @@ class Home extends React.PureComponent {
   };
 
   componentDidMount() {
-    const ref = firebase.database().ref().child("users");
-
-    ref.on(
-      "value",
-      snapshot => {
-        if (this.isUnmounted) {
-          return;
-        }
-        this.setState({ allUserInfo: snapshot.val() });
-      },
-      error => this.setState({ error })
-    );
+    firebase
+      .database()
+      .ref("users")
+      .on(
+        "value",
+        snapshot => {
+          if (this.isUnmounted) {
+            return;
+          }
+          this.setState({ allUserInfo: snapshot.val() });
+        },
+        error => this.setState({ error })
+      );
   }
 
   componentWillUnmount() {

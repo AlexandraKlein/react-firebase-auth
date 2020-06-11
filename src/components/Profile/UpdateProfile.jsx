@@ -76,14 +76,16 @@ class UpdateProfile extends React.Component {
   };
 
   updateProfile = event => {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     this.setState({ isDisabled: true });
     try {
       const user = {
+        ...this.state.profile,
         uid: this.props.authContext.currentUser.uid,
         email: this.props.authContext.currentUser.email,
         photoURL: this.props.authContext.currentUser.photoURL,
-        ...this.state.profile,
       };
 
       this.writeUserData(user);
@@ -131,7 +133,10 @@ class UpdateProfile extends React.Component {
 
     return (
       <>
-        <ImageUpload />
+        <ImageUpload
+          writeUserData={this.writeUserData}
+          profile={this.state.profile}
+        />
         <Form
           isDisabled={isUpdating || isDisabled}
           submitText="Update Profile"
@@ -191,9 +196,9 @@ class UpdateProfile extends React.Component {
   }
 }
 
-const DataProvidedUpdateProfile = React.memo(() => (
+const DataProvidedUpdateProfile = React.memo(props => (
   <AuthContext.Consumer>
-    {authContext => <UpdateProfile authContext={authContext} />}
+    {authContext => <UpdateProfile authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 

@@ -56,6 +56,12 @@ class ImageUpload extends React.PureComponent {
           .then(url => {
             this.setState({ url });
             firebase.auth().currentUser.updateProfile({ photoURL: url });
+            this.props.writeUserData({
+              ...this.props.profile,
+              uid: this.props.authContext.currentUser.uid,
+              email: this.props.authContext.currentUser.email,
+              photoURL: url,
+            });
           })
           .finally(() => {
             this.setState({
@@ -99,9 +105,9 @@ class ImageUpload extends React.PureComponent {
   }
 }
 
-const DataProvidedImageUpload = React.memo(() => (
+const DataProvidedImageUpload = React.memo(props => (
   <AuthContext.Consumer>
-    {authContext => <ImageUpload authContext={authContext} />}
+    {authContext => <ImageUpload authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 
