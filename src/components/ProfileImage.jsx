@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Row } from "./Container";
-import { BreakPoint, Gutters, Colors } from "../styles";
+import { BreakPoint, Gutters, Colors, fadeIn } from "../styles";
 
 const ProfileImage = ({ imgSrc, altText, ...props }) => (
   <ImageContainer align="stretch">
-    <Image src={imgSrc} alt={altText} />
+    {imgSrc && <Image src={imgSrc} alt={altText} />}
     {props.children}
   </ImageContainer>
 );
@@ -32,4 +32,6 @@ const ImageContainer = styled(Row)`
 const Image = styled.img`
   width: 100%;
   object-fit: cover;
+  opacity: 0;
+  animation: ${fadeIn} 0.75s ease-out forwards;
 `;

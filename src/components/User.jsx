@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ProfileImage from "./ProfileImage";
 import { Paragraph } from "./Text";
-import { BreakPoint, Gutters } from "../styles";
+import { BreakPoint, Gutters, fadeUp } from "../styles";
 
 const User = ({ userInfo }) => (
   <StyledContainer>
@@ -44,6 +44,8 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0;
+  animation: ${fadeUp} 0.5s ease-out forwards;
 
   ${BreakPoint.TABLET} {
     align-items: flex-start;

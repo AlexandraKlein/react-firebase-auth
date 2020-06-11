@@ -1,3 +1,5 @@
+import { keyframes } from "styled-components";
+
 export const Gutters = {
   X_SMALL: "4px",
   SMALL: "8px",
@@ -43,3 +45,25 @@ export const BreakPoint = Object.keys(deviceSize).reduce((acc, cur) => {
   acc[cur] = `@media (min-width: ${deviceSize[cur]})`;
   return acc;
 }, {});
+
+export const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
+export const fadeUp = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate(0, ${Gutters.LARGE});
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+`;
