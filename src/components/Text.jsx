@@ -10,6 +10,7 @@ export const Caption = styled.small`
 `;
 
 export const Paragraph = styled.p`
+  color: ${props => props.color || Colors.BLACK_TEXT};
   font-family: "Roboto Mono", serif;
   font-weight: ${props => props.fontWeight || 400};
   font-size: ${Type.BODY};

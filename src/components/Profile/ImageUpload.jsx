@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { AuthContext } from "../../Auth";
 import FileUploadButton from "../FileUploadButton";
 import { Column, Container, Row } from "../Container";
+import { Paragraph } from "../Text";
 import Error from "../Error";
 import { BreakPoint, Gutters, Colors } from "../../styles";
 
@@ -12,7 +13,7 @@ class ImageUpload extends React.PureComponent {
   state = {
     image: undefined,
     url: undefined,
-    progress: undefined,
+    progress: 0,
     error: undefined,
   };
 
@@ -85,12 +86,14 @@ class ImageUpload extends React.PureComponent {
 
     return (
       <>
-        <ProgressContainer>
-          <Progress progress={progress} />
-        </ProgressContainer>
         <StyledRow justify="space-around">
           <ImageContainer>
             <Image src={imgSrc} alt={currentUser.displayName} />
+            {progress !== 0 && (
+              <ProgressOverlay>
+                <Paragraph color={Colors.WHITE}>{progress}</Paragraph>
+              </ProgressOverlay>
+            )}
           </ImageContainer>
           <Column>
             <FileUploadButton
@@ -144,17 +147,10 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const ProgressContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 2px;
-  background-color: ${Colors.LIGHT_GRAY};
-  margin-bottom: ${Gutters.MEDIUM};
-`;
-
-const Progress = styled.div`
+const ProgressOverlay = styled(Row)`
   position: absolute;
-  width: ${props => props.progress}%;
-  height: 2px;
+  opacity: 0.75;
+  width: 100%;
+  height: 100%;
   background-color: ${Colors.PRIMARY};
 `;
