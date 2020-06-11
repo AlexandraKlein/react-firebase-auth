@@ -31,7 +31,7 @@ const StyledContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin: ${Gutters.X_LARGE} 0;
+  padding: ${Gutters.X_LARGE};
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
   animation-delay: ${props => props.animationDelay || "0s"};
@@ -39,7 +39,6 @@ const StyledContainer = styled.div`
   ${BreakPoint.TABLET} {
     flex-direction: row;
     justify-content: space-between;
-    width: 400px;
   }
 `;
 
@@ -51,5 +50,18 @@ const TextContainer = styled.div`
   ${BreakPoint.TABLET} {
     align-items: flex-start;
     width: 200px;
+  }
+
+  p {
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    ${BreakPoint.TABLET} {
+      text-align: left;
+    }
   }
 `;

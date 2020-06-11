@@ -22,11 +22,11 @@ const ImageContainer = styled(Row)`
   height: ${props => props.size || "160px"};
   border-radius: 50%;
   overflow: hidden;
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  will-change: transform;
 
   ${BreakPoint.TABLET} {
     margin-bottom: 0;
-    margin-right: ${Gutters.MEDIUM};
+    margin-right: ${Gutters.LARGE};
   }
 `;
 

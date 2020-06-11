@@ -154,7 +154,7 @@ class Profile extends React.Component {
             />
           ))}
 
-          <Container margin={`${Gutters.MEDIUM} 0`}>
+          <Container margin={`${Gutters.MEDIUM} 0 0 0`}>
             <Subheading>I Like:</Subheading>
 
             <Row justify="flex-start">
@@ -169,10 +169,13 @@ class Profile extends React.Component {
             </Row>
           </Container>
 
-          <Container margin={`${Gutters.MEDIUM} 0`}>
+          <Container>
             {Object.entries(choiceData).map((data, index) => {
               return (
-                <div key={`${data[0]}${index}`}>
+                <Container
+                  margin={`${Gutters.DOUBLE_X} 0`}
+                  key={`${data[0]}${index}`}
+                >
                   <Subheading>{`${capitalize(data[0])}:`}</Subheading>
                   <Row justify="flex-start">
                     {data[1].map(d => (
@@ -184,7 +187,7 @@ class Profile extends React.Component {
                       />
                     ))}
                   </Row>
-                </div>
+                </Container>
               );
             })}
           </Container>

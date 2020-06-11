@@ -28,4 +28,15 @@ export const Column = styled.div`
   }
 `;
 
+export const FlexContainer = styled(Column)`
+  flex-direction: ${props => props.direction || "column"};
+  align-items: ${props => props.align || "center"};
+  justify-content: ${props => props.justify || "center"};
+  flex-wrap: ${props => props.wrap || "unwrap"};
+
+  ${BreakPoint.TABLET} {
+    flex-direction: ${props => props.directionTablet || "row"};
+  }
+`;
+
 export default Container;
