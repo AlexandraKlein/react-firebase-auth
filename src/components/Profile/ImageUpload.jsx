@@ -127,29 +127,6 @@ const StyledRow = styled(Row)`
   }
 `;
 
-const ImageContainer = styled(Container)`
-  display: flex;
-  justify-content: center;
-  background-color: ${Colors.LIGHT_GRAY};
-  position: relative;
-  margin-right: 0;
-  margin-bottom: ${Gutters.MEDIUM};
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  overflow: hidden;
-
-  ${BreakPoint.TABLET} {
-    margin-bottom: 0;
-    margin-right: ${Gutters.MEDIUM};
-  }
-`;
-
-const Image = styled.img`
-  width: 100%;
-  object-fit: cover;
-`;
-
 const ProgressOverlay = styled(Row)`
   position: absolute;
   opacity: 0.75;
