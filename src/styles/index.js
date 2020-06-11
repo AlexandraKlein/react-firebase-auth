@@ -4,6 +4,7 @@ export const Gutters = {
   MEDIUM: "16px",
   LARGE: "24px",
   X_LARGE: "32px",
+  DOUBLE_X: "64px",
 };
 
 export const Colors = {

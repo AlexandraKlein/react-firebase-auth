@@ -12,7 +12,7 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <div style={{ marginBottom: Gutters.X_LARGE }}>
+        <div style={{ paddingBottom: Gutters.DOUBLE_X }}>
           <PrivateRoute exact path="/" component={Home} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <Route exact path="/login" component={Login} />
