@@ -5,7 +5,7 @@ import { BreakPoint, Gutters, Colors, fadeIn } from "../styles";
 
 const ProfileImage = ({ imgSrc, altText, ...props }) => (
   <ImageContainer align="stretch">
-    {imgSrc && <Image src={imgSrc} alt={altText} />}
+    <Image src={imgSrc} alt={altText} />
     {props.children}
   </ImageContainer>
 );
@@ -22,6 +22,8 @@ const ImageContainer = styled(Row)`
   height: ${props => props.size || "160px"};
   border-radius: 50%;
   overflow: hidden;
+  opacity: 0;
+  animation: ${fadeIn} 0.75s ease-out forwards;
 
   ${BreakPoint.TABLET} {
     margin-bottom: 0;
@@ -32,6 +34,4 @@ const ImageContainer = styled(Row)`
 const Image = styled.img`
   width: 100%;
   object-fit: cover;
-  opacity: 0;
-  animation: ${fadeIn} 0.75s ease-out forwards;
 `;
