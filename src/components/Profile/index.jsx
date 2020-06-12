@@ -1,5 +1,4 @@
 import React from "react";
-import * as firebase from "firebase/app";
 import "firebase/database";
 import { AuthContext } from "../../context/Auth";
 import { Container, Column, Row } from "../Container";
@@ -11,6 +10,8 @@ import Error from "../Error";
 import { Subheading } from "../Text";
 import { Gutters } from "../../styles";
 import { capitalize } from "../../helpers";
+import { ProfileConsumer } from "../../context/Profile";
+import { choiceData } from "../../data";
 
 const inputs = [
   {
@@ -31,123 +32,34 @@ const inputs = [
 ];
 const choicesMultiple = ["pizza", "salads", "poke"];
 
-const choiceData = {
-  animals: ["cats", "dogs"],
-  icecream: ["chocolate", "vanilla"],
-  bands: ["beatles", "stones"],
-  vegetable: ["peas", "carrots"],
-};
-
-let profile = {};
-Object.keys(choiceData).forEach(k => (profile[k] = ""));
-
 class Profile extends React.Component {
-  state = {
-    profile: undefined,
-    error: false,
-    isDisabled: true,
-    isUpdating: false,
-  };
-
-  componentDidMount() {
-    firebase
-      .database()
-      .ref("users/" + this.props.authContext.currentUser.uid)
-      .once("value", snap => {
-        this.setState({
-          profile: {
-            ...profile,
-            ...snap.val(),
-          },
-        });
-      });
-  }
-
-  writeUserData = user => {
-    this.setState({ isUpdating: true });
-    firebase
-      .database()
-      .ref("users/" + user.uid)
-      .set(user)
-      .then(() => this.setState({ isUpdating: false }))
-      .catch(error => {
-        this.setState({ error: error.message });
-      });
-  };
-
-  updateProfile = event => {
-    if (event) {
-      event.preventDefault();
-    }
-    this.setState({ isDisabled: true });
-    try {
-      const user = {
-        ...this.state.profile,
-        uid: this.props.authContext.currentUser.uid,
-        email: this.props.authContext.currentUser.email,
-      };
-
-      this.writeUserData(user);
-    } catch (error) {
-      this.setState({ error: error.message });
-    }
-  };
-
-  onChangeUserInfo = (key, event) => {
-    this.setState({
-      isDisabled: false,
-      profile: {
-        ...this.state.profile,
-        [key]: event.currentTarget.value.trim(),
-      },
-    });
-  };
-
-  onSelectChoice = (key, event) => {
-    this.setState({
-      isDisabled: false,
-      profile: {
-        ...this.state.profile,
-        [key]: event,
-      },
-    });
-  };
-
-  onSelectPreference = (key, category) => () => {
-    this.setState({
-      isDisabled: false,
-      profile: {
-        ...this.state.profile,
-        [category]: this.state.profile[category] !== key ? key : "",
-      },
-    });
-  };
-
   render() {
-    const { isUpdating, isDisabled, profile, error } = this.state;
+    const { profileContext } = this.props;
 
-    if (profile === undefined) {
+    if (profileContext.profile === undefined) {
       return <>Loading...</>;
     }
 
     return (
       <Column align="unset">
         <ImageUpload
-          writeUserData={this.writeUserData}
-          profile={this.state.profile}
+          writeUserData={profileContext.writeUserData}
+          profile={profileContext.profile}
         />
         <Form
-          isDisabled={isUpdating || isDisabled}
+          isDisabled={profileContext.isUpdating || profileContext.isDisabled}
           submitText="Update Profile"
-          onSubmit={this.updateProfile}
+          onSubmit={profileContext.updateProfile}
         >
           <Subheading>Details:</Subheading>
           {inputs.map(input => (
             <Input
               key={input.key}
-              onChange={e => this.onChangeUserInfo([input.key], e)}
+              onChange={e => profileContext.onChangeUserInfo([input.key], e)}
               defaultValue={
-                profile && profile[input.key] ? profile[input.key] : ""
+                profileContext.profile && profileContext.profile[input.key]
+                  ? profileContext.profile[input.key]
+                  : ""
               }
               label={input.label}
               type={input.type}
@@ -161,8 +73,10 @@ class Profile extends React.Component {
               {choicesMultiple.map(choice => (
                 <Radiobox
                   key={choice}
-                  defaultValue={profile && profile[choice]}
-                  onChange={e => this.onSelectChoice(choice, e)}
+                  defaultValue={
+                    profileContext.profile && profileContext.profile[choice]
+                  }
+                  onChange={e => profileContext.onSelectChoice(choice, e)}
                   label={capitalize(choice)}
                 />
               ))}
@@ -181,8 +95,11 @@ class Profile extends React.Component {
                     {data[1].map(d => (
                       <Radiobox
                         key={d}
-                        value={profile && profile[data[0]] === d}
-                        onChange={this.onSelectPreference(d, data[0])}
+                        value={
+                          profileContext.profile &&
+                          profileContext.profile[data[0]] === d
+                        }
+                        onChange={profileContext.onSelectPreference(d, data[0])}
                         label={capitalize(d)}
                       />
                     ))}
@@ -191,7 +108,7 @@ class Profile extends React.Component {
               );
             })}
           </Container>
-          {error && <Error text={error} />}
+          {profileContext.error && <Error text={profileContext.error} />}
         </Form>
       </Column>
     );
@@ -200,7 +117,17 @@ class Profile extends React.Component {
 
 const DataProvidedProfile = React.memo(props => (
   <AuthContext.Consumer>
-    {authContext => <Profile authContext={authContext} {...props} />}
+    {authContext => (
+      <ProfileConsumer>
+        {profileContext => (
+          <Profile
+            authContext={authContext}
+            profileContext={profileContext}
+            {...props}
+          />
+        )}
+      </ProfileConsumer>
+    )}
   </AuthContext.Consumer>
 ));
 

@@ -94,7 +94,7 @@ class ImageUpload extends React.PureComponent {
           >
             {progress !== 0 && (
               <ProgressOverlay>
-                <Paragraph color={Colors.WHITE}>{progress}</Paragraph>
+                <Paragraph color={Colors.WHITE}>{progress}%</Paragraph>
               </ProgressOverlay>
             )}
           </ProfileImage>
