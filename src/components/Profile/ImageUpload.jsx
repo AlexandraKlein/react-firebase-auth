@@ -2,7 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/storage";
 import styled from "styled-components";
-import { AuthContext } from "../../Auth";
+import { AuthContext } from "../../context/Auth";
 import FileUploadButton from "../FileUploadButton";
 import ProfileImage from "../ProfileImage";
 import { Column, Row } from "../Container";

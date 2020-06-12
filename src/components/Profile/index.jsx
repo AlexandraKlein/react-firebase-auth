@@ -1,7 +1,7 @@
 import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
-import { AuthContext } from "../../Auth";
+import { AuthContext } from "../../context/Auth";
 import { Container, Column, Row } from "../Container";
 import ImageUpload from "./ImageUpload";
 import Form from "../Form";

@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthContext } from "../Auth";
+import { AuthContext } from "../context/Auth";
 import { Column } from "../components/Container";
 import { Heading, Subheading } from "../components/Text";
 import Profile from "../components/Profile";

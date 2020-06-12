@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
 import styled from "styled-components";
 import app from "../base";
-import { AuthContext } from "../Auth";
+import { AuthContext } from "../context/Auth";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Error from "../components/Error";
