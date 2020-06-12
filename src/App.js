@@ -4,10 +4,10 @@ import Home from "./scenes/Home";
 import Login from "./scenes/Login";
 import SignUp from "./scenes/SignUp";
 import Profile from "./scenes/Profile";
-import { AuthProvider } from "./context/Auth";
+import AuthProvider from "./context/Auth";
 import PrivateRoute from "./PrivateRoute";
 import { Gutters } from "./styles";
-import { UsersProvider } from "./context/Users";
+import UsersProvider from "./context/Users";
 
 const App = () => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { UsersContext } from "../context/Users";
+import { UsersConsumer } from "../context/Users";
 import User from "../components/User";
 import { Column, FlexContainer } from "../components/Container";
 import { Gutters } from "../styles";
@@ -31,9 +31,9 @@ const Home = ({ usersContext }) => {
 };
 
 const DataProvidedHome = React.memo(() => (
-  <UsersContext.Consumer>
+  <UsersConsumer>
     {usersContext => <Home usersContext={usersContext} />}
-  </UsersContext.Consumer>
+  </UsersConsumer>
 ));
 
 export default DataProvidedHome;

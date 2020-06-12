@@ -3,7 +3,7 @@ import app from "../base.js";
 
 export const AuthContext = React.createContext();
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = React.useState(null);
   const [pending, setPending] = React.useState(true);
 
@@ -28,3 +28,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;

@@ -1,37 +1,52 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as firebase from "firebase/app";
 
-export const UsersContext = React.createContext();
+const { Consumer, Provider } = React.createContext({
+  users: null,
+  pending: true,
+});
 
-export const UsersProvider = ({ children }) => {
-  const [users, setUsers] = useState(null);
-  const [pending, setPending] = useState(true);
+export { Consumer as UsersConsumer };
 
-  useEffect(() => {
+class UsersProvider extends React.Component {
+  state = {
+    users: null,
+    pending: true,
+  };
+
+  componentDidMount() {
     firebase
       .database()
       .ref("users")
       .on(
         "value",
         snapshot => {
-          setUsers(snapshot.val());
-          setPending(false);
+          this.setState({
+            users: snapshot.val(),
+            pending: false,
+          });
         },
         error => console.warn({ error })
       );
-  }, []);
-
-  if (pending) {
-    return <>Loading...</>;
   }
 
-  return (
-    <UsersContext.Provider
-      value={{
-        users,
-      }}
-    >
-      {children}
-    </UsersContext.Provider>
-  );
-};
+  render() {
+    const { pending, users } = this.state;
+
+    if (pending) {
+      return <>Loading...</>;
+    }
+
+    return (
+      <Provider
+        value={{
+          users,
+        }}
+      >
+        {this.props.children}
+      </Provider>
+    );
+  }
+}
+
+export default UsersProvider;
