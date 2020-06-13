@@ -34,7 +34,12 @@ class PostForm extends React.PureComponent {
           </ShowHide>
           <StyledInnerContainer>
             <Row>
-              <ProfileImage imgSrc={currentUser.photoURL} size="100px" />
+              <ProfileImage
+                imgSrc={currentUser.photoURL}
+                marginBottom="0px"
+                marginRight="0px"
+                size="74px"
+              />
               <StyledTextArea
                 placeholder={`What's on your mind, ${currentUser.displayName}?`}
               ></StyledTextArea>
@@ -72,11 +77,13 @@ const StyledInnerContainer = styled(Column)`
 
 const StyledTextArea = styled.textarea`
   background-color: ${Colors.INPUT};
+  font-size: 16px;
   border: none;
   outline: 0;
   resize: none;
   padding: ${Gutters.MEDIUM};
-  width: 250px;
+  width: 200px;
+  margin-left: ${Gutters.MEDIUM};
 
   ${BreakPoint.TABLET} {
     width: 400px;
@@ -86,13 +93,17 @@ const StyledTextArea = styled.textarea`
 const ShowHide = styled(Row)`
   position: absolute;
   top: -52px;
-  right: 42px;
+  right: 24px;
   width: 64px;
   height: 88px;
   background: white;
   border-radius: 64px;
   border: 2px solid ${Colors.LIGHT_GRAY};
   cursor: pointer;
+
+  ${BreakPoint.TABLET} {
+    right: 42px;
+  }
 
   &:hover {
     h2 {
