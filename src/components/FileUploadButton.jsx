@@ -32,6 +32,7 @@ class FileUploadButton extends React.PureComponent {
         <input
           ref={ref => (this.input = ref)}
           type="file"
+          accept="image/*"
           style={{ display: "none" }}
           onChange={this.onChangeInput}
         />
