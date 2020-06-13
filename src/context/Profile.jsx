@@ -52,6 +52,7 @@ class ProfileProvider extends React.Component {
       .database()
       .ref("users/" + this.props.authContext.currentUser.uid)
       .once("value", snap => {
+        console.log({ currentUser: this.props.authContext.currentUser });
         this.setState({
           profile: {
             ...this.profile,
@@ -85,6 +86,7 @@ class ProfileProvider extends React.Component {
         ...this.state.profile,
         uid: this.props.authContext.currentUser.uid,
         email: this.props.authContext.currentUser.email,
+        photoURL: this.props.authContext.currentUser.photoURL || "",
       };
 
       this.writeUserData(user);

@@ -1,13 +1,18 @@
 import React from "react";
 import { UsersConsumer } from "../context/Users";
+import { PostsConsumer } from "../context/Posts";
 import User from "../components/User";
 import { Column, FlexContainer } from "../components/Container";
 import { Gutters } from "../styles";
 import { Caption, Heading, Subheading } from "../components/Text";
 import PostForm from "../components/PostForm";
 
-const Home = ({ usersContext }) => {
+const Home = ({ usersContext, postsContext }) => {
   const { users } = usersContext;
+  const { posts } = postsContext;
+
+  console.log({ posts });
+
   return (
     <>
       <Column>
@@ -34,7 +39,13 @@ const Home = ({ usersContext }) => {
 
 const DataProvidedHome = React.memo(() => (
   <UsersConsumer>
-    {usersContext => <Home usersContext={usersContext} />}
+    {usersContext => (
+      <PostsConsumer>
+        {postsContext => (
+          <Home usersContext={usersContext} postsContext={postsContext} />
+        )}
+      </PostsConsumer>
+    )}
   </UsersConsumer>
 ));
 

@@ -33,8 +33,6 @@ class PostsProvider extends React.Component {
   render() {
     const { pending, posts } = this.state;
 
-    console.log({ posts });
-
     if (pending) {
       return <>Loading...</>;
     }
