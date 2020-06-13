@@ -7,7 +7,7 @@ import { Heading } from "./Text";
 import ProfileImage from "./ProfileImage";
 import { BreakPoint, Colors, Gutters } from "../styles";
 
-const postHeight = "160px";
+const postHeight = 160;
 
 class PostForm extends React.PureComponent {
   state = {
@@ -21,7 +21,9 @@ class PostForm extends React.PureComponent {
 
     return (
       <>
-        <StyledContainer style={{ bottom: isOpen ? "0px" : `-${postHeight}` }}>
+        <StyledContainer
+          style={{ bottom: isOpen ? "0px" : `-${postHeight + 2}px` }}
+        >
           <ShowHide
             align="flex-start"
             onClick={() => this.setState({ isOpen: !isOpen })}
@@ -56,7 +58,7 @@ export default DataProvidedPostForm;
 const StyledContainer = styled.div`
   display: flex;
   position: fixed;
-  height: ${postHeight};
+  height: ${postHeight}px;
   width: 100%;
   border-top: 2px solid ${Colors.LIGHT_GRAY};
   transition: bottom 0.2s ease;
@@ -100,5 +102,6 @@ const ShowHide = styled(Row)`
 `;
 
 const Gutter = styled.div`
-  height: ${postHeight};
+  height: ${postHeight}px;
+  background: red;
 `;
