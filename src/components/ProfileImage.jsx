@@ -4,7 +4,7 @@ import { Row } from "./Container";
 import { BreakPoint, Gutters, Colors, fadeIn } from "../styles";
 
 const ProfileImage = ({ imgSrc, altText, ...props }) => (
-  <ImageContainer align="stretch">
+  <ImageContainer align="stretch" {...props}>
     {imgSrc && <Image src={imgSrc} alt={altText} />}
     {props.children}
   </ImageContainer>
@@ -17,7 +17,7 @@ const ImageContainer = styled(Row)`
   justify-content: center;
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
-  margin-bottom: ${Gutters.MEDIUM};
+  margin-bottom: ${props => props.marginBottom || Gutters.MEDIUM};
   width: ${props => props.size || "160px"};
   height: ${props => props.size || "160px"};
   border-radius: 50%;
@@ -26,7 +26,7 @@ const ImageContainer = styled(Row)`
 
   ${BreakPoint.TABLET} {
     margin-bottom: 0;
-    margin-right: ${Gutters.LARGE};
+    margin-right: ${props => props.marginRight || Gutters.LARGE};
   }
 `;
 

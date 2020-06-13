@@ -20,19 +20,28 @@ export const Paragraph = styled.p`
 `;
 
 export const Subheading = styled.h3`
+  color: ${props => props.color || Colors.BLACK_TEXT};
   font-family: "Roboto Slab", serif;
   font-size: ${Type.SUB_HEADING};
   text-align: ${props => props.align || "left"};
+  margin-top: ${props => props.marginTop || "1em"};
+  margin-bottom: ${props => props.marginBottom || "1em"};
 `;
 
 export const Heading = styled.h2`
+  color: ${props => props.color || Colors.BLACK_TEXT};
   font-family: "Roboto Slab", serif;
   font-size: ${Type.HEADING};
   text-align: ${props => props.align || "left"};
+  margin-top: ${props => props.marginTop || "1em"};
+  margin-bottom: ${props => props.marginBottom || "1em"};
 `;
 
 export const Title = styled.h1`
+  color: ${props => props.color || Colors.BLACK_TEXT};
   font-family: "Roboto Slab", serif;
   font-size: ${Type.TITLE};
   text-align: ${props => props.align || "left"};
+  margin-top: ${props => props.marginTop || "1em"};
+  margin-bottom: ${props => props.marginBottom || "1em"};
 `;

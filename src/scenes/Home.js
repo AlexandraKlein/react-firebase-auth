@@ -4,6 +4,7 @@ import User from "../components/User";
 import { Column, FlexContainer } from "../components/Container";
 import { Gutters } from "../styles";
 import { Caption, Heading, Subheading } from "../components/Text";
+import PostForm from "../components/PostForm";
 
 const Home = ({ usersContext }) => {
   const { users } = usersContext;
@@ -26,6 +27,7 @@ const Home = ({ usersContext }) => {
             />
           ))}
       </FlexContainer>
+      <PostForm />
     </>
   );
 };
