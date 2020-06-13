@@ -148,14 +148,6 @@ const StyledForm = styled(Form)`
   }
 `;
 
-const StyledColumn = styled(Column)`
-  padding: ${Gutters.MEDIUM};
-
-  ${BreakPoint.TABLET} {
-    width: 600px;
-  }
-`;
-
 const StyledTextArea = styled.textarea`
   flex: 1;
   background-color: ${Colors.INPUT};
