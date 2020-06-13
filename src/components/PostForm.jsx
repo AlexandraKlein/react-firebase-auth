@@ -19,6 +19,7 @@ class PostForm extends React.PureComponent {
     error: false,
     isOpen: false,
     isUpdating: false,
+    placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
   };
 
   onChange = event => {
@@ -45,9 +46,19 @@ class PostForm extends React.PureComponent {
         .ref("posts/" + Date.now())
         .set(post)
         .then(() => {
-          this.setState({ isUpdating: false, message: "" }, () => {
-            setTimeout(() => this.setState({ isOpen: false }), 1000);
-          });
+          this.setState(
+            { isUpdating: false, message: "", placeholder: "Posted!" },
+            () => {
+              setTimeout(
+                () =>
+                  this.setState({
+                    isOpen: false,
+                    placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
+                  }),
+                1000
+              );
+            }
+          );
         })
         .catch(error => {
           this.setState({ error: error.message });
@@ -87,7 +98,7 @@ class PostForm extends React.PureComponent {
               <StyledTextArea
                 value={this.state.message}
                 onChange={this.onChange}
-                placeholder={`What's on your mind, ${currentUser.displayName}?`}
+                placeholder={this.state.placeholder}
               ></StyledTextArea>
             </Row>
           </StyledForm>
