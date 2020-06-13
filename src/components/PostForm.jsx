@@ -103,5 +103,4 @@ const ShowHide = styled(Row)`
 
 const Gutter = styled.div`
   height: ${postHeight}px;
-  background: red;
 `;
