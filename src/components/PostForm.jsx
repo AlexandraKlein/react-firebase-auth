@@ -1,6 +1,12 @@
 import React from "react";
+import * as firebase from "firebase/app";
+import "firebase/database";
 import styled from "styled-components";
-import { AiOutlineArrowDown, AiOutlineEdit } from "react-icons/ai";
+import {
+  AiOutlineArrowDown,
+  AiOutlineArrowRight,
+  AiOutlineEdit,
+} from "react-icons/ai";
 import { AuthContext } from "../context/Auth";
 import { Row, Column } from "./Container";
 import { Heading } from "./Text";
@@ -11,8 +17,44 @@ const postHeight = 160;
 
 class PostForm extends React.PureComponent {
   state = {
-    message: null,
+    message: "",
+    error: false,
     isOpen: false,
+    isUpdating: false,
+  };
+
+  onChange = event => {
+    const message = event.currentTarget.value;
+    this.setState({ message });
+  };
+
+  writePostData = event => {
+    event.preventDefault();
+
+    const { currentUser } = this.props.authContext;
+    this.setState({ isUpdating: true });
+
+    try {
+      const post = {
+        date: new Date(),
+        message: this.state.message,
+        uid: currentUser.uid,
+        email: currentUser.email,
+      };
+
+      firebase
+        .database()
+        .ref("posts/" + Date.now())
+        .set(post)
+        .then(() => {
+          this.setState({ isUpdating: false, message: "" });
+        })
+        .catch(error => {
+          this.setState({ error: error.message });
+        });
+    } catch (error) {
+      this.setState({ error: error.message });
+    }
   };
 
   render() {
@@ -41,8 +83,23 @@ class PostForm extends React.PureComponent {
                 size="74px"
               />
               <StyledTextArea
+                value={this.state.message}
+                onChange={this.onChange}
                 placeholder={`What's on your mind, ${currentUser.displayName}?`}
               ></StyledTextArea>
+              <Send
+                isDisabled={this.state.message.length === 0}
+                onClick={this.writePostData}
+              >
+                <Heading
+                  marginTop="0px"
+                  marginBottom="0px"
+                  color={Colors.PRIMARY}
+                  style={{ height: 28 }}
+                >
+                  <AiOutlineArrowRight />
+                </Heading>
+              </Send>
             </Row>
           </StyledInnerContainer>
         </StyledContainer>
@@ -82,11 +139,24 @@ const StyledTextArea = styled.textarea`
   outline: 0;
   resize: none;
   padding: ${Gutters.MEDIUM};
-  width: 200px;
-  margin-left: ${Gutters.MEDIUM};
+  width: 50%;
+  height: 80px;
+  margin: 0 ${Gutters.MEDIUM};
 
   ${BreakPoint.TABLET} {
     width: 400px;
+  }
+`;
+
+const Send = styled.div`
+  cursor: pointer;
+  pointer-events: ${props => (props.isDisabled ? "none" : "all")};
+  opacity: ${props => (props.isDisabled ? ".5" : "1")};
+
+  &:hover {
+    h2 {
+      color: ${Colors.PRIMARY_HOVER};
+    }
   }
 `;
 
