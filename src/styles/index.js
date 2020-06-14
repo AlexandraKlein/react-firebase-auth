@@ -21,6 +21,7 @@ export const Colors = {
   INPUT: "#e3f1ff",
   PRIMARY_LIGHT: "#e3f1ff",
   ERROR: "#ff0033",
+  SUCCESS: "#4BB543",
 };
 
 export const Type = {

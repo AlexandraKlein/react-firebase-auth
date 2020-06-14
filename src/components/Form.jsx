@@ -18,11 +18,23 @@ const StyledColumn = styled(Column)`
   padding: ${Gutters.MEDIUM};
 `;
 
-const Form = ({ submitText, children, onSubmit, isDisabled, marginTop }) => (
+const Form = ({
+  submitText,
+  children,
+  onSubmit,
+  isDisabled,
+  marginTop,
+  buttonMarginTop,
+}) => (
   <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
     <StyledColumn flex={1} align="unset" justify="unset">
       {children}
-      <Button isDisabled={isDisabled} text={submitText} type="submit" />
+      <Button
+        marginTop={buttonMarginTop}
+        isDisabled={isDisabled}
+        text={submitText}
+        type="submit"
+      />
     </StyledColumn>
   </StyledForm>
 );
