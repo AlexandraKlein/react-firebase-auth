@@ -61,6 +61,15 @@ class Profile extends React.Component {
           writeUserData={profileContext.writeUserData}
           profile={profileContext.profile}
         />
+        <Success
+          marginTop="0px"
+          marginBottom="0px"
+          hasUpdated={this.state.hasUpdated}
+          color={Colors.SUCCESS}
+          align="center"
+        >
+          Success!
+        </Success>
         <Form
           isDisabled={profileContext.isUpdating || profileContext.isDisabled}
           submitText="Update Profile"
