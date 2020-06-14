@@ -1,5 +1,6 @@
 import React from "react";
 import { HashRouter as Router, Route } from "react-router-dom";
+import ScrollToTop from "./ScrollToTop";
 import Home from "./scenes/Home";
 import Login from "./scenes/Login";
 import SignUp from "./scenes/SignUp";
@@ -20,6 +21,7 @@ const App = () => {
           <PostsProvider>
             <Router>
               <div style={{ paddingBottom: Gutters.DOUBLE_X }}>
+                <ScrollToTop />
                 <PrivateRoute exact path="/" component={Home} />
                 <PrivateRoute exact path="/profile" component={Profile} />
                 <Route exact path="/login" component={Login} />
