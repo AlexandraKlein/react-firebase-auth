@@ -14,13 +14,24 @@ const postHeight = 600;
 const postHeightMobile = 400;
 
 class PostForm extends React.PureComponent {
-  state = {
-    message: "",
-    error: false,
-    isOpen: false,
-    isUpdating: false,
-    placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
-  };
+  constructor(props) {
+    super(props);
+    this.textArea = React.createRef();
+
+    this.state = {
+      message: "",
+      error: false,
+      isOpen: false,
+      isUpdating: false,
+      placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
+    };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.isOpen !== this.state.isOpen && this.state.isOpen) {
+      this.textArea.current.focus();
+    }
+  }
 
   onChange = event => {
     const message = event.currentTarget.value;
@@ -96,6 +107,7 @@ class PostForm extends React.PureComponent {
                 size="74px"
               />
               <StyledTextArea
+                ref={this.textArea}
                 value={this.state.message}
                 onChange={this.onChange}
                 placeholder={this.state.placeholder}
