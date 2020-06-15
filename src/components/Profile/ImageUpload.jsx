@@ -8,7 +8,7 @@ import ProfileImage from "../ProfileImage";
 import { Column, Row } from "../Container";
 import { Paragraph } from "../Text";
 import Error from "../Error";
-import { BreakPoint, Colors } from "../../styles";
+import { BreakPoint, Colors, Gutters } from "../../styles";
 
 class ImageUpload extends React.PureComponent {
   state = {
@@ -87,7 +87,7 @@ class ImageUpload extends React.PureComponent {
 
     return (
       <>
-        <StyledRow justify="space-around">
+        <StyledRow justify="space-between" margin={`0 0 ${Gutters.MEDIUM} 0`}>
           <ProfileImage
             imgSrc={imgSrc}
             alt={currentUser.displayName || "User Profile"}

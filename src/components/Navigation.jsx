@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { FiHome, FiUser } from "react-icons/fi";
+import { FiHome, FiUser, FiUsers } from "react-icons/fi";
 import app from "../base";
 import Button from "./Button";
 import { Row } from "./Container";
@@ -10,6 +10,7 @@ import { Colors, Gutters, Type } from "../styles";
 const navigationItems = {
   home: { url: "/", icon: FiHome },
   profile: { url: "/profile", icon: FiUser },
+  users: { url: "/users", icon: FiUsers },
 };
 
 const Navigation = () => (

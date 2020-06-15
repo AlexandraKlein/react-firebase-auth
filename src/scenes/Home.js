@@ -1,11 +1,10 @@
 import React from "react";
 import { UsersConsumer } from "../context/Users";
 import { PostsConsumer } from "../context/Posts";
-import User from "../components/User";
 import Post from "../components/Post";
-import { Column, FlexContainer } from "../components/Container";
+import { Column } from "../components/Container";
 import { Gutters } from "../styles";
-import { Caption, Heading, Subheading } from "../components/Text";
+import { Heading } from "../components/Text";
 import PostForm from "../components/PostForm";
 
 const Home = ({ usersContext, postsContext }) => {
@@ -51,23 +50,6 @@ const Home = ({ usersContext, postsContext }) => {
             );
           })}
       </Column>
-      <Column>
-        <Subheading align="center">Below are your fellow teammates.</Subheading>
-        <Caption align="center">
-          Please be sure to fill out your profile.
-        </Caption>
-      </Column>
-      <FlexContainer margin={`${Gutters.X_LARGE} 0 0 0`} wrap="wrap">
-        {users !== null &&
-          Object.values(users).map((info, index) => (
-            <User
-              animationDelay={`${index / 5}s`}
-              key={index}
-              userInfo={info}
-            />
-          ))}
-      </FlexContainer>
-
       <PostForm />
     </>
   );
