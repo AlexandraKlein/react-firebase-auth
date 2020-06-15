@@ -5,7 +5,7 @@ import { FiHome, FiUser, FiUsers } from "react-icons/fi";
 import app from "../base";
 import Button from "./Button";
 import { Row } from "./Container";
-import { Colors, Gutters, Type } from "../styles";
+import { BreakPoint, Colors, Gutters, Type } from "../styles";
 
 const navigationItems = {
   home: { url: "/", icon: FiHome },
@@ -14,7 +14,7 @@ const navigationItems = {
 };
 
 const Navigation = () => (
-  <StyledRow align="start" justify="space-between" flex="0 0 auto">
+  <StyledRow justify="space-between" flex="0 0 auto">
     <div>
       {Object.values(navigationItems).map(item => (
         <StyledNavLink
@@ -45,11 +45,15 @@ const StyledRow = styled(Row)`
 const StyledNavLink = styled(NavLink)`
   display: inline-block;
   color: ${Colors.PRIMARY};
-  font-size: ${Type.TITLE};
-  margin-right: ${Gutters.SMALL};
+  font-size: ${Type.HEADING};
+  margin-right: ${Gutters.X_SMALL};
   padding: ${Gutters.SMALL};
-  line-height: 1;
+  line-height: 0.7;
   flex: 1 1 0;
+
+  ${BreakPoint.TABLET} {
+    font-size: ${Type.TITLE};
+  }
 
   &.active {
     background-color: ${Colors.PRIMARY_LIGHT};
