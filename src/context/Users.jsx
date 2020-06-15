@@ -33,8 +33,6 @@ class UsersProvider extends React.Component {
   render() {
     const { pending, users } = this.state;
 
-    console.log({ users });
-
     if (pending) {
       return <>Loading...</>;
     }
