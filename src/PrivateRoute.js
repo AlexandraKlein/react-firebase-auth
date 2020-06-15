@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { AuthContext } from "./context/Auth";
-import Navigation from "./components/Navigation";
 
 const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
   const { currentUser } = React.useContext(AuthContext);
@@ -9,9 +8,8 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
     <Route
       {...rest}
       render={routeProps =>
-        !!currentUser ? (
+        currentUser ? (
           <>
-            <Navigation />
             <RouteComponent {...routeProps} />
           </>
         ) : (

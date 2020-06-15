@@ -2,7 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
 import styled from "styled-components";
-import { AiOutlineArrowDown, AiOutlineEdit } from "react-icons/ai";
+import { FiEdit, FiArrowDown } from "react-icons/fi";
 import { AuthContext } from "../context/Auth";
 import { Row, Column } from "./Container";
 import { Heading } from "./Text";
@@ -78,8 +78,8 @@ class PostForm extends React.PureComponent {
           align="flex-start"
           onClick={() => this.setState({ isOpen: !isOpen })}
         >
-          <Heading marginTop="12px" marginBottom="0px" color={Colors.PRIMARY}>
-            {isOpen ? <AiOutlineArrowDown /> : <AiOutlineEdit />}
+          <Heading marginTop="10px" marginBottom="0px" color={Colors.PRIMARY}>
+            {isOpen ? <FiArrowDown /> : <FiEdit />}
           </Heading>
         </ShowHide>
         <StyledInnerContainer>
@@ -120,6 +120,8 @@ const StyledContainer = styled.div`
   display: flex;
   position: fixed;
   height: ${postHeightMobile}px;
+  left: 0;
+  right: 0;
   bottom:  ${props => (props.isOpen ? "0px" : `-${postHeightMobile + 2}px`)}
   width: 100%;
   border-top: 2px solid ${Colors.LIGHT_GRAY};
@@ -135,6 +137,7 @@ const StyledInnerContainer = styled(Column)`
   flex: 1;
   position: relative;
   background-color: ${Colors.WHITE};
+  padding: ${Gutters.MEDIUM};
 `;
 
 const StyledForm = styled(Form)`

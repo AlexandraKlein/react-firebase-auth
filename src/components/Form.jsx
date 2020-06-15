@@ -14,10 +14,6 @@ const StyledForm = styled.form`
   }
 `;
 
-const StyledColumn = styled(Column)`
-  padding: ${Gutters.MEDIUM};
-`;
-
 const Form = ({
   submitText,
   children,
@@ -27,7 +23,7 @@ const Form = ({
   buttonMarginTop,
 }) => (
   <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
-    <StyledColumn flex={1} align="unset" justify="unset">
+    <Column flex={1} align="unset" justify="unset">
       {children}
       <Button
         marginTop={buttonMarginTop}
@@ -35,7 +31,7 @@ const Form = ({
         text={submitText}
         type="submit"
       />
-    </StyledColumn>
+    </Column>
   </StyledForm>
 );
 

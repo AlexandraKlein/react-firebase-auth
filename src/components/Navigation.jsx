@@ -1,15 +1,15 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { AiOutlineHome, AiOutlineUser } from "react-icons/ai";
+import { FiHome, FiUser } from "react-icons/fi";
 import app from "../base";
 import Button from "./Button";
 import { Row } from "./Container";
 import { Colors, Gutters, Type } from "../styles";
 
 const navigationItems = {
-  home: { url: "/", icon: AiOutlineHome },
-  profile: { url: "/profile", icon: AiOutlineUser },
+  home: { url: "/", icon: FiHome },
+  profile: { url: "/profile", icon: FiUser },
 };
 
 const Navigation = () => (

@@ -23,7 +23,8 @@ const StyledRadiobox = styled(Row)`
   background-color: ${props =>
     props.isChecked ? Colors.PRIMARY : Colors.WHITE};
   border-radius: 50%;
-  border: 1px solid ${Colors.PRIMARY};
+  border: ${props =>
+    props.isChecked ? "none" : `1px solid ${Colors.PRIMARY}`};
   width: ${props => props.size || "20px"};
   height: ${props => props.size || "20px"};
   margin-left: ${props => (props.label !== undefined ? Gutters.SMALL : "0")};
