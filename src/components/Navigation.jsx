@@ -13,7 +13,7 @@ const navigationItems = {
 };
 
 const Navigation = () => (
-  <StyledRow align="center" justify="space-between">
+  <StyledRow align="start" justify="space-between" flex="0 0 auto">
     <div>
       {Object.values(navigationItems).map(item => (
         <StyledNavLink
@@ -38,6 +38,7 @@ export default Navigation;
 
 const StyledRow = styled(Row)`
   margin: ${Gutters.SMALL};
+  position: relative;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -47,6 +48,7 @@ const StyledNavLink = styled(NavLink)`
   margin-right: ${Gutters.SMALL};
   padding: ${Gutters.SMALL};
   line-height: 1;
+  flex: 1 1 0;
 
   &.active {
     background-color: ${Colors.PRIMARY_LIGHT};
