@@ -26,8 +26,10 @@ const bounce = keyframes`
 `;
 
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
+
   span {
-    display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 100%;
