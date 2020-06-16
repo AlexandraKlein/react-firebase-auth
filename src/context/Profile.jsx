@@ -39,7 +39,6 @@ class ProfileProvider extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.state.profile);
     if (
       prevProps.authContext.currentUser !==
         this.props.authContext.currentUser &&
