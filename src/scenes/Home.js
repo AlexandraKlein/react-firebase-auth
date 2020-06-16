@@ -36,6 +36,9 @@ const Home = ({ usersContext, postsContext }) => {
       year: "numeric",
       month: "long",
       day: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
     });
 
     const [
@@ -46,7 +49,12 @@ const Home = ({ usersContext, postsContext }) => {
       { value: year },
     ] = dateTimeFormat.formatToParts(new Date(Number(milliseconds)));
 
-    return `${month} ${day}, ${year}`;
+    const time = new Intl.DateTimeFormat("en", {
+      hour: "numeric",
+      minute: "numeric",
+    }).format(new Date(Number(milliseconds)));
+
+    return `${month} ${day}, ${year}, ${time}`;
   };
 
   return (
