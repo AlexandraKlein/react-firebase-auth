@@ -19,15 +19,15 @@ class ProfileProvider extends React.Component {
     Object.keys(this.props.choiceData).forEach(k => (this.profile[k] = ""));
 
     this.state = {
-      profile: undefined,
       error: false,
       isDisabled: true,
       isUpdating: false,
-      writeUserData: this.writeUserData,
-      updateProfile: this.updateProfile,
       onChangeUserInfo: this.onChangeUserInfo,
       onSelectChoice: this.onSelectChoice,
       onSelectPreference: this.onSelectPreference,
+      profile: this.profile,
+      updateProfile: this.updateProfile,
+      writeUserData: this.writeUserData,
     };
   }
 
@@ -38,12 +38,23 @@ class ProfileProvider extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log(this.state.profile);
     if (
       prevProps.authContext.currentUser !==
         this.props.authContext.currentUser &&
       this.props.authContext.currentUser !== null
     ) {
       this.getCurrentUser();
+    }
+
+    if (
+      prevProps.authContext.currentUser !==
+        this.props.authContext.currentUser &&
+      this.props.authContext.currentUser === null
+    ) {
+      this.setState({
+        profile: this.profile,
+      });
     }
   }
 
@@ -54,7 +65,7 @@ class ProfileProvider extends React.Component {
       .once("value", snap => {
         this.setState({
           profile: {
-            ...this.profile,
+            ...this.state.profile,
             ...snap.val(),
           },
         });
