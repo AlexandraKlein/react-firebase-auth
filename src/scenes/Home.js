@@ -31,31 +31,15 @@ const Home = ({ usersContext, postsContext }) => {
     return user[1].nickName;
   };
 
-  const formatDate = milliseconds => {
-    const dateTimeFormat = new Intl.DateTimeFormat("en", {
+  const formatDate = milliseconds =>
+    new Intl.DateTimeFormat("en", {
       year: "numeric",
       month: "long",
       day: "2-digit",
       hour: "numeric",
       minute: "numeric",
       hour12: true,
-    });
-
-    const [
-      { value: month },
-      ,
-      { value: day },
-      ,
-      { value: year },
-    ] = dateTimeFormat.formatToParts(new Date(Number(milliseconds)));
-
-    const time = new Intl.DateTimeFormat("en", {
-      hour: "numeric",
-      minute: "numeric",
     }).format(new Date(Number(milliseconds)));
-
-    return `${month} ${day}, ${year}, ${time}`;
-  };
 
   return (
     <>
