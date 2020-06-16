@@ -1,5 +1,6 @@
 import React from "react";
 import * as firebase from "firebase/app";
+import Loading from "../components/Loading";
 
 const { Consumer, Provider } = React.createContext({
   posts: null,
@@ -34,7 +35,7 @@ class PostsProvider extends React.Component {
     const { pending, posts } = this.state;
 
     if (pending) {
-      return <>Loading...</>;
+      return <Loading />;
     }
 
     return (

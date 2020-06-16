@@ -1,5 +1,6 @@
 import React from "react";
 import app from "../base.js";
+import Loading from "../components/Loading.jsx";
 
 export const AuthContext = React.createContext();
 
@@ -15,7 +16,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   if (pending) {
-    return <>Loading...</>;
+    return <Loading />;
   }
 
   return (

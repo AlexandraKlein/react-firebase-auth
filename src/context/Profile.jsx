@@ -2,6 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
 import { AuthContext } from "../context/Auth";
+import Loading from "../components/Loading";
 
 const { Consumer, Provider } = React.createContext({
   profile: undefined,
@@ -139,7 +140,7 @@ class ProfileProvider extends React.Component {
     const { pending } = this.state;
 
     if (pending) {
-      return <>Loading...</>;
+      return <Loading />;
     }
 
     return (

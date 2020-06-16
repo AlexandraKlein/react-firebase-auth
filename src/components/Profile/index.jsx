@@ -13,6 +13,7 @@ import { Colors, Gutters } from "../../styles";
 import { capitalize } from "../../helpers";
 import { ProfileConsumer } from "../../context/Profile";
 import { choiceData } from "../../data";
+import Loading from "../Loading";
 
 const inputs = [
   {
@@ -52,7 +53,7 @@ class Profile extends React.Component {
     const { profileContext } = this.props;
 
     if (profileContext.profile === undefined) {
-      return <>Loading...</>;
+      return <Loading />;
     }
 
     return (
