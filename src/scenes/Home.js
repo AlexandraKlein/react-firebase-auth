@@ -31,6 +31,24 @@ const Home = ({ usersContext, postsContext }) => {
     return user[1].nickName;
   };
 
+  const formatDate = milliseconds => {
+    const dateTimeFormat = new Intl.DateTimeFormat("en", {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    });
+
+    const [
+      { value: month },
+      ,
+      { value: day },
+      ,
+      { value: year },
+    ] = dateTimeFormat.formatToParts(new Date(Number(milliseconds)));
+
+    return `${month} ${day}, ${year}`;
+  };
+
   return (
     <>
       <Heading align="center">Home</Heading>
@@ -41,6 +59,7 @@ const Home = ({ usersContext, postsContext }) => {
           .map((post, index) => {
             return (
               <Post
+                date={formatDate(post[0])}
                 key={post[0]}
                 animationDelay={`${index / 5}s`}
                 post={post[1]}

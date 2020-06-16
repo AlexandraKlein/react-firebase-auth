@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import ProfileImage from "./ProfileImage";
 import { Paragraph, Caption } from "./Text";
-import { BreakPoint, Gutters, fadeUp } from "../styles";
+import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
-const Post = ({ post, photoURL, displayName, ...props }) => (
+const Post = ({ post, photoURL, displayName, date, ...props }) => (
   <StyledContainer {...props}>
     <ProfileImage
       altText={post.nickName || "User"}
@@ -14,6 +14,7 @@ const Post = ({ post, photoURL, displayName, ...props }) => (
       }
     />
     <TextContainer>
+      <Caption>{date}</Caption>
       <Paragraph marginTop="0px" marginBottom="0px">
         {post.message}
       </Paragraph>
@@ -37,9 +38,11 @@ const StyledContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   padding: ${Gutters.X_LARGE};
+  margin: ${Gutters.SMALL} 0;
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
   animation-delay: ${props => props.animationDelay || "0s"};
+  background-color: ${Colors.PRIMARY_LIGHT};
 
   ${BreakPoint.TABLET} {
     flex-direction: row;
