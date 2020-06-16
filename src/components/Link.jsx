@@ -4,6 +4,7 @@ import { Colors } from "../styles";
 
 const StyledLink = styled(Link)`
   color: ${Colors.PRIMARY};
+
   &:hover {
     color: ${Colors.PRIMARY_HOVER};
   }

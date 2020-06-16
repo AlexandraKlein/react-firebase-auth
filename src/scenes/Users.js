@@ -1,7 +1,7 @@
 import React from "react";
 import { UsersConsumer } from "../context/Users";
-
 import User from "../components/User";
+import Link from "../components/Link";
 import { Column, FlexContainer } from "../components/Container";
 import { Gutters } from "../styles";
 import { Caption, Heading, Subheading } from "../components/Text";
@@ -15,7 +15,7 @@ const Users = ({ usersContext }) => {
       <Column>
         <Subheading align="center">Below are your fellow teammates.</Subheading>
         <Caption align="center">
-          Please be sure to fill out your profile.
+          Please be sure to fill out your <Link to="/profile">profile</Link>.
         </Caption>
       </Column>
       <FlexContainer margin={`${Gutters.X_LARGE} 0 0 0`} wrap="wrap">
