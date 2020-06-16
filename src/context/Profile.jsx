@@ -52,7 +52,6 @@ class ProfileProvider extends React.Component {
       .database()
       .ref("users/" + this.props.authContext.currentUser.uid)
       .once("value", snap => {
-        console.log({ currentUser: this.props.authContext.currentUser });
         this.setState({
           profile: {
             ...this.profile,
