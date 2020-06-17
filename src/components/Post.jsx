@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ProfileImage from "./ProfileImage";
 import { Paragraph, Caption } from "./Text";
+import UpVote from "./UpVote";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
 const Post = ({ post, photoURL, displayName, date, ...props }) => (
@@ -15,7 +16,7 @@ const Post = ({ post, photoURL, displayName, date, ...props }) => (
     />
     <TextContainer>
       <Caption>{date}</Caption>
-      <Paragraph marginTop="0px" marginBottom="0px">
+      <Paragraph marginTop={Gutters.SMALL} marginBottom="0px">
         {post.message}
       </Paragraph>
       <Paragraph
@@ -26,6 +27,9 @@ const Post = ({ post, photoURL, displayName, date, ...props }) => (
         {displayName || "Anonymous"}
       </Paragraph>
       <Caption marginTop="0px">{post.email}</Caption>
+      <StyledUpVote>
+        <UpVote />
+      </StyledUpVote>
     </TextContainer>
   </StyledContainer>
 );
@@ -68,4 +72,10 @@ const TextContainer = styled.div`
       text-align: left;
     }
   }
+`;
+
+const StyledUpVote = styled.div`
+  position: absolute;
+  right: ${Gutters.LARGE};
+  bottom: ${Gutters.LARGE};
 `;
