@@ -20,7 +20,7 @@ class PostForm extends React.PureComponent {
 
     this.state = {
       message: "",
-      error: false,
+      error: undefined,
       isOpen: false,
       isUpdating: false,
       placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
@@ -43,40 +43,35 @@ class PostForm extends React.PureComponent {
 
     const { currentUser } = this.props.authContext;
     this.setState({ isUpdating: true });
+    const post = {
+      date: new Date(),
+      message: this.state.message,
+      uid: currentUser.uid,
+      email: currentUser.email,
+    };
 
-    try {
-      const post = {
-        date: new Date(),
-        message: this.state.message,
-        uid: currentUser.uid,
-        email: currentUser.email,
-      };
-
-      firebase
-        .database()
-        .ref("posts/" + Date.now())
-        .set(post)
-        .then(() => {
-          this.setState(
-            { isUpdating: false, message: "", placeholder: "Posted!" },
-            () => {
-              setTimeout(
-                () =>
-                  this.setState({
-                    isOpen: false,
-                    placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
-                  }),
-                1000
-              );
-            }
-          );
-        })
-        .catch(error => {
-          this.setState({ error: error.message });
-        });
-    } catch (error) {
-      this.setState({ error: error.message });
-    }
+    firebase
+      .database()
+      .ref("posts/" + Date.now())
+      .set(post)
+      .then(() => {
+        this.setState(
+          { isUpdating: false, message: "", placeholder: "Posted!" },
+          () => {
+            setTimeout(
+              () =>
+                this.setState({
+                  isOpen: false,
+                  placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
+                }),
+              1000
+            );
+          }
+        );
+      })
+      .catch(error => {
+        this.setState({ error: error.message });
+      });
   };
 
   render() {
