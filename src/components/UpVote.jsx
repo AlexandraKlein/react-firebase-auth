@@ -1,7 +1,8 @@
 import React from "react";
 import * as firebase from "firebase/app";
-import { FiThumbsUp } from "react-icons/fi";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import styled from "styled-components";
+import { Container } from "./Container";
 import { Heading } from "./Text";
 import { Colors } from "../styles";
 
@@ -26,11 +27,17 @@ class UpVote extends React.PureComponent {
       });
   };
 
+  onClick = () => {
+    this.props.onClick();
+  };
+
   render() {
     return (
-      <StyledHeading color={Colors.PRIMARY} marginTop="0" marginBottom="0">
-        <FiThumbsUp />
-      </StyledHeading>
+      <Container onClick={this.onClick}>
+        <StyledHeading color={Colors.PRIMARY} marginTop="0" marginBottom="0">
+          {this.props.isLiked ? <AiFillLike /> : <AiOutlineLike />}
+        </StyledHeading>
+      </Container>
     );
   }
 }

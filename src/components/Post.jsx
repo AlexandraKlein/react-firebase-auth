@@ -28,7 +28,7 @@ const Post = ({ post, photoURL, displayName, date, ...props }) => (
       </Paragraph>
       <Caption marginTop="0px">{post.email}</Caption>
       <StyledUpVote>
-        <UpVote />
+        <UpVote onClick={() => {}} />
       </StyledUpVote>
     </TextContainer>
   </StyledContainer>
