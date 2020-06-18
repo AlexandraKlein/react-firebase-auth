@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ProfileImage from "./ProfileImage";
 import Error from "./Error";
 import { Paragraph, Caption } from "./Text";
-import UpVote from "./UpVote";
+import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
 class Post extends React.PureComponent {
@@ -80,7 +80,7 @@ class Post extends React.PureComponent {
           </Paragraph>
           <Caption marginTop="0px">{post.email}</Caption>
           <StyledUpVote>
-            <UpVote
+            <Like
               count={
                 posts[postID].likes
                   ? Object.keys(posts[postID].likes).length
