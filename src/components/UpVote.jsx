@@ -2,9 +2,9 @@ import React from "react";
 import * as firebase from "firebase/app";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import styled from "styled-components";
-import { Container } from "./Container";
-import { Heading } from "./Text";
-import { Colors } from "../styles";
+import { Row } from "./Container";
+import { Heading, Paragraph } from "./Text";
+import { Colors, Gutters } from "../styles";
 
 class UpVote extends React.PureComponent {
   state = {
@@ -17,12 +17,12 @@ class UpVote extends React.PureComponent {
     isUpdating: false,
   };
 
-  writeUserLike = like => {
+  writeUserLike = (like) => {
     firebase.database
       .ref("likes/")
       .set(like)
       .then(() => this.setState({ isUpdating: false }))
-      .catch(error => {
+      .catch((error) => {
         this.setState({ error: error.message });
       });
   };
@@ -32,12 +32,16 @@ class UpVote extends React.PureComponent {
   };
 
   render() {
+    const { isLiked, count } = this.props;
     return (
-      <Container onClick={this.onClick}>
+      <Row onClick={this.onClick}>
+        <StyledParagraph marginTop="0" marginBottom="0">
+          {count}
+        </StyledParagraph>
         <StyledHeading color={Colors.PRIMARY} marginTop="0" marginBottom="0">
-          {this.props.isLiked ? <AiFillLike /> : <AiOutlineLike />}
+          {isLiked ? <AiFillLike /> : <AiOutlineLike />}
         </StyledHeading>
-      </Container>
+      </Row>
     );
   }
 }
@@ -45,9 +49,14 @@ class UpVote extends React.PureComponent {
 export default UpVote;
 
 const StyledHeading = styled(Heading)`
+  line-height: 1;
   cursor: pointer;
 
   &:hover {
     color: ${Colors.PRIMARY_HOVER};
   }
+`;
+
+const StyledParagraph = styled(Paragraph)`
+  margin-right: ${Gutters.X_SMALL};
 `;
