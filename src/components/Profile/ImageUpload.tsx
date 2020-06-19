@@ -36,9 +36,9 @@ class ImageUpload extends React.PureComponent<Props, State> {
     error: undefined,
   };
 
-  handleChange = (file: File) => {
-    if (file[0]) {
-      const image = file[0];
+  handleChange = (files: File[]) => {
+    if (files[0]) {
+      const image = files[0];
       this.setState({ image }, this.handleImageUpload);
     }
   };

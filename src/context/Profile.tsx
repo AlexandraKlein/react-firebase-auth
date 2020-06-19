@@ -16,7 +16,7 @@ type Props = PrivateProps & PublicProps;
 
 export type ProfileContext = {
   profile: { [key: string]: any };
-  error: Error;
+  error: Error["message"];
   isDisabled: boolean;
   isUpdating: boolean;
   pending: boolean;

@@ -21,14 +21,14 @@ const StyledButton = styled.button<StyleProps>`
   border: none;
   cursor: pointer;
   padding: ${Gutters.MEDIUM} ${Gutters.LARGE};
-  background-color: ${(props) =>
+  background-color: ${props =>
     props.secondary ? Colors.WHITE : Colors.PRIMARY};
-  border: ${(props) =>
+  border: ${props =>
     props.secondary
       ? `1px solid ${Colors.PRIMARY}`
       : `1px solid ${Colors.WHITE}`};
-  margin-top: ${(props) => props.marginTop || Gutters.MEDIUM};
-  color: ${(props) => (props.secondary ? Colors.PRIMARY : Colors.WHITE)};
+  margin-top: ${props => props.marginTop || Gutters.MEDIUM};
+  color: ${props => (props.secondary ? Colors.PRIMARY : Colors.WHITE)};
   font-size: ${Type.BODY};
 
   ${BreakPoint.TABLET} {
@@ -36,7 +36,7 @@ const StyledButton = styled.button<StyleProps>`
   }
 
   &:hover {
-    background-color: ${(props) =>
+    background-color: ${props =>
       props.secondary ? Colors.PRIMARY : Colors.PRIMARY_HOVER};
     color: ${Colors.WHITE};
   }

@@ -1,7 +1,14 @@
 import React from "react";
 import Button from "./Button";
 
-class FileUploadButton extends React.PureComponent {
+type Props = {
+  text: string;
+  onDropFiles: (files: File[]) => void;
+};
+
+class FileUploadButton extends React.PureComponent<Props> {
+  input: HTMLInputElement | null;
+
   onClick = () => {
     if (!this.input) {
       return;
@@ -9,7 +16,7 @@ class FileUploadButton extends React.PureComponent {
     this.input.click();
   };
 
-  onChangeInput = e => {
+  onChangeInput = (e: React.ChangeEvent) => {
     if (!this.input) {
       return;
     }
@@ -18,7 +25,7 @@ class FileUploadButton extends React.PureComponent {
       return;
     }
 
-    const files = [];
+    const files: File[] = [];
     for (let i = 0; i < this.input.files.length; i += 1) {
       files.push(this.input.files[i]);
     }
