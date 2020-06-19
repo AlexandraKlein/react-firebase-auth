@@ -8,11 +8,6 @@ import { Paragraph, Caption } from "./Text";
 import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
-// email: "bb@aol.com"
-// likes: {nMex6DuzyBQQZr63gPZUxLeYUfF3: true}
-// message: "This is so bitchen !"
-// uid: "xNUpGQv4pedaEuv5jc4unAIqDL22"
-
 type PostType = {
   email: string;
   likes: {
