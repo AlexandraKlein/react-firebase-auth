@@ -1,11 +1,15 @@
 import React, { useCallback } from "react";
-import { withRouter } from "react-router";
+import { withRouter, RouteComponentProps } from "react-router";
 import * as firebase from "firebase/app";
 import app from "../../base";
 import Form from "../Form";
 import Error from "../Error";
 
-const GoogleSignIn = ({ history, googleButtonText }) => {
+type Props = RouteComponentProps & {
+  googleButtonText: string;
+};
+
+const GoogleSignIn = ({ history, googleButtonText }: Props): JSX.Element => {
   const [error, setError] = React.useState(undefined);
   const googleProvider = new firebase.auth.GoogleAuthProvider();
 

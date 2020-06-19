@@ -1,11 +1,18 @@
 import React, { useCallback } from "react";
-import { withRouter } from "react-router";
+import { withRouter, RouteComponentProps } from "react-router";
 import * as firebase from "firebase/app";
 import app from "../../base";
 import Form from "../Form";
 import Error from "../Error";
 
-const FacebookSignIn = ({ history, facbeookButtonText }) => {
+type Props = RouteComponentProps & {
+  facebeookButtonText: string;
+};
+
+const FacebookSignIn = ({
+  history,
+  facebeookButtonText,
+}: Props): JSX.Element => {
   const [error, setError] = React.useState(undefined);
   const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
@@ -24,7 +31,7 @@ const FacebookSignIn = ({ history, facbeookButtonText }) => {
 
   return (
     <>
-      <Form submitText={facbeookButtonText} onSubmit={handleFacebookoSignIn}>
+      <Form submitText={facebeookButtonText} onSubmit={handleFacebookoSignIn}>
         {error && <Error text={error} />}
       </Form>
     </>
