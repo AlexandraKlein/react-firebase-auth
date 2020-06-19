@@ -7,7 +7,7 @@ import { Gutters, BreakPoint } from "../styles";
 type Props = {
   submitText?: string;
   children: React.ReactNode;
-  onSubmit: () => void;
+  onSubmit: (event: React.FormEvent) => Promise<void>;
   isDisabled?: boolean;
   marginTop?: string;
   buttonMarginTop?: string;
@@ -16,7 +16,7 @@ type Props = {
 const StyledForm = styled.form<{ marginTop: string }>`
   display: flex;
   margin-bottom: ${Gutters.LARGE};
-  margin-top: ${(props) => props.marginTop || "0px"};
+  margin-top: ${props => props.marginTop || "0px"};
 
   ${BreakPoint.TABLET} {
     width: 480px;
@@ -30,7 +30,7 @@ const Form = ({
   isDisabled,
   marginTop,
   buttonMarginTop,
-}: Props) => (
+}: Props): JSX.Element => (
   <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
     <Column flex="1" align="unset" justify="unset">
       {children}

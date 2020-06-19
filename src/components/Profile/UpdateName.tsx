@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthContext } from "../../Auth";
+import { AuthContext } from "../../context/Auth";
 import Form from "../Form";
 import Input from "../Input";
 import Error from "../Error";
@@ -28,7 +28,7 @@ const UpdateProfile = () => {
     }
   };
 
-  const onTypeName = event => {
+  const onTypeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value.trim());
   };
 
