@@ -33,7 +33,12 @@ type Props = {
   postID: string;
 };
 
-class Post extends React.PureComponent<Props, {}> {
+type State = {
+  isLiked: boolean;
+  error: Error;
+};
+
+class Post extends React.PureComponent<Props, State> {
   state = {
     isLiked: false,
     error: undefined,
