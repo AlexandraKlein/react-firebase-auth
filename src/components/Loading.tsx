@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import { Column } from "./Container";
 import { Colors } from "../styles";
 
-const Loading = () => (
+const Loading = (): JSX.Element => (
   <Column flex="1">
     <Container>
       <span></span>

@@ -1,11 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { IconType } from "react-icons";
 import { FiHome, FiUser, FiUsers } from "react-icons/fi";
 import app from "../base";
 import Button from "./Button";
 import { Row } from "./Container";
 import { BreakPoint, Colors, Gutters, Type } from "../styles";
+
+type NavItem = {
+  url: string;
+  icon: IconType;
+};
 
 const navigationItems = {
   home: { url: "/", icon: FiHome },
@@ -13,10 +19,10 @@ const navigationItems = {
   users: { url: "/users", icon: FiUsers },
 };
 
-const Navigation = () => (
+const Navigation = (): JSX.Element => (
   <StyledRow justify="space-between" flex="0 0 auto">
     <div>
-      {Object.values(navigationItems).map(item => (
+      {Object.values(navigationItems).map((item: NavItem) => (
         <StyledNavLink
           isActive={(match, location) => location.pathname === item.url}
           to={item.url}

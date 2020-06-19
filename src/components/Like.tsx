@@ -5,7 +5,13 @@ import { Row } from "./Container";
 import { Heading, Paragraph } from "./Text";
 import { Colors, Gutters } from "../styles";
 
-const Like = ({ count, isLiked, onClick }) => (
+type Props = {
+  count: number;
+  isLiked: boolean;
+  onClick: VoidFunction;
+};
+
+const Like = ({ count, isLiked, onClick }: Props): JSX.Element => (
   <Row onClick={onClick}>
     <StyledParagraph marginTop="0" marginBottom="0">
       {count}

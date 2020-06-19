@@ -8,7 +8,32 @@ import { Paragraph, Caption } from "./Text";
 import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
-class Post extends React.PureComponent {
+// email: "bb@aol.com"
+// likes: {nMex6DuzyBQQZr63gPZUxLeYUfF3: true}
+// message: "This is so bitchen !"
+// uid: "xNUpGQv4pedaEuv5jc4unAIqDL22"
+
+type PostType = {
+  email: string;
+  likes: {
+    [key: string]: boolean;
+  };
+  message: string;
+  uid: string;
+};
+
+type Props = {
+  animationDelay: string;
+  currentUser: firebase.User;
+  date: string;
+  displayName: string;
+  photoURL: string;
+  posts: { [key: string]: PostType };
+  post: PostType;
+  postID: string;
+};
+
+class Post extends React.PureComponent<Props, {}> {
   state = {
     isLiked: false,
     error: undefined,
@@ -16,6 +41,9 @@ class Post extends React.PureComponent {
 
   componentDidMount() {
     const { posts, postID, currentUser } = this.props;
+
+    console.log({ posts });
+    console.log({ post: this.props.post });
 
     this.setState({
       isLiked:
@@ -31,12 +59,12 @@ class Post extends React.PureComponent {
       ref
         .child(this.props.currentUser.uid)
         .set(true)
-        .catch((error) => this.setState({ error: error.message }));
+        .catch(error => this.setState({ error: error.message }));
     } else {
       ref
         .child(this.props.currentUser.uid)
         .remove()
-        .catch((error) => this.setState({ error: error.message }));
+        .catch(error => this.setState({ error: error.message }));
     }
   };
 
@@ -60,7 +88,7 @@ class Post extends React.PureComponent {
     return (
       <StyledContainer animationDelay={animationDelay}>
         <ProfileImage
-          altText={post.nickName || "User"}
+          altText={displayName || "User"}
           imgSrc={
             photoURL ||
             "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
@@ -99,7 +127,7 @@ class Post extends React.PureComponent {
 
 export default Post;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ animationDelay: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,7 +136,7 @@ const StyledContainer = styled.div`
   margin: ${Gutters.SMALL} 0;
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
-  animation-delay: ${(props) => props.animationDelay || "0s"};
+  animation-delay: ${props => props.animationDelay || "0s"};
   background-color: ${Colors.PRIMARY_LIGHT};
 
   ${BreakPoint.TABLET} {
