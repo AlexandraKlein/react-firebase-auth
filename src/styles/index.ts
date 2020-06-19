@@ -45,7 +45,7 @@ const deviceSize = {
 export const BreakPoint = Object.keys(deviceSize).reduce((acc, cur) => {
   acc[cur] = `@media (min-width: ${deviceSize[cur]})`;
   return acc;
-}, {});
+}, {}) as any;
 
 export const fadeIn = keyframes`
   from {

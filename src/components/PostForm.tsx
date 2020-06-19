@@ -3,7 +3,7 @@ import * as firebase from "firebase/app";
 import "firebase/database";
 import styled from "styled-components";
 import { FiEdit, FiArrowDown } from "react-icons/fi";
-import { AuthContext } from "../context/Auth";
+import { AuthContext, AuthContextType } from "../context/Auth";
 import { Row, Column } from "./Container";
 import { Heading } from "./Text";
 import ProfileImage from "./ProfileImage";
@@ -13,7 +13,21 @@ import { BreakPoint, Colors, Gutters } from "../styles";
 const postHeight = 600;
 const postHeightMobile = 400;
 
-class PostForm extends React.PureComponent {
+type State = {
+  message: string;
+  error: Error;
+  isOpen: boolean;
+  isUpdating: boolean;
+  placeholder: string;
+};
+
+type Props = {
+  authContext: AuthContextType;
+};
+
+class PostForm extends React.PureComponent<Props, State> {
+  private textArea: React.RefObject<HTMLTextAreaElement>;
+
   constructor(props) {
     super(props);
     this.textArea = React.createRef();
@@ -33,12 +47,12 @@ class PostForm extends React.PureComponent {
     }
   }
 
-  onChange = event => {
+  onChange = (event) => {
     const message = event.currentTarget.value;
     this.setState({ message });
   };
 
-  writePostData = event => {
+  writePostData = (event) => {
     event.preventDefault();
 
     const { currentUser } = this.props.authContext;
@@ -69,7 +83,7 @@ class PostForm extends React.PureComponent {
           }
         );
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({ error: error.message });
       });
   };
@@ -92,7 +106,7 @@ class PostForm extends React.PureComponent {
           <StyledForm
             submitText="Post"
             isDisabled={this.state.message.length === 0}
-            onSubmit={this.writePostData}
+            onSubmit={this.writePostData as any}
           >
             <Row justify="space-between">
               <ProfileImage
@@ -117,26 +131,26 @@ class PostForm extends React.PureComponent {
 
 const DataProvidedPostForm = React.memo(() => (
   <AuthContext.Consumer>
-    {authContext => <PostForm authContext={authContext} />}
+    {(authContext) => <PostForm authContext={authContext} />}
   </AuthContext.Consumer>
 ));
 
 export default DataProvidedPostForm;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ isOpen: boolean }>`
   display: flex;
   position: fixed;
   height: ${postHeightMobile}px;
   left: 0;
   right: 0;
-  bottom:  ${props => (props.isOpen ? "0px" : `-${postHeightMobile + 2}px`)}
+  bottom:  ${(props) => (props.isOpen ? "0px" : `-${postHeightMobile + 2}px`)}
   width: 100%;
   border-top: 2px solid ${Colors.LIGHT_GRAY};
   transition: bottom 0.2s ease;
 
   ${BreakPoint.TABLET}  {
     height: ${postHeight}px;
-    bottom:  ${props => (props.isOpen ? "0px" : `-${postHeight + 2}px`)}
+    bottom:  ${(props) => (props.isOpen ? "0px" : `-${postHeight + 2}px`)}
   }
 `;
 
@@ -170,7 +184,7 @@ const StyledTextArea = styled.textarea`
   margin-left: ${Gutters.MEDIUM};
 `;
 
-const ShowHide = styled(Row)`
+const ShowHide = styled(Row)<{ onClick: () => void }>`
   position: absolute;
   top: -52px;
   right: 24px;

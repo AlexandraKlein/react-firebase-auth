@@ -4,10 +4,19 @@ import Button from "./Button";
 import { Column } from "./Container";
 import { Gutters, BreakPoint } from "../styles";
 
-const StyledForm = styled.form`
+type Props = {
+  submitText?: string;
+  children: React.ReactNode;
+  onSubmit: () => void;
+  isDisabled?: boolean;
+  marginTop?: string;
+  buttonMarginTop?: string;
+};
+
+const StyledForm = styled.form<{ marginTop: string }>`
   display: flex;
   margin-bottom: ${Gutters.LARGE};
-  margin-top: ${props => props.marginTop || "0px"};
+  margin-top: ${(props) => props.marginTop || "0px"};
 
   ${BreakPoint.TABLET} {
     width: 480px;
@@ -21,9 +30,9 @@ const Form = ({
   isDisabled,
   marginTop,
   buttonMarginTop,
-}) => (
+}: Props) => (
   <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
-    <Column flex={1} align="unset" justify="unset">
+    <Column flex="1" align="unset" justify="unset">
       {children}
       <Button
         marginTop={buttonMarginTop}
