@@ -10,11 +10,16 @@ import { Paragraph } from "../Text";
 import Error from "../Error";
 import { BreakPoint, Colors, Gutters } from "../../styles";
 
-type Props = {
-  authContext: AuthContextType;
+type PrivateProps = {
+  authContext?: AuthContextType;
+};
+
+type PublicProps = {
   profile: { [key: string]: any };
   writeUserData: (data: any) => void;
 };
+
+type Props = PrivateProps & PublicProps;
 
 type State = {
   image: File;
@@ -53,13 +58,13 @@ class ImageUpload extends React.PureComponent<Props, State> {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
+      snapshot => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         this.setState({ progress });
       },
-      (error) => {
+      error => {
         this.setState({ error });
       },
       () => {
@@ -68,7 +73,7 @@ class ImageUpload extends React.PureComponent<Props, State> {
           .ref(`images/${currentUser.uid}`)
           .child(image.name)
           .getDownloadURL()
-          .then((url) => {
+          .then(url => {
             this.setState({ url });
             firebase.auth().currentUser.updateProfile({ photoURL: url });
             this.props.writeUserData({
@@ -126,7 +131,7 @@ class ImageUpload extends React.PureComponent<Props, State> {
 
 const DataProvidedImageUpload = React.memo((props: Props) => (
   <AuthContext.Consumer>
-    {(authContext) => <ImageUpload authContext={authContext} {...props} />}
+    {authContext => <ImageUpload authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 

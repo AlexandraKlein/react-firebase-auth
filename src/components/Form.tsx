@@ -7,7 +7,7 @@ import { Gutters, BreakPoint } from "../styles";
 type Props = {
   submitText?: string;
   children: React.ReactNode;
-  onSubmit: (event: React.FormEvent) => Promise<void>;
+  onSubmit: (event: React.FormEvent) => void;
   isDisabled?: boolean;
   marginTop?: string;
   buttonMarginTop?: string;

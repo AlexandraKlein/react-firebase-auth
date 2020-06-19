@@ -14,19 +14,19 @@ type PrivateProps = {
 
 type Props = PrivateProps & PublicProps;
 
-type ProfileContext = {
+export type ProfileContext = {
   profile: { [key: string]: any };
   error: Error;
   isDisabled: boolean;
   isUpdating: boolean;
   pending: boolean;
   onChangeUserInfo: (
-    key: string,
+    key: any,
     event: React.FormEvent<HTMLInputElement>
   ) => void;
-  onSelectChoice: (key: string, event: any) => void;
+  onSelectChoice: (key: string, event: MouseEvent) => void;
   onSelectPreference: (key: string, event: string) => void;
-  updateProfile: (event: React.FormEvent<HTMLInputElement>) => void;
+  updateProfile: (event: React.FormEvent) => void;
   writeUserData: (user: firebase.User) => void;
 };
 
@@ -40,7 +40,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
   constructor(props: Props) {
     super(props);
     this.profile = {};
-    Object.keys(this.props.choiceData).forEach((k) => (this.profile[k] = ""));
+    Object.keys(this.props.choiceData).forEach(k => (this.profile[k] = ""));
 
     this.state = {
       error: undefined,
@@ -86,7 +86,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     firebase
       .database()
       .ref("users/" + this.props.authContext.currentUser.uid)
-      .once("value", (snap) => {
+      .once("value", snap => {
         this.setState({
           profile: {
             ...this.state.profile,
@@ -96,19 +96,19 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
       });
   };
 
-  writeUserData = (user) => {
+  writeUserData = (user: Pick<firebase.User, "uid">) => {
     this.setState({ isUpdating: true });
     firebase
       .database()
       .ref("users/" + user.uid)
       .set(user)
       .then(() => this.setState({ isUpdating: false }))
-      .catch((error) => {
+      .catch(error => {
         this.setState({ error: error.message });
       });
   };
 
-  updateProfile = (event) => {
+  updateProfile = (event: React.FormEvent<Element>) => {
     if (event) {
       event.preventDefault();
     }
@@ -129,7 +129,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     }
   };
 
-  onChangeUserInfo = (key, event) => {
+  onChangeUserInfo = (key: any, event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       isDisabled: false,
       profile: {
@@ -139,7 +139,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     });
   };
 
-  onSelectChoice = (key, event) => {
+  onSelectChoice = (key: any, event: MouseEvent) => {
     this.setState({
       isDisabled: false,
       profile: {
@@ -149,7 +149,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     });
   };
 
-  onSelectPreference = (key, category) => () => {
+  onSelectPreference = (key: any, category: string) => () => {
     this.setState({
       isDisabled: false,
       profile: {
@@ -176,7 +176,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
 
 const DataProvidedProfileProvider = React.memo((props: PublicProps) => (
   <AuthContext.Consumer>
-    {(authContext) => <ProfileProvider authContext={authContext} {...props} />}
+    {authContext => <ProfileProvider authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 

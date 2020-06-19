@@ -1,7 +1,8 @@
 import React from "react";
 import "firebase/database";
 import styled from "styled-components";
-import { AuthContext } from "../../context/Auth";
+import { AuthContext, AuthContextType } from "../../context/Auth";
+import { ProfileConsumer, ProfileContext } from "../../context/Profile";
 import { Container, Column, Row } from "../Container";
 import ImageUpload from "./ImageUpload";
 import Form from "../Form";
@@ -11,7 +12,6 @@ import Error from "../Error";
 import { Subheading, Heading } from "../Text";
 import { Colors, Gutters } from "../../styles";
 import { capitalize } from "../../helpers";
-import { ProfileConsumer } from "../../context/Profile";
 import { choiceData } from "../../data";
 import Loading from "../Loading";
 
@@ -34,12 +34,17 @@ const inputs = [
 ];
 const choicesMultiple = ["pizza", "salads", "poke"];
 
-class Profile extends React.Component {
+type Props = {
+  profileContext: ProfileContext;
+  authContext: AuthContextType;
+};
+
+class Profile extends React.Component<Props, {}> {
   state = {
     hasUpdated: false,
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (
       prevProps.profileContext.isUpdating === true &&
       this.props.profileContext.isUpdating === false
@@ -151,7 +156,7 @@ class Profile extends React.Component {
   }
 }
 
-const DataProvidedProfile = React.memo(props => (
+const DataProvidedProfile = React.memo((props: Props) => (
   <AuthContext.Consumer>
     {authContext => (
       <ProfileConsumer>
@@ -169,7 +174,7 @@ const DataProvidedProfile = React.memo(props => (
 
 export default DataProvidedProfile;
 
-const Success = styled(Heading)`
+const Success = styled(Heading)<{ hasUpdated: boolean }>`
   transition: all 0.2s ease-out;
   overflow: hidden;
   height: ${props => (props.hasUpdated ? "60px" : 0)};
