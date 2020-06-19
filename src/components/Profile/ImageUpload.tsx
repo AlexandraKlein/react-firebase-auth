@@ -2,7 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/storage";
 import styled from "styled-components";
-import { AuthContext } from "../../context/Auth";
+import { AuthContext, AuthContextType } from "../../context/Auth";
 import FileUploadButton from "../FileUploadButton";
 import ProfileImage from "../ProfileImage";
 import { Column, Row } from "../Container";
@@ -10,7 +10,20 @@ import { Paragraph } from "../Text";
 import Error from "../Error";
 import { BreakPoint, Colors, Gutters } from "../../styles";
 
-class ImageUpload extends React.PureComponent {
+type Props = {
+  authContext: AuthContextType;
+  profile: { [key: string]: any };
+  writeUserData: (data: any) => void;
+};
+
+type State = {
+  image: File;
+  url: string;
+  progress: number;
+  error: Error;
+};
+
+class ImageUpload extends React.PureComponent<Props, State> {
   state = {
     image: undefined,
     url: undefined,
@@ -18,7 +31,7 @@ class ImageUpload extends React.PureComponent {
     error: undefined,
   };
 
-  handleChange = file => {
+  handleChange = (file: File) => {
     if (file[0]) {
       const image = file[0];
       this.setState({ image }, this.handleImageUpload);
@@ -40,13 +53,13 @@ class ImageUpload extends React.PureComponent {
 
     uploadTask.on(
       "state_changed",
-      snapshot => {
+      (snapshot) => {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         this.setState({ progress });
       },
-      error => {
+      (error) => {
         this.setState({ error });
       },
       () => {
@@ -55,7 +68,7 @@ class ImageUpload extends React.PureComponent {
           .ref(`images/${currentUser.uid}`)
           .child(image.name)
           .getDownloadURL()
-          .then(url => {
+          .then((url) => {
             this.setState({ url });
             firebase.auth().currentUser.updateProfile({ photoURL: url });
             this.props.writeUserData({
@@ -90,7 +103,7 @@ class ImageUpload extends React.PureComponent {
         <StyledRow justify="space-between" margin={`0 0 ${Gutters.MEDIUM} 0`}>
           <ProfileImage
             imgSrc={imgSrc}
-            alt={currentUser.displayName || "User Profile"}
+            altText={currentUser.displayName || "User Profile"}
           >
             {progress !== 0 && (
               <ProgressOverlay>
@@ -111,9 +124,9 @@ class ImageUpload extends React.PureComponent {
   }
 }
 
-const DataProvidedImageUpload = React.memo(props => (
+const DataProvidedImageUpload = React.memo((props: Props) => (
   <AuthContext.Consumer>
-    {authContext => <ImageUpload authContext={authContext} {...props} />}
+    {(authContext) => <ImageUpload authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 
