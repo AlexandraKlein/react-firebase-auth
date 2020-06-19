@@ -2,14 +2,26 @@ import React from "react";
 import * as firebase from "firebase/app";
 import Loading from "../components/Loading";
 
+type Post = {
+  [key: string]: {
+    email: string;
+    message: string;
+    uid: string;
+  };
+};
+
+type PostsContext = {
+  posts: Post;
+  pending: boolean;
+};
+
 const { Consumer, Provider } = React.createContext({
   posts: null,
-  pending: true,
 });
 
 export { Consumer as PostsConsumer };
 
-class PostsProvider extends React.Component {
+class PostsProvider extends React.Component<{}, PostsContext> {
   state = {
     posts: null,
     pending: true,
@@ -21,13 +33,13 @@ class PostsProvider extends React.Component {
       .ref("posts")
       .on(
         "value",
-        snapshot => {
+        (snapshot) => {
           this.setState({
             posts: snapshot.val(),
             pending: false,
           });
         },
-        error => console.warn({ error })
+        (error: Error) => console.warn({ error })
       );
   }
 
@@ -37,6 +49,7 @@ class PostsProvider extends React.Component {
     if (pending) {
       return <Loading />;
     }
+    console.log(posts);
 
     return (
       <Provider

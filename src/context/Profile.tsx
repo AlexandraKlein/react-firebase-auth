@@ -1,28 +1,52 @@
 import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
-import { AuthContext } from "../context/Auth";
+import { AuthContext, AuthContextType } from "../context/Auth";
 import Loading from "../components/Loading";
 
-const { Consumer, Provider } = React.createContext({
-  profile: undefined,
-  error: false,
-  isDisabled: true,
-  isUpdating: false,
-});
+type PublicProps = {
+  choiceData: { [key: string]: any };
+};
+
+type PrivateProps = {
+  authContext: AuthContextType;
+};
+
+type Props = PrivateProps & PublicProps;
+
+type ProfileContext = {
+  profile: { [key: string]: any };
+  error: Error;
+  isDisabled: boolean;
+  isUpdating: boolean;
+  pending: boolean;
+  onChangeUserInfo: (
+    key: string,
+    event: React.FormEvent<HTMLInputElement>
+  ) => void;
+  onSelectChoice: (key: string, event: any) => void;
+  onSelectPreference: (key: string, event: string) => void;
+  updateProfile: (event: React.FormEvent<HTMLInputElement>) => void;
+  writeUserData: (user: firebase.User) => void;
+};
+
+const { Consumer, Provider } = React.createContext(null);
 
 export { Consumer as ProfileConsumer };
 
-class ProfileProvider extends React.Component {
-  constructor(props) {
+class ProfileProvider extends React.Component<Props, ProfileContext> {
+  profile: { [key: string]: any };
+
+  constructor(props: Props) {
     super(props);
     this.profile = {};
     Object.keys(this.props.choiceData).forEach((k) => (this.profile[k] = ""));
 
     this.state = {
-      error: false,
+      error: undefined,
       isDisabled: true,
       isUpdating: false,
+      pending: false,
       onChangeUserInfo: this.onChangeUserInfo,
       onSelectChoice: this.onSelectChoice,
       onSelectPreference: this.onSelectPreference,
@@ -150,7 +174,7 @@ class ProfileProvider extends React.Component {
   }
 }
 
-const DataProvidedProfileProvider = React.memo((props) => (
+const DataProvidedProfileProvider = React.memo((props: PublicProps) => (
   <AuthContext.Consumer>
     {(authContext) => <ProfileProvider authContext={authContext} {...props} />}
   </AuthContext.Consumer>

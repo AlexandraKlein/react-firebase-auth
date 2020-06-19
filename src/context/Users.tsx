@@ -2,6 +2,11 @@ import React from "react";
 import * as firebase from "firebase/app";
 import Loading from "../components/Loading";
 
+type UsersContext = {
+  users: any;
+  pending: boolean;
+};
+
 const { Consumer, Provider } = React.createContext({
   users: null,
   pending: true,
@@ -9,7 +14,7 @@ const { Consumer, Provider } = React.createContext({
 
 export { Consumer as UsersConsumer };
 
-class UsersProvider extends React.Component {
+class UsersProvider extends React.Component<{}, UsersContext> {
   state = {
     users: null,
     pending: true,
@@ -21,32 +26,22 @@ class UsersProvider extends React.Component {
       .ref("users")
       .on(
         "value",
-        snapshot => {
+        (snapshot) => {
           this.setState({
             users: snapshot.val(),
             pending: false,
           });
         },
-        error => console.warn({ error })
+        (error: Error) => console.warn({ error })
       );
   }
 
   render() {
-    const { pending, users } = this.state;
-
-    if (pending) {
+    if (this.state.pending) {
       return <Loading />;
     }
 
-    return (
-      <Provider
-        value={{
-          users,
-        }}
-      >
-        {this.props.children}
-      </Provider>
-    );
+    return <Provider value={this.state}>{this.props.children}</Provider>;
   }
 }
 
