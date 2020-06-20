@@ -2,7 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import Loading from "../components/Loading";
 
-type Post = {
+export type PostType = {
   [key: string]: {
     email: string;
     message: string;
@@ -10,9 +10,9 @@ type Post = {
   };
 };
 
-type PostsContext = {
-  posts: Post;
-  pending: boolean;
+export type PostsContext = {
+  posts: PostType;
+  pending?: boolean;
 };
 
 const { Consumer, Provider } = React.createContext({

@@ -10,11 +10,11 @@ import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
 type PostType = {
   email: string;
-  likes: {
-    [key: string]: boolean;
-  };
   message: string;
   uid: string;
+  likes?: {
+    [key: string]: boolean;
+  };
 };
 
 type Props = {
@@ -24,7 +24,7 @@ type Props = {
   displayName: string;
   photoURL: string;
   posts: { [key: string]: PostType };
-  post: PostType;
+  post: Pick<PostType, "email" | "message" | "uid">;
   postID: string;
 };
 
@@ -59,12 +59,12 @@ class Post extends React.PureComponent<Props, State> {
       ref
         .child(this.props.currentUser.uid)
         .set(true)
-        .catch(error => this.setState({ error: error.message }));
+        .catch((error) => this.setState({ error: error.message }));
     } else {
       ref
         .child(this.props.currentUser.uid)
         .remove()
-        .catch(error => this.setState({ error: error.message }));
+        .catch((error) => this.setState({ error: error.message }));
     }
   };
 
@@ -136,7 +136,7 @@ const StyledContainer = styled.div<{ animationDelay: string }>`
   margin: ${Gutters.SMALL} 0;
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
-  animation-delay: ${props => props.animationDelay || "0s"};
+  animation-delay: ${(props) => props.animationDelay || "0s"};
   background-color: ${Colors.PRIMARY_LIGHT};
 
   ${BreakPoint.TABLET} {

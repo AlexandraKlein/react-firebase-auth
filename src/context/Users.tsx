@@ -2,8 +2,8 @@ import React from "react";
 import * as firebase from "firebase/app";
 import Loading from "../components/Loading";
 
-type UsersContext = {
-  users: any;
+export type UsersContext = {
+  users: { [key: string]: any };
   pending: boolean;
 };
 

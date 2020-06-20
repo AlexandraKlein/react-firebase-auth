@@ -4,7 +4,11 @@ import ProfileImage from "./ProfileImage";
 import { Paragraph } from "./Text";
 import { BreakPoint, Gutters, fadeUp } from "../styles";
 
-const User = ({ userInfo, ...props }) => (
+type Props = {
+  userInfo: { [key: string]: string };
+};
+
+const User = ({ userInfo, ...props }: Props) => (
   <StyledContainer {...props}>
     <ProfileImage
       altText={userInfo.nickName || "User"}
@@ -26,7 +30,7 @@ const User = ({ userInfo, ...props }) => (
 
 export default User;
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.div<{ animationDelay?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +38,7 @@ const StyledContainer = styled.div`
   padding: ${Gutters.X_LARGE};
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
-  animation-delay: ${props => props.animationDelay || "0s"};
+  animation-delay: ${(props) => props.animationDelay || "0s"};
 
   ${BreakPoint.TABLET} {
     flex-direction: row;

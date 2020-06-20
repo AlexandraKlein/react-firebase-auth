@@ -1,19 +1,29 @@
 import React from "react";
-import { AuthContext } from "../context/Auth";
-import { UsersConsumer } from "../context/Users";
-import { PostsConsumer } from "../context/Posts";
+import { AuthContext, AuthContextType } from "../context/Auth";
+import { UsersConsumer, UsersContext } from "../context/Users";
+import { PostsConsumer, PostsContext } from "../context/Posts";
 import Post from "../components/Post";
 import { Column } from "../components/Container";
 import { Gutters } from "../styles";
 import { Heading } from "../components/Text";
 import PostForm from "../components/PostForm";
 
-const Home = ({ authContext, usersContext, postsContext }) => {
+type Props = {
+  authContext: AuthContextType;
+  usersContext: UsersContext;
+  postsContext: PostsContext;
+};
+
+const Home = ({
+  authContext,
+  usersContext,
+  postsContext,
+}: Props): JSX.Element => {
   const { users } = usersContext;
   const { posts } = postsContext;
   const { currentUser } = authContext;
 
-  const getUserPhotoFromUID = (uid) => {
+  const getUserPhotoFromUID = (uid: string) => {
     const user = Object.entries(users).find((user) => user[0] === uid);
 
     if (!user) {
@@ -23,7 +33,7 @@ const Home = ({ authContext, usersContext, postsContext }) => {
     return user[1].photoURL;
   };
 
-  const getUserDisplayNameFromUID = (uid) => {
+  const getUserDisplayNameFromUID = (uid: string) => {
     const user = Object.entries(users).find((user) => user[0] === uid);
 
     if (!user) {
@@ -33,7 +43,7 @@ const Home = ({ authContext, usersContext, postsContext }) => {
     return user[1].nickName;
   };
 
-  const formatDate = (milliseconds) =>
+  const formatDate = (milliseconds: string) =>
     new Intl.DateTimeFormat("en", {
       year: "numeric",
       month: "long",
@@ -61,7 +71,7 @@ const Home = ({ authContext, usersContext, postsContext }) => {
                   key={post[0]}
                   photoURL={getUserPhotoFromUID(post[1].uid)}
                   post={post[1]}
-                  postID={post[0]}
+                  postID={post[0] as any}
                   posts={posts}
                 />
               );
