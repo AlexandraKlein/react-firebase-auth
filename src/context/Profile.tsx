@@ -27,7 +27,7 @@ export type ProfileContext = {
   onSelectChoice: (key: string, value: boolean) => void;
   onSelectPreference: (key: string, category: string) => void;
   updateProfile: (event: React.FormEvent) => void;
-  writeUserData: (user: firebase.User) => void;
+  writeUserData: (userData: { [key: string]: string }) => void;
 };
 
 const { Consumer, Provider } = React.createContext(null);
@@ -96,12 +96,12 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
       });
   };
 
-  writeUserData = (user: Pick<firebase.User, "uid">) => {
+  writeUserData = (userData: { [key: string]: string }) => {
     this.setState({ isUpdating: true });
     firebase
       .database()
-      .ref("users/" + user.uid)
-      .set(user)
+      .ref("users/" + userData.uid)
+      .set(userData)
       .then(() => this.setState({ isUpdating: false }))
       .catch((error) => {
         this.setState({ error: error.message });
@@ -116,14 +116,14 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     this.setState({ isDisabled: true });
 
     try {
-      const user = {
+      const userData = {
         ...this.state.profile,
         uid: this.props.authContext.currentUser.uid,
         email: this.props.authContext.currentUser.email,
         photoURL: this.props.authContext.currentUser.photoURL || "",
       };
 
-      this.writeUserData(user);
+      this.writeUserData(userData);
     } catch (error) {
       this.setState({ error: error.message });
     }
