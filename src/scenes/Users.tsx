@@ -6,7 +6,7 @@ import { Column, FlexContainer } from "../components/Container";
 import { Gutters } from "../styles";
 import { Caption, Heading, Subheading } from "../components/Text";
 
-const Users = ({ usersContext }) => {
+const Users = ({ usersContext }): JSX.Element => {
   const { users } = usersContext;
 
   return (
@@ -24,7 +24,7 @@ const Users = ({ usersContext }) => {
             <User
               animationDelay={`${index / 5}s`}
               key={index}
-              userInfo={info}
+              userInfo={info as any}
             />
           ))}
       </FlexContainer>
@@ -34,7 +34,7 @@ const Users = ({ usersContext }) => {
 
 const DataProvidedUsers = React.memo(() => (
   <UsersConsumer>
-    {usersContext => <Users usersContext={usersContext} />}
+    {(usersContext) => <Users usersContext={usersContext} />}
   </UsersConsumer>
 ));
 

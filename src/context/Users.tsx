@@ -3,7 +3,7 @@ import * as firebase from "firebase/app";
 import Loading from "../components/Loading";
 
 export type UsersContext = {
-  users: { [key: string]: any };
+  users: { photoURL: string; nickName: string }[];
   pending: boolean;
 };
 

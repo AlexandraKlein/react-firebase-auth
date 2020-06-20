@@ -9,7 +9,7 @@ type PublicProps = {
 };
 
 type PrivateProps = {
-  authContext: AuthContextType;
+  authContext?: AuthContextType;
 };
 
 type Props = PrivateProps & PublicProps;
@@ -40,7 +40,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
   constructor(props: Props) {
     super(props);
     this.profile = {};
-    Object.keys(this.props.choiceData).forEach(k => (this.profile[k] = ""));
+    Object.keys(this.props.choiceData).forEach((k) => (this.profile[k] = ""));
 
     this.state = {
       error: undefined,
@@ -86,7 +86,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     firebase
       .database()
       .ref("users/" + this.props.authContext.currentUser.uid)
-      .once("value", snap => {
+      .once("value", (snap) => {
         this.setState({
           profile: {
             ...this.state.profile,
@@ -103,7 +103,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
       .ref("users/" + user.uid)
       .set(user)
       .then(() => this.setState({ isUpdating: false }))
-      .catch(error => {
+      .catch((error) => {
         this.setState({ error: error.message });
       });
   };
@@ -177,7 +177,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
 
 const DataProvidedProfileProvider = React.memo((props: PublicProps) => (
   <AuthContext.Consumer>
-    {authContext => <ProfileProvider authContext={authContext} {...props} />}
+    {(authContext) => <ProfileProvider authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 

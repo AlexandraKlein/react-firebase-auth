@@ -6,6 +6,7 @@ import { BreakPoint, Gutters, fadeUp } from "../styles";
 
 type Props = {
   userInfo: { [key: string]: string };
+  animationDelay?: string;
 };
 
 const User = ({ userInfo, ...props }: Props) => (
