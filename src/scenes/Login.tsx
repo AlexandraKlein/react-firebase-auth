@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from "react";
-import { withRouter, Redirect } from "react-router";
+import { withRouter, Redirect, RouteComponentProps } from "react-router";
 import styled from "styled-components";
 import app from "../base";
 import { AuthContext } from "../context/Auth";
@@ -11,20 +11,11 @@ import SocialSignIn from "../components/SocialSignIn";
 import { Paragraph, Heading } from "../components/Text";
 import { Column } from "../components/Container";
 
-const StyledParagraph = styled(Paragraph)`
-  align-self: center;
-`;
-
-const StyledLink = styled(Link)`
-  align-self: center;
-  font-weight: 700;
-`;
-
-const Login = ({ history }) => {
+const Login = ({ history }: RouteComponentProps): JSX.Element => {
   const [error, setError] = React.useState(undefined);
 
   const handleLogin = useCallback(
-    async event => {
+    async (event) => {
       event.preventDefault();
       const { email, password } = event.target.elements;
       try {
@@ -53,7 +44,7 @@ const Login = ({ history }) => {
         <Input label="Password" type="password" placeholder="Password" />
         {error && <Error text={error} />}
       </Form>
-      <StyledParagraph fontWeight={700}>- OR -</StyledParagraph>
+      <StyledParagraph fontWeight="700">- OR -</StyledParagraph>
       <SocialSignIn googleButtonText="Sign in with Google" />
       <StyledLink to="/signup">Sign Up</StyledLink>
     </Column>
@@ -61,3 +52,12 @@ const Login = ({ history }) => {
 };
 
 export default withRouter(Login);
+
+const StyledParagraph = styled(Paragraph)<{ fontWeight: string }>`
+  align-self: center;
+`;
+
+const StyledLink = styled(Link)`
+  align-self: center;
+  font-weight: 700;
+`;

@@ -16,7 +16,7 @@ type Props = {
 const StyledForm = styled.form<{ marginTop: string }>`
   display: flex;
   margin-bottom: ${Gutters.LARGE};
-  margin-top: ${props => props.marginTop || "0px"};
+  margin-top: ${(props) => props.marginTop || "0px"};
 
   ${BreakPoint.TABLET} {
     width: 480px;

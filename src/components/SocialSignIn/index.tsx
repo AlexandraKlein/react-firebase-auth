@@ -3,8 +3,8 @@ import GoogleSignIn from "./GoogleSignIn";
 import FacebookSignIn from "./FacebookSignIn";
 
 type Props = {
-  googleButtonText: string;
-  facebeookButtonText: string;
+  googleButtonText?: string;
+  facebeookButtonText?: string;
 };
 
 const SocialSignIn = ({
