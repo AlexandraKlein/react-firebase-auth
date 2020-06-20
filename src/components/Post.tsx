@@ -42,9 +42,6 @@ class Post extends React.PureComponent<Props, State> {
   componentDidMount() {
     const { posts, postID, currentUser } = this.props;
 
-    console.log({ posts });
-    console.log({ post: this.props.post });
-
     this.setState({
       isLiked:
         posts[postID].likes &&
@@ -59,12 +56,12 @@ class Post extends React.PureComponent<Props, State> {
       ref
         .child(this.props.currentUser.uid)
         .set(true)
-        .catch((error) => this.setState({ error: error.message }));
+        .catch(error => this.setState({ error: error.message }));
     } else {
       ref
         .child(this.props.currentUser.uid)
         .remove()
-        .catch((error) => this.setState({ error: error.message }));
+        .catch(error => this.setState({ error: error.message }));
     }
   };
 
@@ -136,7 +133,7 @@ const StyledContainer = styled.div<{ animationDelay: string }>`
   margin: ${Gutters.SMALL} 0;
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
-  animation-delay: ${(props) => props.animationDelay || "0s"};
+  animation-delay: ${props => props.animationDelay || "0s"};
   background-color: ${Colors.PRIMARY_LIGHT};
 
   ${BreakPoint.TABLET} {

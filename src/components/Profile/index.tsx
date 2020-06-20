@@ -35,8 +35,8 @@ const inputs = [
 const choicesMultiple = ["pizza", "salads", "poke"];
 
 type Props = {
-  profileContext?: ProfileContext;
-  authContext?: AuthContextType;
+  profileContext: ProfileContext;
+  authContext: AuthContextType;
 };
 
 class Profile extends React.Component<Props> {
@@ -83,10 +83,10 @@ class Profile extends React.Component<Props> {
           buttonMarginTop="0px"
         >
           <Subheading>Details:</Subheading>
-          {inputs.map((input) => (
+          {inputs.map(input => (
             <Input
               key={input.key}
-              onChange={(e) => profileContext.onChangeUserInfo([input.key], e)}
+              onChange={e => profileContext.onChangeUserInfo([input.key], e)}
               defaultValue={
                 profileContext.profile && profileContext.profile[input.key]
                   ? profileContext.profile[input.key]
@@ -101,13 +101,13 @@ class Profile extends React.Component<Props> {
             <Subheading>I Like:</Subheading>
 
             <Row justify="flex-start">
-              {choicesMultiple.map((choice) => (
+              {choicesMultiple.map(choice => (
                 <Radiobox
                   key={choice}
                   defaultValue={
                     profileContext.profile && profileContext.profile[choice]
                   }
-                  onChange={(e) => profileContext.onSelectChoice(choice, e)}
+                  onChange={e => profileContext.onSelectChoice(choice, e)}
                   label={capitalize(choice)}
                 />
               ))}
@@ -123,7 +123,7 @@ class Profile extends React.Component<Props> {
                 >
                   <Subheading>{`${capitalize(data[0])}:`}</Subheading>
                   <Row justify="flex-start">
-                    {data[1].map((d) => (
+                    {data[1].map(d => (
                       <Radiobox
                         key={d}
                         value={
@@ -158,16 +158,12 @@ class Profile extends React.Component<Props> {
   }
 }
 
-const DataProvidedProfile = React.memo((props: Props) => (
+const DataProvidedProfile = React.memo(() => (
   <AuthContext.Consumer>
-    {(authContext) => (
+    {authContext => (
       <ProfileConsumer>
-        {(profileContext) => (
-          <Profile
-            authContext={authContext}
-            profileContext={profileContext}
-            {...props}
-          />
+        {profileContext => (
+          <Profile authContext={authContext} profileContext={profileContext} />
         )}
       </ProfileConsumer>
     )}
@@ -179,5 +175,5 @@ export default DataProvidedProfile;
 const Success = styled(Heading)<{ hasUpdated: boolean }>`
   transition: all 0.2s ease-out;
   overflow: hidden;
-  height: ${(props) => (props.hasUpdated ? "60px" : 0)};
+  height: ${props => (props.hasUpdated ? "60px" : 0)};
 `;

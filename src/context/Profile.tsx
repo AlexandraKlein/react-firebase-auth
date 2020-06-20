@@ -9,7 +9,7 @@ type PublicProps = {
 };
 
 type PrivateProps = {
-  authContext?: AuthContextType;
+  authContext: AuthContextType;
 };
 
 type Props = PrivateProps & PublicProps;
@@ -35,12 +35,8 @@ const { Consumer, Provider } = React.createContext(null);
 export { Consumer as ProfileConsumer };
 
 class ProfileProvider extends React.Component<Props, ProfileContext> {
-  profile: { [key: string]: any };
-
   constructor(props: Props) {
     super(props);
-    this.profile = {};
-    Object.keys(this.props.choiceData).forEach((k) => (this.profile[k] = ""));
 
     this.state = {
       error: undefined,
@@ -50,7 +46,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
       onChangeUserInfo: this.onChangeUserInfo,
       onSelectChoice: this.onSelectChoice,
       onSelectPreference: this.onSelectPreference,
-      profile: this.profile,
+      profile: undefined,
       updateProfile: this.updateProfile,
       writeUserData: this.writeUserData,
     };
@@ -62,7 +58,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (
       prevProps.authContext.currentUser !==
         this.props.authContext.currentUser &&
@@ -76,9 +72,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
         this.props.authContext.currentUser &&
       this.props.authContext.currentUser === null
     ) {
-      this.setState({
-        profile: this.profile,
-      });
+      this.setState({ profile: undefined });
     }
   }
 
@@ -86,7 +80,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     firebase
       .database()
       .ref("users/" + this.props.authContext.currentUser.uid)
-      .once("value", (snap) => {
+      .once("value", snap => {
         this.setState({
           profile: {
             ...this.state.profile,
@@ -103,7 +97,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
       .ref("users/" + userData.uid)
       .set(userData)
       .then(() => this.setState({ isUpdating: false }))
-      .catch((error) => {
+      .catch(error => {
         this.setState({ error: error.message });
       });
   };
@@ -150,7 +144,6 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
   };
 
   onSelectPreference = (key: string, category: string) => () => {
-    console.log({ key, category });
     this.setState({
       isDisabled: false,
       profile: {
@@ -177,7 +170,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
 
 const DataProvidedProfileProvider = React.memo((props: PublicProps) => (
   <AuthContext.Consumer>
-    {(authContext) => <ProfileProvider authContext={authContext} {...props} />}
+    {authContext => <ProfileProvider authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 

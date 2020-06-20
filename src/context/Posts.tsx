@@ -33,7 +33,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       .ref("posts")
       .on(
         "value",
-        (snapshot) => {
+        snapshot => {
           this.setState({
             posts: snapshot.val(),
             pending: false,
@@ -49,7 +49,6 @@ class PostsProvider extends React.Component<{}, PostsContext> {
     if (pending) {
       return <Loading />;
     }
-    console.log(posts);
 
     return (
       <Provider

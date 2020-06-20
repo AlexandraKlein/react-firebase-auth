@@ -10,15 +10,6 @@ import Link from "../components/Link";
 import { Paragraph, Heading } from "../components/Text";
 import { Column } from "../components/Container";
 
-const StyledParagraph = styled(Paragraph)<{ fontWeight: string }>`
-  align-self: center;
-`;
-
-const StyledLink = styled(Link)`
-  align-self: center;
-  font-weight: 700;
-`;
-
 const SignUp = ({ history }: RouteComponentProps): JSX.Element => {
   const [error, setError] = React.useState<Error["message"]>(undefined);
   const [userInfo, setUserInfo] = React.useState<{ [key: string]: any }>({});
@@ -30,19 +21,19 @@ const SignUp = ({ history }: RouteComponentProps): JSX.Element => {
   ) => {
     userInfo[key] = e.currentTarget.value.trim();
     setUserInfo(userInfo);
-    setIsDisabled(Object.values(userInfo).length < 4);
+    setIsDisabled(Object.values(userInfo).length < 3);
   };
 
   const handleSignUp = useCallback(
-    async (event) => {
+    async event => {
       event.preventDefault();
       try {
         await app
           .auth()
           .createUserWithEmailAndPassword(userInfo.email, userInfo.password)
-          .then((userData) => {
+          .then(userData => {
             userData.user.updateProfile({
-              displayName: `${userInfo.firstName} ${userInfo.lastName}`.trim(),
+              displayName: userInfo.name.trim(),
               photoURL: "",
             });
           });
@@ -63,22 +54,17 @@ const SignUp = ({ history }: RouteComponentProps): JSX.Element => {
         onSubmit={handleSignUp}
       >
         <Input
-          onChange={(e) => onTypeUserInfo("firstName", e)}
-          label="First Name"
+          onChange={e => onTypeUserInfo("name", e)}
+          label="Name"
           type="text"
         />
         <Input
-          onChange={(e) => onTypeUserInfo("lastName", e)}
-          label="Last Name"
-          type="text"
-        />
-        <Input
-          onChange={(e) => onTypeUserInfo("email", e)}
+          onChange={e => onTypeUserInfo("email", e)}
           label="Email"
           type="email"
         />
         <Input
-          onChange={(e) => onTypeUserInfo("password", e)}
+          onChange={e => onTypeUserInfo("password", e)}
           label="Password"
           type="password"
         />
@@ -94,3 +80,12 @@ const SignUp = ({ history }: RouteComponentProps): JSX.Element => {
 };
 
 export default withRouter(SignUp);
+
+const StyledParagraph = styled(Paragraph)<{ fontWeight: string }>`
+  align-self: center;
+`;
+
+const StyledLink = styled(Link)`
+  align-self: center;
+  font-weight: 700;
+`;
