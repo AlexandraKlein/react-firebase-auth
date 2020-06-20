@@ -130,7 +130,9 @@ class Profile extends React.Component<Props, {}> {
                           profileContext.profile &&
                           profileContext.profile[data[0]] === d
                         }
-                        onChange={profileContext.onSelectPreference(d, data[0])}
+                        onChange={
+                          profileContext.onSelectPreference(d, data[0]) as any
+                        }
                         label={capitalize(d)}
                       />
                     ))}

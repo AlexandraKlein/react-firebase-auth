@@ -24,8 +24,8 @@ export type ProfileContext = {
     key: any,
     event: React.FormEvent<HTMLInputElement>
   ) => void;
-  onSelectChoice: (key: string, event: MouseEvent) => void;
-  onSelectPreference: (key: string, event: string) => void;
+  onSelectChoice: (key: string, value: boolean) => void;
+  onSelectPreference: (key: string, category: string) => void;
   updateProfile: (event: React.FormEvent) => void;
   writeUserData: (user: firebase.User) => void;
 };
@@ -139,17 +139,18 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     });
   };
 
-  onSelectChoice = (key: any, event: MouseEvent) => {
+  onSelectChoice = (key: any, value: boolean) => {
     this.setState({
       isDisabled: false,
       profile: {
         ...this.state.profile,
-        [key]: event,
+        [key]: value,
       },
     });
   };
 
-  onSelectPreference = (key: any, category: string) => () => {
+  onSelectPreference = (key: string, category: string) => () => {
+    console.log({ key, category });
     this.setState({
       isDisabled: false,
       profile: {
