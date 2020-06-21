@@ -1,5 +1,5 @@
 import React from "react";
-import app from "../base.js";
+import app from "../base";
 import Loading from "../components/Loading";
 
 export const AuthContext = React.createContext();
@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const [pending, setPending] = React.useState(true);
 
   React.useEffect(() => {
-    app.auth().onAuthStateChanged(user => {
+    app.auth().onAuthStateChanged((user) => {
       setCurrentUser(user);
       setPending(false);
     });

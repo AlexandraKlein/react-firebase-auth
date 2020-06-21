@@ -3,9 +3,11 @@ import * as firebase from "firebase/app";
 import "firebase/database";
 import { AuthContext, AuthContextType } from "../context/Auth";
 import Loading from "../components/Loading";
+import { ChoiceDataType } from "../data";
 
 type PublicProps = {
-  choiceData: { [key: string]: any };
+  choiceData: ChoiceDataType;
+  children: React.ReactNode;
 };
 
 type PrivateProps = {
@@ -80,7 +82,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
     firebase
       .database()
       .ref("users/" + this.props.authContext.currentUser.uid)
-      .once("value", snap => {
+      .once("value", (snap) => {
         this.setState({
           profile: {
             ...this.state.profile,
@@ -97,7 +99,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
       .ref("users/" + userData.uid)
       .set(userData)
       .then(() => this.setState({ isUpdating: false }))
-      .catch(error => {
+      .catch((error) => {
         this.setState({ error: error.message });
       });
   };
@@ -170,7 +172,7 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
 
 const DataProvidedProfileProvider = React.memo((props: PublicProps) => (
   <AuthContext.Consumer>
-    {authContext => <ProfileProvider authContext={authContext} {...props} />}
+    {(authContext) => <ProfileProvider authContext={authContext} {...props} />}
   </AuthContext.Consumer>
 ));
 

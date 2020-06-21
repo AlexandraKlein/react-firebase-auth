@@ -1,5 +1,5 @@
 import React from "react";
-import app from "../base.js";
+import app from "../base";
 import Loading from "../components/Loading";
 import { User } from "firebase";
 
@@ -16,7 +16,7 @@ const AuthProvider = (props: { children: React.ReactNode }) => {
   const [pending, setPending] = React.useState<boolean>(true);
 
   React.useEffect(() => {
-    app.auth().onAuthStateChanged(user => {
+    app.auth().onAuthStateChanged((user) => {
       setCurrentUser(user);
       setPending(false);
     });

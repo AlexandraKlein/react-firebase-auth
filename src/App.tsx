@@ -23,7 +23,7 @@ const App = () => {
         <ProfileProvider choiceData={choiceData}>
           <PostsProvider>
             <AuthContext.Consumer>
-              {authContext => (
+              {(authContext) => (
                 <Router>
                   {authContext.currentUser && <Navigation />}
                   <Container

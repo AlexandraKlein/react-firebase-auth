@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteChildrenProps } from "react-router-dom";
 
-function ScrollToTop({ history }) {
+function ScrollToTop({ history }: RouteChildrenProps) {
   useEffect(() => {
     const unlisten = history.listen(() => {
       window.scrollTo(0, 0);
