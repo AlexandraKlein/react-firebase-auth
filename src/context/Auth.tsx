@@ -1,12 +1,19 @@
 import React from "react";
 import app from "../base";
 import Loading from "../components/Loading";
+import { User } from "firebase";
 
-export const AuthContext = React.createContext();
+export type AuthContextType = {
+  currentUser: User | null;
+};
 
-const AuthProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = React.useState(null);
-  const [pending, setPending] = React.useState(true);
+export const AuthContext = React.createContext({
+  currentUser: null,
+});
+
+const AuthProvider = (props: { children: React.ReactNode }) => {
+  const [currentUser, setCurrentUser] = React.useState<User | null>(null);
+  const [pending, setPending] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     app.auth().onAuthStateChanged((user) => {
@@ -25,7 +32,7 @@ const AuthProvider = ({ children }) => {
         currentUser,
       }}
     >
-      {children}
+      {props.children}
     </AuthContext.Provider>
   );
 };
