@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Row } from "./Container";
 import { BreakPoint, Gutters, Colors, fadeIn } from "../styles";
 
 type StyleProps = {
@@ -16,7 +15,7 @@ type Props = StyleProps & {
 };
 
 const ProfileImage = ({ imgSrc, altText, ...props }: Props) => (
-  <ImageContainer align="stretch" {...props}>
+  <ImageContainer {...props}>
     {imgSrc && <Image src={imgSrc} alt={altText} />}
     {props.children}
   </ImageContainer>
@@ -24,26 +23,25 @@ const ProfileImage = ({ imgSrc, altText, ...props }: Props) => (
 
 export default ProfileImage;
 
-const ImageContainer = styled(Row)<StyleProps>`
-  display: flex;
-  justify-content: center;
+const ImageContainer = styled.div<StyleProps>`
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
-  margin-bottom: ${(props) => props.marginBottom || Gutters.MEDIUM};
-  width: ${(props) => props.size || "160px"};
-  height: ${(props) => props.size || "160px"};
+  margin-bottom: ${props => props.marginBottom || Gutters.MEDIUM};
+  width: ${props => props.size || "160px"};
+  height: ${props => props.size || "160px"};
   border-radius: 50%;
   overflow: hidden;
   will-change: transform;
 
   ${BreakPoint.TABLET} {
     margin-bottom: 0;
-    margin-right: ${(props) => props.marginRight || Gutters.LARGE};
+    margin-right: ${props => props.marginRight || Gutters.LARGE};
   }
 `;
 
 const Image = styled.img`
   width: 100%;
+  height: 100%;
   object-fit: cover;
   opacity: 0;
   animation: ${fadeIn} 0.75s ease-out forwards;
