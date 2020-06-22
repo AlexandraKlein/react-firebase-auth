@@ -26,16 +26,16 @@ export default ProfileImage;
 const ImageContainer = styled.div<StyleProps>`
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
-  margin-bottom: ${props => props.marginBottom || Gutters.MEDIUM};
-  width: ${props => props.size || "160px"};
-  height: ${props => props.size || "160px"};
+  margin-bottom: ${(props) => props.marginBottom || Gutters.MEDIUM};
+  width: ${(props) => props.size || "160px"};
+  height: ${(props) => props.size || "160px"};
   border-radius: 50%;
   overflow: hidden;
   will-change: transform;
 
   ${BreakPoint.TABLET} {
     margin-bottom: 0;
-    margin-right: ${props => props.marginRight || Gutters.LARGE};
+    margin-right: ${(props) => props.marginRight || Gutters.LARGE};
   }
 `;
 

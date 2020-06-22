@@ -10,6 +10,7 @@ import AuthProvider, { AuthContext } from "./context/Auth";
 import UsersProvider from "./context/Users";
 import ProfileProvider from "./context/Profile";
 import PostsProvider from "./context/Posts";
+import FileUploadProvider from "./context/FileUpload";
 import PrivateRoute from "./PrivateRoute";
 import Navigation from "./components/Navigation";
 import { Container } from "./components/Container";
@@ -22,23 +23,25 @@ const App = () => {
       <UsersProvider>
         <ProfileProvider choiceData={choiceData}>
           <PostsProvider>
-            <AuthContext.Consumer>
-              {(authContext) => (
-                <Router>
-                  {authContext.currentUser && <Navigation />}
-                  <Container
-                    padding={`0 ${Gutters.MEDIUM} ${Gutters.DOUBLE_X}`}
-                  >
-                    <ScrollToTop />
-                    <PrivateRoute exact path="/" component={Home} />
-                    <PrivateRoute exact path="/profile" component={Profile} />
-                    <PrivateRoute exact path="/users" component={Users} />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/signup" component={SignUp} />
-                  </Container>
-                </Router>
-              )}
-            </AuthContext.Consumer>
+            <FileUploadProvider>
+              <AuthContext.Consumer>
+                {(authContext) => (
+                  <Router>
+                    {authContext.currentUser && <Navigation />}
+                    <Container
+                      padding={`0 ${Gutters.MEDIUM} ${Gutters.DOUBLE_X}`}
+                    >
+                      <ScrollToTop />
+                      <PrivateRoute exact path="/" component={Home} />
+                      <PrivateRoute exact path="/profile" component={Profile} />
+                      <PrivateRoute exact path="/users" component={Users} />
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/signup" component={SignUp} />
+                    </Container>
+                  </Router>
+                )}
+              </AuthContext.Consumer>
+            </FileUploadProvider>
           </PostsProvider>
         </ProfileProvider>
       </UsersProvider>

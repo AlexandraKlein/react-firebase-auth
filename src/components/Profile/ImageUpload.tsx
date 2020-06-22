@@ -3,6 +3,10 @@ import * as firebase from "firebase/app";
 import "firebase/storage";
 import styled from "styled-components";
 import { AuthContext, AuthContextType } from "../../context/Auth";
+import {
+  FileUploadConsumer,
+  FileUploadContext,
+} from "../../context/FileUpload";
 import FileUploadButton from "../FileUploadButton";
 import ProfileImage from "../ProfileImage";
 import { Column, Row } from "../Container";
@@ -12,6 +16,7 @@ import { BreakPoint, Colors, Gutters } from "../../styles";
 
 type PrivateProps = {
   authContext: AuthContextType;
+  fileUploadContext: FileUploadContext;
 };
 
 type PublicProps = {
@@ -21,80 +26,26 @@ type PublicProps = {
 
 type Props = PrivateProps & PublicProps;
 
-type State = {
-  image: File;
-  url: string;
-  progress: number;
-  error: Error;
-};
-
-class ImageUpload extends React.PureComponent<Props, State> {
-  state = {
-    image: undefined,
-    url: undefined,
-    progress: 0,
-    error: undefined,
-  };
-
-  handleChange = (files: File[]) => {
-    if (files[0]) {
-      const image = files[0];
-      this.setState({ image }, this.handleImageUpload);
+class ImageUpload extends React.PureComponent<Props> {
+  componentDidUpdate(prevProps: Props) {
+    if (
+      prevProps.fileUploadContext.url !== this.props.fileUploadContext.url &&
+      this.props.fileUploadContext.url !== undefined
+    ) {
+      firebase.auth().currentUser.updateProfile({
+        photoURL: this.props.fileUploadContext.url,
+      });
+      this.props.writeUserData({
+        ...this.props.profile,
+        uid: this.props.authContext.currentUser.uid,
+        email: this.props.authContext.currentUser.email,
+        photoURL: this.props.fileUploadContext.url,
+      });
     }
-  };
-
-  handleImageUpload = () => {
-    if (this.state.image === undefined) {
-      return;
-    }
-
-    const { image } = this.state;
-    const { currentUser } = this.props.authContext;
-
-    const uploadTask = firebase
-      .storage()
-      .ref(`images/${currentUser.uid}/${image.name}`)
-      .put(image);
-
-    uploadTask.on(
-      "state_changed",
-      snapshot => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        this.setState({ progress });
-      },
-      error => {
-        this.setState({ error });
-      },
-      () => {
-        firebase
-          .storage()
-          .ref(`images/${currentUser.uid}`)
-          .child(image.name)
-          .getDownloadURL()
-          .then(url => {
-            this.setState({ url });
-            firebase.auth().currentUser.updateProfile({ photoURL: url });
-            this.props.writeUserData({
-              ...this.props.profile,
-              uid: this.props.authContext.currentUser.uid,
-              email: this.props.authContext.currentUser.email,
-              photoURL: url,
-            });
-          })
-          .finally(() => {
-            this.setState({
-              image: undefined,
-              progress: 0,
-            });
-          });
-      }
-    );
-  };
+  }
 
   render() {
-    const { url, progress, error } = this.state;
+    const { handleChange, error, url, progress } = this.props.fileUploadContext;
     const { currentUser } = this.props.authContext;
 
     const imgSrc = url
@@ -117,10 +68,7 @@ class ImageUpload extends React.PureComponent<Props, State> {
             )}
           </ProfileImage>
           <Column>
-            <FileUploadButton
-              text="Upload Image"
-              onDropFiles={this.handleChange}
-            />
+            <FileUploadButton text="Upload Image" onDropFiles={handleChange} />
           </Column>
         </StyledRow>
         {error && <Error text={error} />}
@@ -130,9 +78,19 @@ class ImageUpload extends React.PureComponent<Props, State> {
 }
 
 const DataProvidedImageUpload = React.memo((props: PublicProps) => (
-  <AuthContext.Consumer>
-    {authContext => <ImageUpload authContext={authContext} {...props} />}
-  </AuthContext.Consumer>
+  <FileUploadConsumer>
+    {(fileUploadContext) => (
+      <AuthContext.Consumer>
+        {(authContext) => (
+          <ImageUpload
+            authContext={authContext}
+            fileUploadContext={fileUploadContext}
+            {...props}
+          />
+        )}
+      </AuthContext.Consumer>
+    )}
+  </FileUploadConsumer>
 ));
 
 export default DataProvidedImageUpload;
@@ -147,6 +105,7 @@ const StyledRow = styled(Row)`
 
 const ProgressOverlay = styled(Row)`
   position: absolute;
+  top: 0;
   opacity: 0.75;
   width: 100%;
   height: 100%;
