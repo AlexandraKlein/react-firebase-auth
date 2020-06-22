@@ -1,6 +1,7 @@
 import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
+import { FileUploadConsumer, FileUploadContext } from "../context/FileUpload";
 import styled from "styled-components";
 import { FiEdit, FiArrowDown } from "react-icons/fi";
 import { AuthContext, AuthContextType } from "../context/Auth";
@@ -8,13 +9,16 @@ import { Row, Column } from "./Container";
 import { Heading } from "./Text";
 import ProfileImage from "./ProfileImage";
 import Form from "./Form";
+import Error from "./Error";
 import { BreakPoint, Colors, Gutters } from "../styles";
+import FileUploadButton from "./FileUploadButton";
 
 const postHeight = 600;
 const postHeightMobile = 400;
 
 type State = {
   message: string;
+  imageURL?: string;
   error: Error;
   isOpen: boolean;
   isUpdating: boolean;
@@ -23,36 +27,45 @@ type State = {
 
 type Props = {
   authContext: AuthContextType;
+  fileUploadContext: FileUploadContext;
 };
 
 class PostForm extends React.PureComponent<Props, State> {
   private textArea: React.RefObject<HTMLTextAreaElement>;
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.textArea = React.createRef();
 
     this.state = {
       message: "",
       error: undefined,
+      imageURL: "",
       isOpen: false,
       isUpdating: false,
       placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     if (prevState.isOpen !== this.state.isOpen && this.state.isOpen) {
       this.textArea.current.focus();
     }
+
+    if (
+      prevProps.fileUploadContext.url !== this.props.fileUploadContext.url &&
+      this.props.fileUploadContext.url !== undefined
+    ) {
+      this.setState({ imageURL: this.props.fileUploadContext.url });
+    }
   }
 
-  onChange = (event) => {
+  onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const message = event.currentTarget.value;
     this.setState({ message });
   };
 
-  writePostData = (event) => {
+  writePostData = (event: React.FormEvent<Element>) => {
     event.preventDefault();
 
     const { currentUser } = this.props.authContext;
@@ -60,6 +73,7 @@ class PostForm extends React.PureComponent<Props, State> {
     const post = {
       date: new Date(),
       message: this.state.message,
+      imageURL: this.state.imageURL,
       uid: currentUser.uid,
       email: currentUser.email,
     };
@@ -83,6 +97,7 @@ class PostForm extends React.PureComponent<Props, State> {
           }
         );
       })
+      .finally(this.props.fileUploadContext.clearUrl)
       .catch((error) => {
         this.setState({ error: error.message });
       });
@@ -90,6 +105,7 @@ class PostForm extends React.PureComponent<Props, State> {
 
   render() {
     const { currentUser } = this.props.authContext;
+    const { handleChange, error, url, progress } = this.props.fileUploadContext;
     const { isOpen } = this.state;
 
     return (
@@ -105,9 +121,10 @@ class PostForm extends React.PureComponent<Props, State> {
         <StyledInnerContainer>
           <StyledForm
             submitText="Post"
-            isDisabled={this.state.message.length === 0}
-            onSubmit={this.writePostData as any}
+            isDisabled={this.state.message.length === 0 && url === undefined}
+            onSubmit={this.writePostData}
           >
+            {error && <Error text={error} />}
             <Row justify="space-between">
               <ProfileImage
                 imgSrc={currentUser.photoURL}
@@ -122,6 +139,18 @@ class PostForm extends React.PureComponent<Props, State> {
                 placeholder={this.state.placeholder}
               ></StyledTextArea>
             </Row>
+            {url && <ImagePreview src={url} />}
+            <FileUploadButton
+              text={
+                url === undefined && progress === 0
+                  ? "Upload Image"
+                  : progress > 0 && progress < 100
+                  ? progress + "%"
+                  : "Success!"
+              }
+              isDisabled={url !== undefined}
+              onDropFiles={(file) => handleChange(file, "post")}
+            />
           </StyledForm>
         </StyledInnerContainer>
       </StyledContainer>
@@ -130,9 +159,18 @@ class PostForm extends React.PureComponent<Props, State> {
 }
 
 const DataProvidedPostForm = React.memo(() => (
-  <AuthContext.Consumer>
-    {(authContext) => <PostForm authContext={authContext} />}
-  </AuthContext.Consumer>
+  <FileUploadConsumer>
+    {(fileUploadContext) => (
+      <AuthContext.Consumer>
+        {(authContext) => (
+          <PostForm
+            authContext={authContext}
+            fileUploadContext={fileUploadContext}
+          />
+        )}
+      </AuthContext.Consumer>
+    )}
+  </FileUploadConsumer>
 ));
 
 export default DataProvidedPostForm;
@@ -182,6 +220,13 @@ const StyledTextArea = styled.textarea`
   padding: ${Gutters.MEDIUM};
   height: 100px;
   margin-left: ${Gutters.MEDIUM};
+`;
+
+const ImagePreview = styled.img`
+  margin-top: ${Gutters.MEDIUM};
+  width: auto;
+  height: 150px;
+  object-fit: contain;
 `;
 
 const ShowHide = styled(Row)<{ onClick: () => void }>`

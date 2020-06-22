@@ -10,6 +10,7 @@ import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
 type PostType = {
   email: string;
+  imageURL?: string;
   message: string;
   uid: string;
   likes?: {
@@ -24,7 +25,7 @@ type Props = {
   displayName: string;
   photoURL: string;
   posts: { [key: string]: PostType };
-  post: Pick<PostType, "email" | "message" | "uid">;
+  post: Pick<PostType, "email" | "message" | "imageURL" | "uid">;
   postID: string;
 };
 
@@ -56,12 +57,12 @@ class Post extends React.PureComponent<Props, State> {
       ref
         .child(this.props.currentUser.uid)
         .set(true)
-        .catch(error => this.setState({ error: error.message }));
+        .catch((error) => this.setState({ error: error.message }));
     } else {
       ref
         .child(this.props.currentUser.uid)
         .remove()
-        .catch(error => this.setState({ error: error.message }));
+        .catch((error) => this.setState({ error: error.message }));
     }
   };
 
@@ -86,6 +87,7 @@ class Post extends React.PureComponent<Props, State> {
       <StyledContainer animationDelay={animationDelay}>
         <ProfileImage
           altText={displayName || "User"}
+          size="100px"
           imgSrc={
             photoURL ||
             "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
@@ -93,9 +95,15 @@ class Post extends React.PureComponent<Props, State> {
         />
         <TextContainer>
           <Caption>{date}</Caption>
+
           <Paragraph marginTop={Gutters.SMALL} marginBottom="0px">
             {post.message}
           </Paragraph>
+
+          {post.imageURL && (
+            <StyledImage alt="Post Image" src={post.imageURL} />
+          )}
+
           <Paragraph
             fontWeight="bold"
             marginTop={Gutters.MEDIUM}
@@ -103,7 +111,9 @@ class Post extends React.PureComponent<Props, State> {
           >
             {displayName || "Anonymous"}
           </Paragraph>
+
           <Caption marginTop="0px">{post.email}</Caption>
+
           <StyledUpVote>
             <Like
               count={
@@ -133,13 +143,19 @@ const StyledContainer = styled.div<{ animationDelay: string }>`
   margin: ${Gutters.SMALL} 0;
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
-  animation-delay: ${props => props.animationDelay || "0s"};
+  animation-delay: ${(props) => props.animationDelay || "0s"};
   background-color: ${Colors.PRIMARY_LIGHT};
 
   ${BreakPoint.TABLET} {
     flex-direction: row;
     justify-content: space-between;
   }
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  margin-top: ${Gutters.MEDIUM};
+  margin-bottom: ${Gutters.MEDIUM};
 `;
 
 const TextContainer = styled.div`

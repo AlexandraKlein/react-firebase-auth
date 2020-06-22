@@ -44,6 +44,10 @@ class ImageUpload extends React.PureComponent<Props> {
     }
   }
 
+  componentWillUnmount() {
+    this.props.fileUploadContext.clearUrl();
+  }
+
   render() {
     const { handleChange, error, url, progress } = this.props.fileUploadContext;
     const { currentUser } = this.props.authContext;

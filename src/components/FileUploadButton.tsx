@@ -4,19 +4,23 @@ import Button from "./Button";
 type Props = {
   text: string;
   onDropFiles: (files: File[]) => void;
+  isDisabled?: boolean;
 };
 
 class FileUploadButton extends React.PureComponent<Props> {
   input: HTMLInputElement | null;
 
-  onClick = () => {
+  onClick = (event: MouseEvent) => {
+    event.preventDefault();
     if (!this.input) {
       return;
     }
+
     this.input.click();
   };
 
-  onChangeInput = (e: React.ChangeEvent) => {
+  onChangeInput = (event: React.ChangeEvent) => {
+    event.preventDefault();
     if (!this.input) {
       return;
     }
@@ -35,9 +39,13 @@ class FileUploadButton extends React.PureComponent<Props> {
   render() {
     return (
       <>
-        <Button text={this.props.text} onClick={this.onClick} />
+        <Button
+          isDisabled={this.props.isDisabled}
+          text={this.props.text}
+          onClick={this.onClick}
+        />
         <input
-          ref={ref => (this.input = ref)}
+          ref={(ref) => (this.input = ref)}
           type="file"
           accept="image/*"
           style={{ display: "none" }}

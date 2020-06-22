@@ -1,6 +1,7 @@
 import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/storage";
+
 import { AuthContext, AuthContextType } from "./Auth";
 
 type PublicProps = {
@@ -18,8 +19,9 @@ export type FileUploadContext = {
   url?: string;
   progress: number;
   error: Error["message"];
-  handleChange: (files: File[]) => void;
+  handleChange: (files: File[], directory?: string) => void;
   handleImageUpload: (directory?: string) => void;
+  clearUrl: () => void;
 };
 
 const { Consumer, Provider } = React.createContext(null);
@@ -37,9 +39,11 @@ class FileUpload extends React.PureComponent<Props, FileUploadContext> {
     }
   }
 
-  handleChange = (files: File[]) => {
+  handleChange = (files: File[], directory?: string) => {
     if (files[0]) {
-      this.setState({ file: files[0] }, this.handleImageUpload);
+      this.setState({ file: files[0] }, () =>
+        this.handleImageUpload(directory)
+      );
     }
   };
 
@@ -83,6 +87,8 @@ class FileUpload extends React.PureComponent<Props, FileUploadContext> {
     );
   };
 
+  clearUrl = () => this.setState({ url: undefined });
+
   state = {
     file: undefined,
     url: undefined,
@@ -90,6 +96,7 @@ class FileUpload extends React.PureComponent<Props, FileUploadContext> {
     error: undefined,
     handleImageUpload: this.handleImageUpload,
     handleChange: this.handleChange,
+    clearUrl: this.clearUrl,
   };
 
   render() {

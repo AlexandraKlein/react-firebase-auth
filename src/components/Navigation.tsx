@@ -15,8 +15,8 @@ type NavItem = {
 
 const navigationItems = {
   home: { url: "/", icon: FiHome },
-  profile: { url: "/profile", icon: FiUser },
   users: { url: "/users", icon: FiUsers },
+  profile: { url: "/profile", icon: FiUser },
 };
 
 const Navigation = (): JSX.Element => (
