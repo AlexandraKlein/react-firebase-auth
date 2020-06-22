@@ -14,7 +14,7 @@ import { BreakPoint, Colors, Gutters } from "../styles";
 import FileUploadButton from "./FileUploadButton";
 
 const postHeight = 600;
-const postHeightMobile = 400;
+const postHeightMobile = 500;
 
 type State = {
   message: string;
