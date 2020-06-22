@@ -103,6 +103,15 @@ class PostForm extends React.PureComponent<Props, State> {
       });
   };
 
+  onClickShowHide = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+
+    if (this.state.isOpen) {
+      this.setState({ message: "", imageURL: "" });
+      this.props.fileUploadContext.clearUrl();
+    }
+  };
+
   render() {
     const { currentUser } = this.props.authContext;
     const { handleChange, error, url, progress } = this.props.fileUploadContext;
@@ -110,10 +119,7 @@ class PostForm extends React.PureComponent<Props, State> {
 
     return (
       <StyledContainer isOpen={isOpen}>
-        <ShowHide
-          align="flex-start"
-          onClick={() => this.setState({ isOpen: !isOpen })}
-        >
+        <ShowHide align="flex-start" onClick={this.onClickShowHide}>
           <Heading marginTop="10px" marginBottom="0px" color={Colors.PRIMARY}>
             {isOpen ? <FiArrowDown /> : <FiEdit />}
           </Heading>
