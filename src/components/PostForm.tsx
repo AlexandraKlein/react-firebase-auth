@@ -118,7 +118,6 @@ class PostForm extends React.PureComponent<Props, State> {
     const { handleChange, error, url, progress } = this.props.fileUploadContext;
     const { isOpen } = this.state;
 
-    console.log("hasURL", url !== undefined);
     return (
       <StyledContainer isOpen={isOpen} url={url}>
         <ShowHide align="flex-start" onClick={this.onClickShowHide}>
