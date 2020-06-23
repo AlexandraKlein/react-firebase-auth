@@ -2,8 +2,8 @@ import React from "react";
 import * as firebase from "firebase/app";
 import Loading from "../components/Loading";
 
-export type UsersContext = {
-  users: { photoURL: string; nickName: string }[];
+export type UsersContextType = {
+  users: { photoURL: string; nickName: string; email: string }[];
   pending: boolean;
 };
 
@@ -14,7 +14,7 @@ const { Consumer, Provider } = React.createContext({
 
 export { Consumer as UsersConsumer };
 
-class UsersProvider extends React.Component<{}, UsersContext> {
+class UsersProvider extends React.Component<{}, UsersContextType> {
   state = {
     users: null,
     pending: true,
@@ -26,7 +26,7 @@ class UsersProvider extends React.Component<{}, UsersContext> {
       .ref("users")
       .on(
         "value",
-        (snapshot) => {
+        snapshot => {
           this.setState({
             users: snapshot.val(),
             pending: false,

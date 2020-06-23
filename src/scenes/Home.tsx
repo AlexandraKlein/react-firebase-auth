@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthContext, AuthContextType } from "../context/Auth";
-import { UsersConsumer, UsersContext } from "../context/Users";
+import { UsersConsumer, UsersContextType } from "../context/Users";
 import { PostsConsumer, PostsContext } from "../context/Posts";
 import Post from "../components/Post";
 import { Column } from "../components/Container";
@@ -10,7 +10,7 @@ import PostForm from "../components/PostForm";
 
 type Props = {
   authContext: AuthContextType;
-  usersContext: UsersContext;
+  usersContext: UsersContextType;
   postsContext: PostsContext;
 };
 
@@ -24,7 +24,7 @@ const Home = ({
   const { currentUser } = authContext;
 
   const getUserPhotoFromUID = (uid: string) => {
-    const user = Object.entries(users).find((user) => user[0] === uid);
+    const user = Object.entries(users).find(user => user[0] === uid);
 
     if (!user) {
       return;
@@ -34,7 +34,7 @@ const Home = ({
   };
 
   const getUserDisplayNameFromUID = (uid: string) => {
-    const user = Object.entries(users).find((user) => user[0] === uid);
+    const user = Object.entries(users).find(user => user[0] === uid);
 
     if (!user) {
       return;
@@ -84,11 +84,11 @@ const Home = ({
 
 const DataProvidedHome = React.memo(() => (
   <AuthContext.Consumer>
-    {(authContext) => (
+    {authContext => (
       <UsersConsumer>
-        {(usersContext) => (
+        {usersContext => (
           <PostsConsumer>
-            {(postsContext) => (
+            {postsContext => (
               <Home
                 authContext={authContext}
                 usersContext={usersContext}

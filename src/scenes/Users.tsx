@@ -1,13 +1,23 @@
 import React from "react";
-import { UsersConsumer } from "../context/Users";
+import { UsersConsumer, UsersContextType } from "../context/Users";
 import User from "../components/User";
 import Link from "../components/Link";
 import { Column, FlexContainer } from "../components/Container";
 import { Gutters } from "../styles";
 import { Caption, Heading, Subheading } from "../components/Text";
 
-const Users = ({ usersContext }): JSX.Element => {
+const Users = ({
+  usersContext,
+}: {
+  [key: string]: UsersContextType;
+}): JSX.Element => {
   const { users } = usersContext;
+
+  const getUsers = () => {
+    return Object.values(users).sort((a, b) =>
+      a.email < b.email ? -1 : a.email > b.email ? 1 : 0
+    );
+  };
 
   return (
     <>
@@ -20,7 +30,7 @@ const Users = ({ usersContext }): JSX.Element => {
       </Column>
       <FlexContainer margin={`${Gutters.X_LARGE} 0 0 0`} wrap="wrap">
         {users !== null &&
-          Object.values(users).map((info, index) => (
+          Object.values(getUsers()).map((info, index) => (
             <User
               animationDelay={`${index / 5}s`}
               key={index}
@@ -34,7 +44,7 @@ const Users = ({ usersContext }): JSX.Element => {
 
 const DataProvidedUsers = React.memo(() => (
   <UsersConsumer>
-    {(usersContext) => <Users usersContext={usersContext} />}
+    {usersContext => <Users usersContext={usersContext} />}
   </UsersConsumer>
 ));
 
