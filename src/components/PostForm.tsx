@@ -14,7 +14,8 @@ import { BreakPoint, Colors, Gutters } from "../styles";
 import FileUploadButton from "./FileUploadButton";
 
 const postHeight = 600;
-const postHeightMobile = 500;
+const postHeightMobile = 400;
+const postHeightMobileWithPhotoPreview = 500;
 
 type State = {
   message: string;
@@ -117,8 +118,9 @@ class PostForm extends React.PureComponent<Props, State> {
     const { handleChange, error, url, progress } = this.props.fileUploadContext;
     const { isOpen } = this.state;
 
+    console.log("hasURL", url !== undefined);
     return (
-      <StyledContainer isOpen={isOpen}>
+      <StyledContainer isOpen={isOpen} url={url}>
         <ShowHide align="flex-start" onClick={this.onClickShowHide}>
           <Heading marginTop="10px" marginBottom="0px" color={Colors.PRIMARY}>
             {isOpen ? <FiArrowDown /> : <FiEdit />}
@@ -181,10 +183,13 @@ const DataProvidedPostForm = React.memo(() => (
 
 export default DataProvidedPostForm;
 
-const StyledContainer = styled.div<{ isOpen: boolean }>`
+const StyledContainer = styled.div<{ isOpen: boolean; url?: string }>`
   display: flex;
   position: fixed;
-  height: ${postHeightMobile}px;
+  height: ${(props) =>
+    props.url === undefined
+      ? postHeightMobile
+      : postHeightMobileWithPhotoPreview}px;
   left: 0;
   right: 0;
   bottom:  ${(props) => (props.isOpen ? "0px" : `-${postHeightMobile + 2}px`)}
