@@ -21,7 +21,7 @@ const Modal = ({
   onClickClose,
 }) => (
   <Container isVisible={isVisible}>
-    <InnerContainer>
+    <InnerContainer isVisible={isVisible}>
       <Close onClick={onClickClose}>
         <Title marginBottom="0px" marginTop="0px">
           <GrClose />
@@ -50,7 +50,7 @@ const Container = styled.div<{ isVisible: boolean }>`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const InnerContainer = styled.div`
+const InnerContainer = styled.div<{ isVisible: boolean }>`
   position: relative;
   display: flex;
   justify-content: center;
@@ -64,6 +64,10 @@ const InnerContainer = styled.div`
   ${BreakPoint.TABLET} {
     width: 80%;
     height: auto;
+    opacity: ${(props) => (props.isVisible ? 1 : 0)};
+    transform: ${(props) =>
+      props.isVisible ? "translateY(0)" : "translateY(60px)"};
+    transition: all 0.2s ease-out;
   }
 `;
 
