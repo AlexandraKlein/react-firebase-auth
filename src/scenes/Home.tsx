@@ -96,7 +96,9 @@ const Home = ({
         isVisible={isModalVisible}
         buttonText="Confirm"
       >
-        <Paragraph>Are you sure you want to delete your post?</Paragraph>
+        <Paragraph align="center">
+          Are you sure you want to delete your post?
+        </Paragraph>
       </Modal>
     </>
   );

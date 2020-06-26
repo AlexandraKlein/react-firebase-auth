@@ -54,6 +54,7 @@ const InnerContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
+  padding: ${Gutters.MEDIUM};
   flex-direction: column;
   align-items: center;
   width: 100%;
