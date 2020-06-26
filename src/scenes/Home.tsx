@@ -1,11 +1,14 @@
 import React from "react";
+import * as firebase from "firebase/app";
+import "firebase/database";
 import { AuthContext, AuthContextType } from "../context/Auth";
 import { UsersConsumer, UsersContextType } from "../context/Users";
 import { PostsConsumer, PostsContext } from "../context/Posts";
 import Post from "../components/Post";
+import Modal from "../components/Modal";
 import { Column } from "../components/Container";
 import { Gutters } from "../styles";
-import { Heading } from "../components/Text";
+import { Heading, Paragraph } from "../components/Text";
 import PostForm from "../components/PostForm";
 
 type Props = {
@@ -22,9 +25,11 @@ const Home = ({
   const { users } = usersContext;
   const { posts } = postsContext;
   const { currentUser } = authContext;
+  const [isModalVisible, setIsModalVisible] = React.useState<boolean>(false);
+  const [postID, setPostId] = React.useState<string | null>(null);
 
   const getUserPhotoFromUID = (uid: string) => {
-    const user = Object.entries(users).find(user => user[0] === uid);
+    const user = Object.entries(users).find((user) => user[0] === uid);
 
     if (!user) {
       return;
@@ -34,13 +39,18 @@ const Home = ({
   };
 
   const getUserDisplayNameFromUID = (uid: string) => {
-    const user = Object.entries(users).find(user => user[0] === uid);
+    const user = Object.entries(users).find((user) => user[0] === uid);
 
     if (!user) {
       return;
     }
 
     return user[1].nickName;
+  };
+
+  const handCloseModalConfirm = () => {
+    setIsModalVisible(false);
+    firebase.database().ref(`posts/${postID}/`).remove();
   };
 
   const formatDate = (milliseconds: string) =>
@@ -68,27 +78,37 @@ const Home = ({
                   currentUser={currentUser}
                   date={formatDate(post[0])}
                   displayName={getUserDisplayNameFromUID(post[1].uid)}
+                  handleOpenModal={() => setIsModalVisible(true)}
                   key={post[0]}
                   photoURL={getUserPhotoFromUID(post[1].uid)}
                   post={post[1]}
                   postID={post[0] as any}
                   posts={posts}
+                  setPostId={setPostId}
                 />
               );
             })}
       </Column>
       <PostForm />
+      <Modal
+        onClickButton={handCloseModalConfirm}
+        onClickClose={() => setIsModalVisible(false)}
+        isVisible={isModalVisible}
+        buttonText="Confirm"
+      >
+        <Paragraph>Are you sure you want to delete your post?</Paragraph>
+      </Modal>
     </>
   );
 };
 
 const DataProvidedHome = React.memo(() => (
   <AuthContext.Consumer>
-    {authContext => (
+    {(authContext) => (
       <UsersConsumer>
-        {usersContext => (
+        {(usersContext) => (
           <PostsConsumer>
-            {postsContext => (
+            {(postsContext) => (
               <Home
                 authContext={authContext}
                 usersContext={usersContext}

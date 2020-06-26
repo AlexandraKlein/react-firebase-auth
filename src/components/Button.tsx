@@ -23,10 +23,7 @@ const StyledButton = styled.button<StyleProps>`
   padding: ${Gutters.MEDIUM} ${Gutters.LARGE};
   background-color: ${(props) =>
     props.secondary ? Colors.WHITE : Colors.PRIMARY};
-  border: ${(props) =>
-    props.secondary
-      ? `1px solid ${Colors.PRIMARY}`
-      : `1px solid ${Colors.WHITE}`};
+  border: 1px solid ${Colors.PRIMARY};
   margin-top: ${(props) => props.marginTop || Gutters.MEDIUM};
   color: ${(props) => (props.secondary ? Colors.PRIMARY : Colors.WHITE)};
   font-size: ${Type.BODY};
@@ -38,6 +35,10 @@ const StyledButton = styled.button<StyleProps>`
   &:hover {
     background-color: ${(props) =>
       props.secondary ? Colors.PRIMARY : Colors.PRIMARY_HOVER};
+      border: ${(props) =>
+        props.secondary
+          ? `1px solid ${Colors.PRIMARY}`
+          : `1px solid ${Colors.PRIMARY_HOVER}`}
     color: ${Colors.WHITE};
   }
 

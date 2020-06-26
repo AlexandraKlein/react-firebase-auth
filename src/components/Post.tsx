@@ -1,8 +1,8 @@
 import React from "react";
 import * as firebase from "firebase/app";
-import { RiDeleteBin5Line } from "react-icons/ri";
 import "firebase/database";
 import styled from "styled-components";
+import { RiDeleteBin5Line } from "react-icons/ri";
 import ProfileImage from "./ProfileImage";
 import Error from "./Error";
 import { Paragraph, Caption, Heading } from "./Text";
@@ -24,10 +24,12 @@ type Props = {
   currentUser: firebase.User;
   date: string;
   displayName: string;
+  handleOpenModal: () => void;
   photoURL: string;
   posts: { [key: string]: PostType };
   post: Pick<PostType, "email" | "message" | "imageURL" | "uid">;
   postID: string;
+  setPostId: (postID: string) => void;
 };
 
 type State = {
@@ -58,12 +60,12 @@ class Post extends React.PureComponent<Props, State> {
       ref
         .child(this.props.currentUser.uid)
         .set(true)
-        .catch(error => this.setState({ error: error.message }));
+        .catch((error) => this.setState({ error: error.message }));
     } else {
       ref
         .child(this.props.currentUser.uid)
         .remove()
-        .catch(error => this.setState({ error: error.message }));
+        .catch((error) => this.setState({ error: error.message }));
     }
   };
 
@@ -71,8 +73,9 @@ class Post extends React.PureComponent<Props, State> {
     this.setState({ isLiked: !this.state.isLiked }, this.writeUserLike);
   };
 
-  handleDeletePost = () => {
-    firebase.database().ref(`posts/${this.props.postID}/`).remove();
+  handleClickDeletePost = (postID: string) => {
+    this.props.handleOpenModal();
+    this.props.setPostId(postID);
   };
 
   render() {
@@ -103,7 +106,7 @@ class Post extends React.PureComponent<Props, State> {
           <Caption>{date}</Caption>
 
           {currentUser.uid === post.uid && (
-            <Delete onClick={this.handleDeletePost}>
+            <Delete onClick={() => this.handleClickDeletePost(postID)}>
               <Heading
                 color={Colors.PRIMARY}
                 marginTop="0px"
@@ -161,7 +164,7 @@ const StyledContainer = styled.div<{ animationDelay: string }>`
   margin: ${Gutters.SMALL} 0;
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
-  animation-delay: ${props => props.animationDelay || "0s"};
+  animation-delay: ${(props) => props.animationDelay || "0s"};
   background-color: ${Colors.PRIMARY_LIGHT};
   white-space: pre-line;
 
