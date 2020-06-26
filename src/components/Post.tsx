@@ -1,10 +1,11 @@
 import React from "react";
 import * as firebase from "firebase/app";
+import { RiDeleteBin5Line } from "react-icons/ri";
 import "firebase/database";
 import styled from "styled-components";
 import ProfileImage from "./ProfileImage";
 import Error from "./Error";
-import { Paragraph, Caption } from "./Text";
+import { Paragraph, Caption, Heading } from "./Text";
 import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 
@@ -70,9 +71,14 @@ class Post extends React.PureComponent<Props, State> {
     this.setState({ isLiked: !this.state.isLiked }, this.writeUserLike);
   };
 
+  handleDeletePost = () => {
+    firebase.database().ref(`posts/${this.props.postID}/`).remove();
+  };
+
   render() {
     const {
       animationDelay,
+      currentUser,
       post,
       photoURL,
       displayName,
@@ -95,6 +101,18 @@ class Post extends React.PureComponent<Props, State> {
         />
         <TextContainer>
           <Caption>{date}</Caption>
+
+          {currentUser.uid === post.uid && (
+            <Delete onClick={this.handleDeletePost}>
+              <Heading
+                color={Colors.PRIMARY}
+                marginTop="0px"
+                marginBottom="0px"
+              >
+                <RiDeleteBin5Line />
+              </Heading>
+            </Delete>
+          )}
 
           <Paragraph marginTop={Gutters.SMALL} marginBottom="0px">
             {post.message}
@@ -186,5 +204,18 @@ const StyledUpVote = styled.div`
 
   ${BreakPoint.TABLET} {
     right: ${Gutters.LARGE};
+  }
+`;
+
+const Delete = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: ${Gutters.MEDIUM};
+  top: ${Gutters.LARGE};
+
+  &:hover {
+    h2 {
+      color: ${Colors.PRIMARY_HOVER};
+    }
   }
 `;

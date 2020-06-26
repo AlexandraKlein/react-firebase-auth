@@ -68,9 +68,9 @@ class PostForm extends React.PureComponent<Props, State> {
 
   writePostData = (event: React.FormEvent<Element>) => {
     event.preventDefault();
-
     const { currentUser } = this.props.authContext;
     this.setState({ isUpdating: true });
+
     const post = {
       date: new Date(),
       message: this.state.message,
@@ -83,24 +83,24 @@ class PostForm extends React.PureComponent<Props, State> {
       .database()
       .ref("posts/" + Date.now())
       .set(post)
-      .then(() => {
+
+      .catch(error => {
+        this.setState({ error: error.message });
+      })
+      .finally(() => {
         this.setState(
           { isUpdating: false, message: "", placeholder: "Posted!" },
           () => {
-            setTimeout(
-              () =>
-                this.setState({
-                  isOpen: false,
-                  placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
-                }),
-              1000
-            );
+            setTimeout(() => {
+              this.setState({
+                isOpen: false,
+                placeholder: `What's on your mind, ${this.props.authContext.currentUser.displayName}?`,
+              });
+              window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+            }, 1000);
           }
         );
-      })
-      .finally(this.props.fileUploadContext.clearUrl)
-      .catch(error => {
-        this.setState({ error: error.message });
+        this.props.fileUploadContext.clearUrl();
       });
   };
 
