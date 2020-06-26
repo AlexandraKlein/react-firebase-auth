@@ -54,7 +54,7 @@ const InnerContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  padding: ${Gutters.MEDIUM};
+  padding: ${Gutters.DOUBLE_X} ${Gutters.MEDIUM};
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -62,8 +62,8 @@ const InnerContainer = styled.div`
   background-color: ${Colors.WHITE};
 
   ${BreakPoint.TABLET} {
-    width: 80vw;
-    height: 80vh;
+    width: 80%;
+    height: auto;
   }
 `;
 

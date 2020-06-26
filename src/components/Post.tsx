@@ -2,7 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
 import styled from "styled-components";
-import { RiDeleteBin5Line } from "react-icons/ri";
+import { BsTrash } from "react-icons/bs";
 import ProfileImage from "./ProfileImage";
 import Error from "./Error";
 import { Paragraph, Caption, Heading } from "./Text";
@@ -112,7 +112,7 @@ class Post extends React.PureComponent<Props, State> {
                 marginTop="0px"
                 marginBottom="0px"
               >
-                <RiDeleteBin5Line />
+                <BsTrash />
               </Heading>
             </Delete>
           )}
