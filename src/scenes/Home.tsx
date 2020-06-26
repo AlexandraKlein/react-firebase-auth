@@ -91,7 +91,7 @@ const Home = ({
       </Column>
       <PostForm />
       <Modal
-        onClickButton={handCloseModalConfirm}
+        onClickConfirm={handCloseModalConfirm}
         onClickClose={() => setIsModalVisible(false)}
         isVisible={isModalVisible}
         buttonText="Confirm"

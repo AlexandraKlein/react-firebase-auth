@@ -83,8 +83,7 @@ class PostForm extends React.PureComponent<Props, State> {
       .database()
       .ref("posts/" + Date.now())
       .set(post)
-
-      .catch(error => {
+      .catch((error) => {
         this.setState({ error: error.message });
       })
       .finally(() => {
@@ -156,7 +155,7 @@ class PostForm extends React.PureComponent<Props, State> {
                   : "Success!"
               }
               isDisabled={url !== undefined}
-              onDropFiles={file => handleChange(file, "post")}
+              onDropFiles={(file) => handleChange(file, "post")}
             />
           </StyledForm>
         </StyledInnerContainer>
@@ -167,9 +166,9 @@ class PostForm extends React.PureComponent<Props, State> {
 
 const DataProvidedPostForm = React.memo(() => (
   <FileUploadConsumer>
-    {fileUploadContext => (
+    {(fileUploadContext) => (
       <AuthContext.Consumer>
-        {authContext => (
+        {(authContext) => (
           <PostForm
             authContext={authContext}
             fileUploadContext={fileUploadContext}
@@ -185,20 +184,20 @@ export default DataProvidedPostForm;
 const StyledContainer = styled.div<{ isOpen: boolean; url?: string }>`
   display: flex;
   position: fixed;
-  height: ${props =>
+  height: ${(props) =>
     props.url === undefined
       ? postHeightMobile
       : postHeightMobileWithPhotoPreview}px;
   left: 0;
   right: 0;
-  bottom:  ${props => (props.isOpen ? "0px" : `-${postHeightMobile + 2}px`)}
+  bottom:  ${(props) => (props.isOpen ? "0px" : `-${postHeightMobile + 2}px`)}
   width: 100%;
   border-top: 2px solid ${Colors.LIGHT_GRAY};
   transition: bottom 0.2s ease;
 
   ${BreakPoint.TABLET}  {
     height: ${postHeight}px;
-    bottom:  ${props => (props.isOpen ? "0px" : `-${postHeight + 2}px`)}
+    bottom:  ${(props) => (props.isOpen ? "0px" : `-${postHeight + 2}px`)}
   }
 `;
 

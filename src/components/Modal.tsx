@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { GrClose } from "react-icons/gr";
 import Button from "./Button";
 import { BreakPoint, Colors, Gutters } from "../styles";
-import { Heading } from "./Text";
+import { Title } from "./Text";
 
 type Props = {
   buttonText?: string;
   children?: React.ReactNode;
   isVisible: boolean;
-  onClickButton?: () => void;
+  onClickConfirm?: () => void;
   onClickClose?: () => void;
 };
 
@@ -17,18 +17,18 @@ const Modal = ({
   buttonText,
   children,
   isVisible,
-  onClickButton,
+  onClickConfirm,
   onClickClose,
 }) => (
   <Container isVisible={isVisible}>
     <InnerContainer>
       <Close onClick={onClickClose}>
-        <Heading marginBottom="0px" marginTop="0px">
+        <Title marginBottom="0px" marginTop="0px">
           <GrClose />
-        </Heading>
+        </Title>
       </Close>
       {children}
-      <Button onClick={onClickButton} text={buttonText} />
+      <Button onClick={onClickConfirm} text={buttonText} />
     </InnerContainer>
   </Container>
 );
@@ -62,8 +62,8 @@ const InnerContainer = styled.div`
   background-color: ${Colors.WHITE};
 
   ${BreakPoint.TABLET} {
-    width: 80%;
-    height: 80%;
+    width: 80vw;
+    height: 80vh;
   }
 `;
 
