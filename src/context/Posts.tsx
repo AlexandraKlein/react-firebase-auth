@@ -28,20 +28,23 @@ class PostsProvider extends React.Component<{}, PostsContext> {
   };
 
   componentDidMount() {
+    this.fetchPosts();
+  }
+
+  fetchPosts = () => {
     firebase
       .database()
       .ref("posts")
-      .on(
-        "value",
-        snapshot => {
-          this.setState({
-            posts: snapshot.val(),
-            pending: false,
-          });
-        },
-        (error: Error) => console.warn({ error })
-      );
-  }
+      .orderByKey()
+      .once("value")
+      .then((snapshot) => {
+        this.setState({
+          posts: snapshot.val(),
+          pending: false,
+        });
+      })
+      .catch((error) => console.warn({ error }));
+  };
 
   render() {
     const { pending, posts } = this.state;
