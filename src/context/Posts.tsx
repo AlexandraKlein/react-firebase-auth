@@ -28,20 +28,48 @@ class PostsProvider extends React.Component<{}, PostsContext> {
   };
 
   componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
+    this.fetchPosts();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  fetchPosts = () => {
     firebase
       .database()
       .ref("posts")
-      .on(
-        "value",
-        snapshot => {
-          this.setState({
-            posts: snapshot.val(),
-            pending: false,
-          });
-        },
-        (error: Error) => console.warn({ error })
-      );
-  }
+      .orderByKey()
+      .once("value")
+      .then((snapshot) => {
+        this.setState({
+          posts: snapshot.val(),
+          pending: false,
+        });
+      })
+      .catch((error) => console.warn({ error }));
+  };
+
+  handleScroll = () => {
+    const windowHeight =
+      "innerHeight" in window
+        ? window.innerHeight
+        : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+    const windowBottom = windowHeight + window.pageYOffset;
+    if (windowBottom >= docHeight) {
+      console.log("bottom");
+    }
+  };
 
   render() {
     const { pending, posts } = this.state;
@@ -50,15 +78,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       return <Loading />;
     }
 
-    return (
-      <Provider
-        value={{
-          posts,
-        }}
-      >
-        {this.props.children}
-      </Provider>
-    );
+    return <Provider value={this.state}>{this.props.children}</Provider>;
   }
 }
 
