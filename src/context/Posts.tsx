@@ -47,21 +47,13 @@ class PostsProvider extends React.Component<{}, PostsContext> {
   };
 
   render() {
-    const { pending, posts } = this.state;
+    const { pending } = this.state;
 
     if (pending) {
       return <Loading />;
     }
 
-    return (
-      <Provider
-        value={{
-          posts,
-        }}
-      >
-        {this.props.children}
-      </Provider>
-    );
+    return <Provider value={this.state}>{this.props.children}</Provider>;
   }
 }
 
