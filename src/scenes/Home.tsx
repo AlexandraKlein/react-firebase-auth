@@ -51,6 +51,7 @@ const Home = ({
   const handCloseModalConfirm = () => {
     setIsModalVisible(false);
     firebase.database().ref(`posts/${postID}/`).remove();
+    postsContext.fetchPosts();
   };
 
   const formatDate = (milliseconds: string) =>
@@ -71,23 +72,21 @@ const Home = ({
           Object.entries(posts)
             .slice(0)
             .reverse()
-            .map((post, index) => {
-              return (
-                <Post
-                  animationDelay={`${index / 5}s`}
-                  currentUser={currentUser}
-                  date={formatDate(post[0])}
-                  displayName={getUserDisplayNameFromUID(post[1].uid)}
-                  handleOpenModal={() => setIsModalVisible(true)}
-                  key={post[0]}
-                  photoURL={getUserPhotoFromUID(post[1].uid)}
-                  post={post[1]}
-                  postID={post[0] as any}
-                  posts={posts}
-                  setPostId={setPostId}
-                />
-              );
-            })}
+            .map((post) => (
+              <Post
+                currentUser={currentUser}
+                date={formatDate(post[0])}
+                displayName={getUserDisplayNameFromUID(post[1].uid)}
+                fetchPosts={postsContext.fetchPosts}
+                handleOpenModal={() => setIsModalVisible(true)}
+                key={post[0]}
+                photoURL={getUserPhotoFromUID(post[1].uid)}
+                post={post[1]}
+                postID={post[0] as any}
+                posts={posts}
+                setPostId={setPostId}
+              />
+            ))}
       </Column>
       <PostForm />
       <Modal

@@ -12,6 +12,7 @@ import Form from "./Form";
 import Error from "./Error";
 import { BreakPoint, Colors, Gutters } from "../styles";
 import FileUploadButton from "./FileUploadButton";
+import { PostsConsumer, PostsContext } from "../context/Posts";
 
 const postHeight = 600;
 const postHeightMobile = 400;
@@ -29,6 +30,7 @@ type State = {
 type Props = {
   authContext: AuthContextType;
   fileUploadContext: FileUploadContext;
+  postsContext: PostsContext;
 };
 
 class PostForm extends React.PureComponent<Props, State> {
@@ -87,6 +89,7 @@ class PostForm extends React.PureComponent<Props, State> {
         this.setState({ error: error.message });
       })
       .finally(() => {
+        this.props.postsContext.fetchPosts();
         this.setState(
           { isUpdating: false, message: "", placeholder: "Posted!" },
           () => {
@@ -167,14 +170,19 @@ class PostForm extends React.PureComponent<Props, State> {
 const DataProvidedPostForm = React.memo(() => (
   <FileUploadConsumer>
     {(fileUploadContext) => (
-      <AuthContext.Consumer>
-        {(authContext) => (
-          <PostForm
-            authContext={authContext}
-            fileUploadContext={fileUploadContext}
-          />
+      <PostsConsumer>
+        {(postsContext) => (
+          <AuthContext.Consumer>
+            {(authContext) => (
+              <PostForm
+                authContext={authContext}
+                fileUploadContext={fileUploadContext}
+                postsContext={postsContext}
+              />
+            )}
+          </AuthContext.Consumer>
         )}
-      </AuthContext.Consumer>
+      </PostsConsumer>
     )}
   </FileUploadConsumer>
 ));

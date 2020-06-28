@@ -44,7 +44,7 @@ const Users = ({
 
 const DataProvidedUsers = React.memo(() => (
   <UsersConsumer>
-    {usersContext => <Users usersContext={usersContext} />}
+    {(usersContext) => <Users usersContext={usersContext} />}
   </UsersConsumer>
 ));
 
