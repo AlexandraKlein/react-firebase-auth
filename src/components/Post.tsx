@@ -8,6 +8,7 @@ import Error from "./Error";
 import { Paragraph, Caption, Heading } from "./Text";
 import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
+import { PostsContext } from "../context/Posts";
 
 type PostType = {
   email: string;
@@ -20,10 +21,10 @@ type PostType = {
 };
 
 type Props = {
-  animationDelay: string;
   currentUser: firebase.User;
   date: string;
   displayName: string;
+  fetchPosts: PostsContext["fetchPosts"];
   handleOpenModal: () => void;
   photoURL: string;
   posts: { [key: string]: PostType };
@@ -71,6 +72,7 @@ class Post extends React.PureComponent<Props, State> {
 
   handleLikeClick = () => {
     this.setState({ isLiked: !this.state.isLiked }, this.writeUserLike);
+    this.props.fetchPosts();
   };
 
   handleClickDeletePost = (postID: string) => {
@@ -80,7 +82,6 @@ class Post extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      animationDelay,
       currentUser,
       post,
       photoURL,
@@ -93,7 +94,7 @@ class Post extends React.PureComponent<Props, State> {
     const { error } = this.state;
 
     return (
-      <StyledContainer animationDelay={animationDelay}>
+      <StyledContainer>
         <ProfileImage
           altText={displayName || "User"}
           size="100px"
@@ -155,7 +156,7 @@ class Post extends React.PureComponent<Props, State> {
 
 export default Post;
 
-const StyledContainer = styled.div<{ animationDelay: string }>`
+const StyledContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,7 +165,6 @@ const StyledContainer = styled.div<{ animationDelay: string }>`
   margin: ${Gutters.SMALL} 0;
   opacity: 0;
   animation: ${fadeUp} 0.5s ease-out forwards;
-  animation-delay: ${(props) => props.animationDelay || "0s"};
   background-color: ${Colors.PRIMARY_LIGHT};
   white-space: pre-line;
 

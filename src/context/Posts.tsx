@@ -13,20 +13,20 @@ export type PostType = {
 export type PostsContext = {
   posts: PostType;
   pending?: boolean;
+  numberOfPosts: number;
+  fetchPosts: () => void;
 };
 
 const { Consumer, Provider } = React.createContext({
   posts: null,
+  pending: true,
+  numberOfPosts: 4,
+  fetchPosts: () => {},
 });
 
 export { Consumer as PostsConsumer };
 
 class PostsProvider extends React.Component<{}, PostsContext> {
-  state = {
-    posts: null,
-    pending: true,
-  };
-
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll);
     this.fetchPosts();
@@ -41,6 +41,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       .database()
       .ref("posts")
       .orderByKey()
+      .limitToLast(this.state.numberOfPosts)
       .once("value")
       .then((snapshot) => {
         this.setState({
@@ -48,7 +49,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
           pending: false,
         });
       })
-      .catch((error) => console.warn({ error }));
+      .catch((error) => console.error({ error }));
   };
 
   handleScroll = () => {
@@ -67,12 +68,22 @@ class PostsProvider extends React.Component<{}, PostsContext> {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
-      console.log("bottom");
+      this.setState(
+        { numberOfPosts: this.state.numberOfPosts + 4 },
+        this.fetchPosts
+      );
     }
   };
 
+  state = {
+    posts: null,
+    pending: true,
+    numberOfPosts: 4,
+    fetchPosts: this.fetchPosts,
+  };
+
   render() {
-    const { pending, posts } = this.state;
+    const { pending } = this.state;
 
     if (pending) {
       return <Loading />;
