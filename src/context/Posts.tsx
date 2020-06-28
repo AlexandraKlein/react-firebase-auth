@@ -9,6 +9,7 @@ export type PostType = {
   imageURL?: string;
   message: string;
   uid: string;
+  date: string;
   likes?: {
     [key: string]: boolean;
   };
@@ -53,7 +54,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       .limitToLast(this.state.numberOfPosts)
       .once("value")
       .then((snapshot) => {
-        const data: { [key: string]: PostType } = snapshot.val();
+        const data: { [id: string]: PostType } = snapshot.val();
         const posts = Object.entries(data).map(([id, value]) => ({
           id,
           value,

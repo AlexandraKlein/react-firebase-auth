@@ -74,7 +74,7 @@ class PostForm extends React.PureComponent<Props, State> {
     this.setState({ isUpdating: true });
 
     const post = {
-      date: new Date(),
+      date: Date.now(),
       message: this.state.message,
       imageURL: this.state.imageURL,
       uid: currentUser.uid,
