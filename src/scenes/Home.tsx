@@ -69,20 +69,20 @@ const Home = ({
       <Heading align="center">Home</Heading>
       <Column margin={`${Gutters.X_LARGE} 0 `}>
         {posts !== null &&
-          Object.entries(posts)
+          posts
             .slice(0)
             .reverse()
             .map((post) => (
               <Post
                 currentUser={currentUser}
-                date={formatDate(post[0])}
-                displayName={getUserDisplayNameFromUID(post[1].uid)}
+                date={formatDate(post.id)}
+                displayName={getUserDisplayNameFromUID(post.value.uid)}
                 fetchPosts={postsContext.fetchPosts}
                 handleOpenModal={() => setIsModalVisible(true)}
-                key={post[0]}
-                photoURL={getUserPhotoFromUID(post[1].uid)}
-                post={post[1]}
-                postID={post[0] as any}
+                key={post.id}
+                photoURL={getUserPhotoFromUID(post.value.uid)}
+                post={post.value}
+                postID={post.id}
                 posts={posts}
                 setPostId={setPostId}
               />

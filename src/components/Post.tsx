@@ -8,17 +8,7 @@ import Error from "./Error";
 import { Paragraph, Caption, Heading } from "./Text";
 import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
-import { PostsContext } from "../context/Posts";
-
-type PostType = {
-  email: string;
-  imageURL?: string;
-  message: string;
-  uid: string;
-  likes?: {
-    [key: string]: boolean;
-  };
-};
+import { PostsContext, PostType, PostData } from "../context/Posts";
 
 type Props = {
   currentUser: firebase.User;
@@ -27,8 +17,8 @@ type Props = {
   fetchPosts: PostsContext["fetchPosts"];
   handleOpenModal: () => void;
   photoURL: string;
-  posts: { [key: string]: PostType };
-  post: Pick<PostType, "email" | "message" | "imageURL" | "uid">;
+  posts: PostData[];
+  post: PostType;
   postID: string;
   setPostId: (postID: string) => void;
 };
@@ -47,10 +37,14 @@ class Post extends React.PureComponent<Props, State> {
   componentDidMount() {
     const { posts, postID, currentUser } = this.props;
 
+    const likedPost = posts.find(
+      (post) => post.id === postID && post.value["likes"] !== undefined
+    );
+
     this.setState({
       isLiked:
-        posts[postID].likes &&
-        posts[postID].likes.hasOwnProperty(currentUser.uid),
+        likedPost !== undefined &&
+        likedPost.value.likes.hasOwnProperty(currentUser.uid),
     });
   }
 
@@ -87,11 +81,12 @@ class Post extends React.PureComponent<Props, State> {
       photoURL,
       displayName,
       date,
-      posts,
       postID,
     } = this.props;
 
     const { error } = this.state;
+
+    const likes = post.likes !== undefined ? Object.keys(post.likes) : [];
 
     return (
       <StyledContainer>
@@ -138,11 +133,7 @@ class Post extends React.PureComponent<Props, State> {
 
           <StyledUpVote>
             <Like
-              count={
-                posts[postID].likes
-                  ? Object.keys(posts[postID].likes).length
-                  : 0
-              }
+              count={likes.length}
               isLiked={this.state.isLiked}
               onClick={this.handleLikeClick}
             />

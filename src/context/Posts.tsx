@@ -5,15 +5,22 @@ import Loading from "../components/Loading";
 const numPosts = 5;
 
 export type PostType = {
-  [key: string]: {
-    email: string;
-    message: string;
-    uid: string;
+  email: string;
+  imageURL?: string;
+  message: string;
+  uid: string;
+  likes?: {
+    [key: string]: boolean;
   };
 };
 
+export type PostData = {
+  id: string;
+  value: PostType;
+};
+
 export type PostsContext = {
-  posts: PostType;
+  posts: PostData[];
   pending?: boolean;
   numberOfPosts: number;
   fetchPosts: () => void;
@@ -46,8 +53,13 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       .limitToLast(this.state.numberOfPosts)
       .once("value")
       .then((snapshot) => {
+        const data: { [key: string]: PostType } = snapshot.val();
+        const posts = Object.entries(data).map(([id, value]) => ({
+          id,
+          value,
+        }));
         this.setState({
-          posts: snapshot.val(),
+          posts: posts,
           pending: false,
         });
       })
