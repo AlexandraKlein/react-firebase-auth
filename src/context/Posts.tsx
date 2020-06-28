@@ -2,6 +2,8 @@ import React from "react";
 import * as firebase from "firebase/app";
 import Loading from "../components/Loading";
 
+const numPosts = 5;
+
 export type PostType = {
   [key: string]: {
     email: string;
@@ -20,7 +22,7 @@ export type PostsContext = {
 const { Consumer, Provider } = React.createContext({
   posts: null,
   pending: true,
-  numberOfPosts: 4,
+  numberOfPosts: numPosts,
   fetchPosts: () => {},
 });
 
@@ -69,7 +71,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
       this.setState(
-        { numberOfPosts: this.state.numberOfPosts + 4 },
+        { numberOfPosts: this.state.numberOfPosts + numPosts },
         this.fetchPosts
       );
     }
@@ -78,7 +80,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
   state = {
     posts: null,
     pending: true,
-    numberOfPosts: 4,
+    numberOfPosts: numPosts,
     fetchPosts: this.fetchPosts,
   };
 
