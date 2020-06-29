@@ -55,10 +55,14 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       .once("value")
       .then((snapshot) => {
         const data: { [id: string]: PostType } = snapshot.val();
-        const posts = Object.entries(data).map(([id, value]) => ({
-          id,
-          value,
-        }));
+        const posts = Object.entries(data)
+          .map(([id, value]) => ({
+            id,
+            value,
+          }))
+          .slice(0)
+          .reverse();
+
         this.setState({
           posts: posts,
           pending: false,
