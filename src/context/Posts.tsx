@@ -21,17 +21,17 @@ export type PostData = {
 };
 
 export type PostsContext = {
-  posts: PostData[];
-  pending?: boolean;
-  numberOfPosts: number;
   fetchPosts: () => void;
+  limit: number;
+  pending?: boolean;
+  posts: PostData[];
 };
 
 const { Consumer, Provider } = React.createContext({
-  posts: null,
-  pending: true,
-  numberOfPosts: numPosts,
   fetchPosts: () => {},
+  limit: numPosts,
+  pending: true,
+  posts: null,
 });
 
 export { Consumer as PostsConsumer };
@@ -51,7 +51,7 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       .database()
       .ref("posts")
       .orderByKey()
-      .limitToLast(this.state.numberOfPosts)
+      .limitToLast(this.state.limit)
       .once("value")
       .then((snapshot) => {
         const data: { [id: string]: PostType } = snapshot.val();
@@ -87,18 +87,15 @@ class PostsProvider extends React.Component<{}, PostsContext> {
     );
     const windowBottom = windowHeight + window.pageYOffset;
     if (windowBottom >= docHeight) {
-      this.setState(
-        { numberOfPosts: this.state.numberOfPosts + numPosts },
-        this.fetchPosts
-      );
+      this.setState({ limit: this.state.limit + numPosts }, this.fetchPosts);
     }
   };
 
   state = {
-    posts: null,
-    pending: true,
-    numberOfPosts: numPosts,
     fetchPosts: this.fetchPosts,
+    limit: numPosts,
+    pending: true,
+    posts: null,
   };
 
   render() {
