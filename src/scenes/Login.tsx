@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from "react";
+import React from "react";
 import { withRouter, Redirect, RouteComponentProps } from "react-router";
 import styled from "styled-components";
 import app from "../base";
@@ -14,7 +14,7 @@ import { Column } from "../components/Container";
 const Login = ({ history }: RouteComponentProps): JSX.Element => {
   const [error, setError] = React.useState(undefined);
 
-  const handleLogin = useCallback(
+  const handleLogin = React.useCallback(
     async (event) => {
       event.preventDefault();
       const { email, password } = event.target.elements;
@@ -30,7 +30,7 @@ const Login = ({ history }: RouteComponentProps): JSX.Element => {
     [history]
   );
 
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = React.useContext(AuthContext);
 
   if (currentUser) {
     return <Redirect to="/" />;

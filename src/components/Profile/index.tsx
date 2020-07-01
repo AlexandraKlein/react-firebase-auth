@@ -3,6 +3,7 @@ import "firebase/database";
 import styled from "styled-components";
 import { AuthContext, AuthContextType } from "../../context/Auth";
 import { ProfileConsumer, ProfileContext } from "../../context/Profile";
+import { LoadingConsumer, LoadingContext } from "../../context/Loading";
 import { Container, Column, Row } from "../Container";
 import ImageUpload from "./ImageUpload";
 import Form from "../Form";
@@ -13,7 +14,6 @@ import { Subheading, Heading } from "../Text";
 import { Colors, Gutters } from "../../styles";
 import { capitalize } from "../../helpers";
 import { choiceData } from "../../data";
-import Loading from "../Loading";
 
 const inputs = [
   {
@@ -37,12 +37,19 @@ const choicesMultiple = ["pizza", "salads", "poke"];
 type Props = {
   profileContext: ProfileContext;
   authContext: AuthContextType;
+  loadingContext: LoadingContext;
 };
 
 class Profile extends React.Component<Props> {
   state = {
     hasUpdated: false,
   };
+
+  componentDidMount() {
+    if (this.props.profileContext.profile === undefined) {
+      this.props.loadingContext.setIsLoading(true);
+    }
+  }
 
   componentDidUpdate(prevProps: Props) {
     if (
@@ -56,10 +63,6 @@ class Profile extends React.Component<Props> {
   }
   render() {
     const { profileContext } = this.props;
-
-    if (profileContext.profile === undefined) {
-      return <Loading />;
-    }
 
     return (
       <Column align="unset">
@@ -163,7 +166,15 @@ const DataProvidedProfile = React.memo(() => (
     {(authContext) => (
       <ProfileConsumer>
         {(profileContext) => (
-          <Profile authContext={authContext} profileContext={profileContext} />
+          <LoadingConsumer>
+            {(loadingContext) => (
+              <Profile
+                authContext={authContext}
+                loadingContext={loadingContext}
+                profileContext={profileContext}
+              />
+            )}
+          </LoadingConsumer>
         )}
       </ProfileConsumer>
     )}

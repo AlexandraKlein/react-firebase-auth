@@ -1,6 +1,5 @@
 import React from "react";
 import app from "../base";
-import Loading from "../components/Loading";
 import { User } from "firebase";
 
 export type AuthContextType = {
@@ -21,10 +20,6 @@ const AuthProvider = (props: { children: React.ReactNode }) => {
       setPending(false);
     });
   }, []);
-
-  if (pending) {
-    return <Loading />;
-  }
 
   return (
     <AuthContext.Provider
