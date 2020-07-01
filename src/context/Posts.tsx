@@ -76,8 +76,11 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       "innerHeight" in window
         ? window.innerHeight
         : document.documentElement.offsetHeight;
+
     const body = document.body;
+
     const html = document.documentElement;
+
     const docHeight = Math.max(
       body.scrollHeight,
       body.offsetHeight,
@@ -85,7 +88,9 @@ class PostsProvider extends React.Component<{}, PostsContext> {
       html.scrollHeight,
       html.offsetHeight
     );
+
     const windowBottom = windowHeight + window.pageYOffset;
+
     if (windowBottom >= docHeight) {
       this.setState({ limit: this.state.limit + numPosts }, this.fetchPosts);
     }
