@@ -1,7 +1,7 @@
 import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
-import { AuthContext, AuthContextType } from "../context/Auth";
+import { AuthConsumer, AuthContextType } from "../context/Auth";
 import Loading from "../components/Loading";
 import { ChoiceDataType } from "../data";
 
@@ -171,9 +171,9 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
 }
 
 const DataProvidedProfileProvider = React.memo((props: PublicProps) => (
-  <AuthContext.Consumer>
+  <AuthConsumer>
     {(authContext) => <ProfileProvider authContext={authContext} {...props} />}
-  </AuthContext.Consumer>
+  </AuthConsumer>
 ));
 
 export default DataProvidedProfileProvider;

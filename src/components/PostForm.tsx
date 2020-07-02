@@ -4,7 +4,7 @@ import "firebase/database";
 import { FileUploadConsumer, FileUploadContext } from "../context/FileUpload";
 import styled from "styled-components";
 import { FiEdit, FiArrowDown } from "react-icons/fi";
-import { AuthContext, AuthContextType } from "../context/Auth";
+import { AuthConsumer, AuthContextType } from "../context/Auth";
 import { Row, Column } from "./Container";
 import { Heading } from "./Text";
 import ProfileImage from "./ProfileImage";
@@ -172,7 +172,7 @@ const DataProvidedPostForm = React.memo(() => (
     {(fileUploadContext) => (
       <PostsConsumer>
         {(postsContext) => (
-          <AuthContext.Consumer>
+          <AuthConsumer>
             {(authContext) => (
               <PostForm
                 authContext={authContext}
@@ -180,7 +180,7 @@ const DataProvidedPostForm = React.memo(() => (
                 postsContext={postsContext}
               />
             )}
-          </AuthContext.Consumer>
+          </AuthConsumer>
         )}
       </PostsConsumer>
     )}

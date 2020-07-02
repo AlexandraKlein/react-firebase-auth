@@ -2,7 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/storage";
 import styled from "styled-components";
-import { AuthContext, AuthContextType } from "../../context/Auth";
+import { AuthConsumer, AuthContextType } from "../../context/Auth";
 import {
   FileUploadConsumer,
   FileUploadContext,
@@ -84,7 +84,7 @@ class ImageUpload extends React.PureComponent<Props> {
 const DataProvidedImageUpload = React.memo((props: PublicProps) => (
   <FileUploadConsumer>
     {(fileUploadContext) => (
-      <AuthContext.Consumer>
+      <AuthConsumer>
         {(authContext) => (
           <ImageUpload
             authContext={authContext}
@@ -92,7 +92,7 @@ const DataProvidedImageUpload = React.memo((props: PublicProps) => (
             {...props}
           />
         )}
-      </AuthContext.Consumer>
+      </AuthConsumer>
     )}
   </FileUploadConsumer>
 ));

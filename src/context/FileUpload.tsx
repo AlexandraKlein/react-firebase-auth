@@ -2,7 +2,7 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/storage";
 
-import { AuthContext, AuthContextType } from "./Auth";
+import { AuthConsumer, AuthContextType } from "./Auth";
 
 type PublicProps = {
   children: React.ReactNode;
@@ -105,9 +105,9 @@ class FileUpload extends React.PureComponent<Props, FileUploadContext> {
 }
 
 const DataProvidedFileUpload = React.memo((props: PublicProps) => (
-  <AuthContext.Consumer>
+  <AuthConsumer>
     {(authContext) => <FileUpload authContext={authContext} {...props} />}
-  </AuthContext.Consumer>
+  </AuthConsumer>
 ));
 
 export default DataProvidedFileUpload;

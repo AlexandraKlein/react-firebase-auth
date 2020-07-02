@@ -1,7 +1,7 @@
 import React from "react";
 import "firebase/database";
 import styled from "styled-components";
-import { AuthContext, AuthContextType } from "../../context/Auth";
+import { AuthConsumer, AuthContextType } from "../../context/Auth";
 import { ProfileConsumer, ProfileContext } from "../../context/Profile";
 import { Container, Column, Row } from "../Container";
 import ImageUpload from "./ImageUpload";
@@ -159,7 +159,7 @@ class Profile extends React.Component<Props> {
 }
 
 const DataProvidedProfile = React.memo(() => (
-  <AuthContext.Consumer>
+  <AuthConsumer>
     {(authContext) => (
       <ProfileConsumer>
         {(profileContext) => (
@@ -167,7 +167,7 @@ const DataProvidedProfile = React.memo(() => (
         )}
       </ProfileConsumer>
     )}
-  </AuthContext.Consumer>
+  </AuthConsumer>
 ));
 
 export default DataProvidedProfile;

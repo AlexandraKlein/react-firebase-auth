@@ -6,7 +6,7 @@ import Login from "./scenes/Login";
 import SignUp from "./scenes/SignUp";
 import Profile from "./scenes/Profile";
 import Users from "./scenes/Users";
-import AuthProvider, { AuthContext } from "./context/Auth";
+import AuthProvider, { AuthConsumer } from "./context/Auth";
 import UsersProvider from "./context/Users";
 import ProfileProvider from "./context/Profile";
 import PostsProvider from "./context/Posts";
@@ -24,7 +24,7 @@ const App = () => {
         <ProfileProvider choiceData={choiceData}>
           <PostsProvider>
             <FileUploadProvider>
-              <AuthContext.Consumer>
+              <AuthConsumer>
                 {(authContext) => (
                   <Router>
                     {authContext.currentUser && <Navigation />}
@@ -40,7 +40,7 @@ const App = () => {
                     </Container>
                   </Router>
                 )}
-              </AuthContext.Consumer>
+              </AuthConsumer>
             </FileUploadProvider>
           </PostsProvider>
         </ProfileProvider>

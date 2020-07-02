@@ -7,11 +7,12 @@ export type AuthContextType = {
   currentUser: User | null;
 };
 
-export const AuthContext = React.createContext({
-  currentUser: null,
-});
+export const AuthContext = React.createContext({ currentUser: null });
 
-const AuthProvider = (props: { children: React.ReactNode }) => {
+const { Consumer } = AuthContext;
+export { Consumer as AuthConsumer };
+
+export const AuthProvider = (props: { children: React.ReactNode }) => {
   const [currentUser, setCurrentUser] = React.useState<User | null>(null);
   const [pending, setPending] = React.useState<boolean>(true);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
-import { AuthContext, AuthContextType } from "../context/Auth";
+import { AuthConsumer, AuthContextType } from "../context/Auth";
 import { UsersConsumer, UsersContextType } from "../context/Users";
 import { PostsConsumer, PostsContext } from "../context/Posts";
 import Post from "../components/Post";
@@ -101,7 +101,7 @@ const Home = ({
 };
 
 const DataProvidedHome = React.memo(() => (
-  <AuthContext.Consumer>
+  <AuthConsumer>
     {(authContext) => (
       <UsersConsumer>
         {(usersContext) => (
@@ -117,7 +117,7 @@ const DataProvidedHome = React.memo(() => (
         )}
       </UsersConsumer>
     )}
-  </AuthContext.Consumer>
+  </AuthConsumer>
 ));
 
 export default DataProvidedHome;
