@@ -21,7 +21,6 @@ export type ProfileContext = {
   error: Error["message"];
   isDisabled: boolean;
   isUpdating: boolean;
-  pending: boolean;
   onChangeUserInfo: (
     key: any,
     event: React.FormEvent<HTMLInputElement>
@@ -44,7 +43,6 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
       error: undefined,
       isDisabled: true,
       isUpdating: false,
-      pending: false,
       onChangeUserInfo: this.onChangeUserInfo,
       onSelectChoice: this.onSelectChoice,
       onSelectPreference: this.onSelectPreference,
@@ -156,12 +154,6 @@ class ProfileProvider extends React.Component<Props, ProfileContext> {
   };
 
   render() {
-    const { pending } = this.state;
-
-    if (pending) {
-      return <Loading />;
-    }
-
     return (
       <Provider value={this.state} {...this.props}>
         {this.props.children}

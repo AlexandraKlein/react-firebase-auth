@@ -24,16 +24,14 @@ class UsersProvider extends React.Component<{}, UsersContextType> {
     firebase
       .database()
       .ref("users")
-      .on(
-        "value",
-        snapshot => {
-          this.setState({
-            users: snapshot.val(),
-            pending: false,
-          });
-        },
-        (error: Error) => console.warn({ error })
-      );
+      .once("value")
+      .then((snapshot) => {
+        this.setState({
+          users: snapshot.val(),
+          pending: false,
+        });
+      })
+      .catch((error) => console.error({ error }));
   }
 
   render() {
