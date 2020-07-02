@@ -1,5 +1,6 @@
 import React from "react";
 import { HashRouter as Router, Route } from "react-router-dom";
+import GlobalStyle from "./globalStyles";
 import ScrollToTop from "./ScrollToTop";
 import Home from "./scenes/Home";
 import Login from "./scenes/Login";
@@ -19,33 +20,40 @@ import { choiceData } from "./data";
 
 const App = () => {
   return (
-    <AuthProvider>
-      <UsersProvider>
-        <ProfileProvider choiceData={choiceData}>
-          <PostsProvider>
-            <FileUploadProvider>
-              <AuthConsumer>
-                {(authContext) => (
-                  <Router>
-                    {authContext.currentUser && <Navigation />}
-                    <Container
-                      padding={`0 ${Gutters.MEDIUM} ${Gutters.DOUBLE_X}`}
-                    >
-                      <ScrollToTop />
-                      <PrivateRoute exact path="/" component={Home} />
-                      <PrivateRoute exact path="/profile" component={Profile} />
-                      <PrivateRoute exact path="/users" component={Users} />
-                      <Route exact path="/login" component={Login} />
-                      <Route exact path="/signup" component={SignUp} />
-                    </Container>
-                  </Router>
-                )}
-              </AuthConsumer>
-            </FileUploadProvider>
-          </PostsProvider>
-        </ProfileProvider>
-      </UsersProvider>
-    </AuthProvider>
+    <>
+      <GlobalStyle />
+      <AuthProvider>
+        <UsersProvider>
+          <ProfileProvider choiceData={choiceData}>
+            <PostsProvider>
+              <FileUploadProvider>
+                <AuthConsumer>
+                  {(authContext) => (
+                    <Router>
+                      {authContext.currentUser && <Navigation />}
+                      <Container
+                        padding={`0 ${Gutters.MEDIUM} ${Gutters.DOUBLE_X}`}
+                      >
+                        <ScrollToTop />
+                        <PrivateRoute exact path="/" component={Home} />
+                        <PrivateRoute
+                          exact
+                          path="/profile"
+                          component={Profile}
+                        />
+                        <PrivateRoute exact path="/users" component={Users} />
+                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/signup" component={SignUp} />
+                      </Container>
+                    </Router>
+                  )}
+                </AuthConsumer>
+              </FileUploadProvider>
+            </PostsProvider>
+          </ProfileProvider>
+        </UsersProvider>
+      </AuthProvider>
+    </>
   );
 };
 
