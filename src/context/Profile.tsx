@@ -2,7 +2,6 @@ import React from "react";
 import * as firebase from "firebase/app";
 import "firebase/database";
 import { AuthConsumer, AuthContextType } from "../context/Auth";
-import Loading from "../components/Loading";
 import { ChoiceDataType } from "../data";
 
 type PublicProps = {

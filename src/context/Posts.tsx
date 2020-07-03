@@ -60,7 +60,6 @@ class PostsProvider extends React.Component<{}, PostsContext> {
             id,
             value,
           }))
-          .slice(0)
           .reverse();
 
         this.setState({
