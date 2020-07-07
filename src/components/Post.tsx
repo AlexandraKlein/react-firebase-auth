@@ -3,12 +3,14 @@ import * as firebase from "firebase/app";
 import "firebase/database";
 import styled from "styled-components";
 import { BsTrash } from "react-icons/bs";
+import { CommentType } from "../context/Posts";
 import ProfileImage from "./ProfileImage";
 import Error from "./Error";
-import { Paragraph, Caption, Heading } from "./Text";
+import { Paragraph, SmallParagraph, Caption, Heading } from "./Text";
 import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 import { PostsContext, PostType, PostData } from "../context/Posts";
+import Form from "./Form";
 
 type Props = {
   currentUser: firebase.User;
@@ -25,14 +27,23 @@ type Props = {
 
 type State = {
   isLiked: boolean;
-  error: Error;
+  error: Error["message"];
+  comment: CommentType;
 };
 
 class Post extends React.PureComponent<Props, State> {
-  state = {
-    isLiked: false,
-    error: undefined,
-  };
+  private textArea: React.RefObject<HTMLTextAreaElement>;
+
+  constructor(props: Props) {
+    super(props);
+    this.textArea = React.createRef();
+
+    this.state = {
+      isLiked: false,
+      error: undefined,
+      comment: undefined,
+    };
+  }
 
   componentDidMount() {
     const { posts, postID, currentUser } = this.props;
@@ -64,6 +75,31 @@ class Post extends React.PureComponent<Props, State> {
     }
   };
 
+  onTypeComment = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const message = event.currentTarget.value;
+    this.setState({
+      comment: {
+        message,
+        user: this.props.currentUser.displayName,
+      },
+    });
+  };
+
+  writeUserComment = () => {
+    firebase
+      .database()
+      .ref(`posts/${this.props.postID}/comments`)
+      .child(Date.now().toString())
+      .set(this.state.comment)
+      .catch((error) => {
+        this.setState({ error: error.message });
+      })
+      .finally(() => {
+        this.setState({ comment: undefined });
+        this.props.fetchPosts();
+      });
+  };
+
   handleLikeClick = () => {
     this.setState({ isLiked: !this.state.isLiked }, this.writeUserLike);
     this.props.fetchPosts();
@@ -91,6 +127,7 @@ class Post extends React.PureComponent<Props, State> {
     return (
       <StyledContainer>
         <ProfileImage
+          marginTop="40px"
           altText={displayName || "User"}
           size="100px"
           imgSrc={
@@ -121,23 +158,60 @@ class Post extends React.PureComponent<Props, State> {
             <StyledImage alt="Post Image" src={post.imageURL} />
           )}
 
-          <Paragraph
-            fontWeight="bold"
-            marginTop={Gutters.MEDIUM}
-            marginBottom={Gutters.X_SMALL}
+          <PosterInfo>
+            <Paragraph
+              fontWeight="bold"
+              marginTop={Gutters.MEDIUM}
+              marginBottom={Gutters.X_SMALL}
+            >
+              {displayName || "Anonymous"}
+            </Paragraph>
+
+            <Caption marginTop="0px">{post.email}</Caption>
+            <StyledUpVote>
+              <Like
+                count={likes.length}
+                isLiked={this.state.isLiked}
+                onClick={this.handleLikeClick}
+              />
+            </StyledUpVote>
+          </PosterInfo>
+
+          {post.comments && (
+            <>
+              <Paragraph
+                fontWeight="bold"
+                marginTop={Gutters.X_LARGE}
+                marginBottom={Gutters.X_SMALL}
+              >
+                Comments:
+              </Paragraph>
+              <CommentsContainer>
+                {Object.entries(post.comments).map((comment) => (
+                  <Comment key={comment[0]}>
+                    <SmallParagraph marginTop="0px">
+                      {comment[1].user}
+                      {": "}
+                      <Caption marginTop="0px">{comment[1].message}</Caption>
+                    </SmallParagraph>
+                  </Comment>
+                ))}
+              </CommentsContainer>
+            </>
+          )}
+
+          <CommentForm
+            marginTop={Gutters.X_LARGE}
+            isDisabled={!this.state.comment || !this.state.comment.message}
+            submitText="Submit"
+            onSubmit={this.writeUserComment}
           >
-            {displayName || "Anonymous"}
-          </Paragraph>
-
-          <Caption marginTop="0px">{post.email}</Caption>
-
-          <StyledUpVote>
-            <Like
-              count={likes.length}
-              isLiked={this.state.isLiked}
-              onClick={this.handleLikeClick}
+            <Paragraph>Comment:</Paragraph>
+            <StyledTextArea
+              value={this.state.comment ? this.state.comment.message : ""}
+              onChange={this.onTypeComment}
             />
-          </StyledUpVote>
+          </CommentForm>
         </TextContainer>
         {error && <Error text={error} />}
       </StyledContainer>
@@ -160,6 +234,7 @@ const StyledContainer = styled.div`
   white-space: pre-line;
 
   ${BreakPoint.TABLET} {
+    align-items: flex-start;
     flex-direction: row;
     justify-content: space-between;
   }
@@ -174,31 +249,20 @@ const StyledImage = styled.img`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   ${BreakPoint.TABLET} {
-    align-items: flex-start;
     width: 500px;
   }
+`;
 
-  p {
-    text-align: center;
-    width: 100%;
-
-    ${BreakPoint.TABLET} {
-      text-align: left;
-    }
-  }
+const PosterInfo = styled.div`
+  position: relative;
 `;
 
 const StyledUpVote = styled.div`
   position: absolute;
-  right: ${Gutters.MEDIUM};
-  bottom: ${Gutters.LARGE};
-
-  ${BreakPoint.TABLET} {
-    right: ${Gutters.LARGE};
-  }
+  right: 0;
+  top: ${Gutters.MEDIUM};
 `;
 
 const Delete = styled.div`
@@ -212,4 +276,31 @@ const Delete = styled.div`
       color: ${Colors.PRIMARY_HOVER};
     }
   }
+`;
+
+const CommentForm = styled(Form)`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const CommentsContainer = styled.div`
+  margin-left: ${Gutters.LARGE};
+  margin-top: ${Gutters.MEDIUM};
+`;
+
+const Comment = styled.div`
+  margin-top: ${Gutters.SMALL};
+  margin-bottom: ${Gutters.SMALL};
+`;
+
+const StyledTextArea = styled.textarea`
+  flex: 1;
+  background-color: ${Colors.WHITE};
+  font-size: 16px;
+  border: none;
+  outline: 0;
+  resize: none;
+  padding: ${Gutters.MEDIUM};
+  height: 100px;
 `;

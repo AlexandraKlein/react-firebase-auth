@@ -21,7 +21,7 @@ const postHeightMobileWithPhotoPreview = 500;
 type State = {
   message: string;
   imageURL?: string;
-  error: Error;
+  error: Error["message"];
   isOpen: boolean;
   isUpdating: boolean;
   placeholder: string;
@@ -146,7 +146,7 @@ class PostForm extends React.PureComponent<Props, State> {
                 value={this.state.message}
                 onChange={this.onChange}
                 placeholder={this.state.placeholder}
-              ></StyledTextArea>
+              />
             </Row>
             {url && <ImagePreview src={url} />}
             <FileUploadButton

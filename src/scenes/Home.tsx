@@ -69,21 +69,24 @@ const Home = ({
       <Heading align="center">Home</Heading>
       <Column margin={`${Gutters.X_LARGE} 0 `}>
         {posts !== null &&
-          posts.map((post) => (
-            <Post
-              currentUser={currentUser}
-              date={formatDate(post.id)}
-              displayName={getUserDisplayNameFromUID(post.value.uid)}
-              fetchPosts={postsContext.fetchPosts}
-              handleOpenModal={() => setIsModalVisible(true)}
-              key={post.id}
-              photoURL={getUserPhotoFromUID(post.value.uid)}
-              post={post.value}
-              postID={post.id}
-              posts={posts}
-              setPostId={setPostId}
-            />
-          ))}
+          posts.map((post) => {
+            console.log({ post });
+            return (
+              <Post
+                currentUser={currentUser}
+                date={formatDate(post.id)}
+                displayName={getUserDisplayNameFromUID(post.value.uid)}
+                fetchPosts={postsContext.fetchPosts}
+                handleOpenModal={() => setIsModalVisible(true)}
+                key={post.id}
+                photoURL={getUserPhotoFromUID(post.value.uid)}
+                post={post.value}
+                postID={post.id}
+                posts={posts}
+                setPostId={setPostId}
+              />
+            );
+          })}
       </Column>
       <PostForm />
       <Modal

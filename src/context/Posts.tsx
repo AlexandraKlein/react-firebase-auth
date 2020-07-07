@@ -4,6 +4,11 @@ import Loading from "../components/Loading";
 
 const numPosts = 5;
 
+export type CommentType = {
+  user: string;
+  message: string;
+};
+
 export type PostType = {
   email: string;
   imageURL?: string;
@@ -12,6 +17,9 @@ export type PostType = {
   date: string;
   likes?: {
     [key: string]: boolean;
+  };
+  comments?: {
+    [key: string]: CommentType;
   };
 };
 
