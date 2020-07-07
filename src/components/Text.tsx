@@ -26,6 +26,10 @@ export const Paragraph = styled.p<Props>`
   margin-bottom: ${(props) => props.marginBottom || "1em"};
 `;
 
+export const SmallParagraph = styled(Paragraph)`
+  font-size: ${Type.CAPTION};
+`;
+
 export const Subheading = styled.h3<Props>`
   color: ${(props) => props.color || Colors.BLACK_TEXT};
   font-family: "Roboto Slab", serif;

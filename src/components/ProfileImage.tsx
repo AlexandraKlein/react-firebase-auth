@@ -5,6 +5,7 @@ import { BreakPoint, Gutters, Colors, fadeIn } from "../styles";
 type StyleProps = {
   marginBottom?: string;
   marginRight?: string;
+  marginTop?: string;
   size?: string;
 };
 
@@ -27,6 +28,7 @@ const ImageContainer = styled.div<StyleProps>`
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
   margin-bottom: ${(props) => props.marginBottom || Gutters.MEDIUM};
+  margin-top: ${(props) => props.marginTop || Gutters.MEDIUM};
   width: ${(props) => props.size || "160px"};
   height: ${(props) => props.size || "160px"};
   border-radius: 50%;
