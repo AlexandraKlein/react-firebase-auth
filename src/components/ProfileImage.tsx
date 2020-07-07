@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { BreakPoint, Gutters, Colors, fadeIn } from "../styles";
 
 type StyleProps = {
-  marginBottom?: string;
+  marginBottomMobile?: string;
   marginRight?: string;
+  marginRightMobile?: string;
   marginTop?: string;
   size?: string;
 };
@@ -27,7 +28,8 @@ export default ProfileImage;
 const ImageContainer = styled.div<StyleProps>`
   background-color: ${Colors.LIGHT_GRAY};
   position: relative;
-  margin-bottom: ${(props) => props.marginBottom || Gutters.MEDIUM};
+  margin-bottom: ${(props) => props.marginBottomMobile || Gutters.MEDIUM};
+  margin-right: ${(props) => props.marginRightMobile || Gutters.LARGE};
   margin-top: ${(props) => props.marginTop || Gutters.MEDIUM};
   width: ${(props) => props.size || "160px"};
   height: ${(props) => props.size || "160px"};

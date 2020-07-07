@@ -59,8 +59,6 @@ const Home = ({
       year: "numeric",
       month: "long",
       day: "2-digit",
-      hour: "numeric",
-      minute: "numeric",
       hour12: true,
     }).format(new Date(Number(milliseconds)));
 
@@ -76,6 +74,9 @@ const Home = ({
                 currentUser={currentUser}
                 date={formatDate(post.id)}
                 displayName={getUserDisplayNameFromUID(post.value.uid)}
+                commenterDisplayName={getUserDisplayNameFromUID(
+                  currentUser.uid
+                )}
                 fetchPosts={postsContext.fetchPosts}
                 handleOpenModal={() => setIsModalVisible(true)}
                 key={post.id}

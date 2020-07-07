@@ -137,7 +137,6 @@ class PostForm extends React.PureComponent<Props, State> {
             <Row justify="space-between">
               <ProfileImage
                 imgSrc={currentUser.photoURL}
-                marginBottom="0px"
                 marginRight="0px"
                 size="74px"
               />

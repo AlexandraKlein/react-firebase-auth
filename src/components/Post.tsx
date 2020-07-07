@@ -11,6 +11,7 @@ import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 import { PostsContext, PostType, PostData } from "../context/Posts";
 import Form from "./Form";
+import { Row, Column } from "./Container";
 
 type Props = {
   currentUser: firebase.User;
@@ -23,6 +24,7 @@ type Props = {
   post: PostType;
   postID: string;
   setPostId: (postID: string) => void;
+  commenterDisplayName: string;
 };
 
 type State = {
@@ -32,18 +34,11 @@ type State = {
 };
 
 class Post extends React.PureComponent<Props, State> {
-  private textArea: React.RefObject<HTMLTextAreaElement>;
-
-  constructor(props: Props) {
-    super(props);
-    this.textArea = React.createRef();
-
-    this.state = {
-      isLiked: false,
-      error: undefined,
-      comment: undefined,
-    };
-  }
+  state = {
+    isLiked: false,
+    error: undefined,
+    comment: undefined,
+  };
 
   componentDidMount() {
     const { posts, postID, currentUser } = this.props;
@@ -80,7 +75,7 @@ class Post extends React.PureComponent<Props, State> {
     this.setState({
       comment: {
         message,
-        user: this.props.currentUser.displayName,
+        user: this.props.commenterDisplayName,
       },
     });
   };
@@ -126,56 +121,57 @@ class Post extends React.PureComponent<Props, State> {
 
     return (
       <StyledContainer>
-        <ProfileImage
-          marginTop="40px"
-          altText={displayName || "User"}
-          size="100px"
-          imgSrc={
-            photoURL ||
-            "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
-          }
-        />
-        <TextContainer>
-          <Caption>{date}</Caption>
+        <InnerContainer>
+          <PosterInfo>
+            <Row justify="flex-start">
+              <ProfileImage
+                marginRightMobile={Gutters.MEDIUM}
+                marginBottomMobile="0"
+                marginTop="0"
+                altText={displayName || "User"}
+                size="40px"
+                imgSrc={
+                  photoURL ||
+                  "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
+                }
+              />
+              <Column align="flex-start" flex="1">
+                <Paragraph fontWeight="bold" marginTop="0px" marginBottom="0px">
+                  {displayName || "Anonymous"}
+                </Paragraph>
 
-          {currentUser.uid === post.uid && (
-            <Delete onClick={() => this.handleClickDeletePost(postID)}>
-              <Heading
-                color={Colors.PRIMARY}
-                marginTop="0px"
-                marginBottom="0px"
-              >
-                <BsTrash />
-              </Heading>
-            </Delete>
-          )}
+                <Caption>{date}</Caption>
+              </Column>
 
-          <Paragraph marginTop={Gutters.SMALL} marginBottom="0px">
-            {post.message}
-          </Paragraph>
+              {currentUser.uid === post.uid && (
+                <Delete onClick={() => this.handleClickDeletePost(postID)}>
+                  <Heading
+                    color={Colors.PRIMARY}
+                    marginTop="0px"
+                    marginBottom="0px"
+                  >
+                    <BsTrash />
+                  </Heading>
+                </Delete>
+              )}
+            </Row>
+
+            <Paragraph marginTop={Gutters.LARGE} marginBottom="0px">
+              {post.message}
+            </Paragraph>
+          </PosterInfo>
 
           {post.imageURL && (
             <StyledImage alt="Post Image" src={post.imageURL} />
           )}
 
-          <PosterInfo>
-            <Paragraph
-              fontWeight="bold"
-              marginTop={Gutters.MEDIUM}
-              marginBottom={Gutters.X_SMALL}
-            >
-              {displayName || "Anonymous"}
-            </Paragraph>
-
-            <Caption marginTop="0px">{post.email}</Caption>
-            <StyledUpVote>
-              <Like
-                count={likes.length}
-                isLiked={this.state.isLiked}
-                onClick={this.handleLikeClick}
-              />
-            </StyledUpVote>
-          </PosterInfo>
+          <LikeContainer>
+            <Like
+              count={likes.length}
+              isLiked={this.state.isLiked}
+              onClick={this.handleLikeClick}
+            />
+          </LikeContainer>
 
           {post.comments && (
             <>
@@ -212,7 +208,7 @@ class Post extends React.PureComponent<Props, State> {
               onChange={this.onTypeComment}
             />
           </CommentForm>
-        </TextContainer>
+        </InnerContainer>
         {error && <Error text={error} />}
       </StyledContainer>
     );
@@ -222,10 +218,6 @@ class Post extends React.PureComponent<Props, State> {
 export default Post;
 
 const StyledContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
   padding: ${Gutters.X_LARGE};
   margin: ${Gutters.SMALL} 0;
   opacity: 0;
@@ -246,7 +238,7 @@ const StyledImage = styled.img`
   margin-bottom: ${Gutters.MEDIUM};
 `;
 
-const TextContainer = styled.div`
+const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -259,17 +251,13 @@ const PosterInfo = styled.div`
   position: relative;
 `;
 
-const StyledUpVote = styled.div`
-  position: absolute;
-  right: 0;
-  top: ${Gutters.MEDIUM};
+const LikeContainer = styled.div`
+  align-self: flex-end;
 `;
 
 const Delete = styled.div`
   cursor: pointer;
-  position: absolute;
-  right: ${Gutters.MEDIUM};
-  top: ${Gutters.LARGE};
+  margin-left: ${Gutters.SMALL}
 
   &:hover {
     h2 {
