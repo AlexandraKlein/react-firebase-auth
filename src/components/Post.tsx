@@ -3,6 +3,7 @@ import * as firebase from "firebase/app";
 import "firebase/database";
 import styled from "styled-components";
 import { BsTrash } from "react-icons/bs";
+import { placeholderProfileUrl } from "../helpers";
 import { CommentType } from "../context/Posts";
 import ProfileImage from "./ProfileImage";
 import Error from "./Error";
@@ -134,10 +135,7 @@ class Post extends React.PureComponent<Props, State> {
                 marginTop="0"
                 altText={displayName || "User"}
                 size="40px"
-                imgSrc={
-                  photoURL ||
-                  "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
-                }
+                imgSrc={photoURL || placeholderProfileUrl}
               />
               <Column align="flex-start" flex="1">
                 <Paragraph fontWeight="bold" marginTop="0px" marginBottom="0px">
@@ -195,8 +193,7 @@ class Post extends React.PureComponent<Props, State> {
                         marginBottomMobile="0"
                         size="30px"
                         imgSrc={
-                          comment[1].userPhotoURL ||
-                          "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
+                          comment[1].userPhotoURL || placeholderProfileUrl
                         }
                       />
                       <SmallParagraph marginBottom="0px" marginTop="0px">

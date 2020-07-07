@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ProfileImage from "./ProfileImage";
 import { Paragraph } from "./Text";
 import { BreakPoint, Gutters, fadeUp } from "../styles";
+import { placeholderProfileUrl } from "../helpers";
 
 type Props = {
   userInfo: { [key: string]: string };
@@ -13,10 +14,7 @@ const User = ({ userInfo, ...props }: Props) => (
   <StyledContainer {...props}>
     <ProfileImage
       altText={userInfo.nickName || "User"}
-      imgSrc={
-        userInfo.photoURL ||
-        "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
-      }
+      imgSrc={userInfo.photoURL || placeholderProfileUrl}
     />
     <TextContainer>
       <Paragraph fontWeight="bold" marginTop="0px" marginBottom="0px">

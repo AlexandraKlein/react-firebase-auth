@@ -13,6 +13,7 @@ import { Column, Row } from "../Container";
 import { Paragraph } from "../Text";
 import Error from "../Error";
 import { BreakPoint, Colors, Gutters } from "../../styles";
+import { placeholderProfileUrl } from "../../helpers";
 
 type PrivateProps = {
   authContext: AuthContextType;
@@ -56,7 +57,7 @@ class ImageUpload extends React.PureComponent<Props> {
       ? url
       : currentUser.photoURL
       ? currentUser.photoURL
-      : "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277";
+      : placeholderProfileUrl;
 
     return (
       <>
