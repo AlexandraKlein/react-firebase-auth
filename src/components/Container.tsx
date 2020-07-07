@@ -17,12 +17,16 @@ export const Container = styled.div<Pick<Props, "margin" | "padding">>`
   padding: ${(props) => props.padding || 0};
 `;
 
-export const Row = styled(Container)<Pick<Props, "align" | "justify" | "flex">>`
+// eslint-disable-next-line
+export const Row = styled(Container)<
+  Pick<Props, "align" | "justify" | "flex" | "wrap">
+>`
   display: flex;
   flex-direction: row;
   align-items: ${(props) => props.align || "center"};
   justify-content: ${(props) => props.justify || "center"};
   flex: ${(props) => props.flex || "unset"};
+  flex-wrap: ${(props) => props.wrap || "unwrap"};
 `;
 
 // eslint-disable-next-line

@@ -48,6 +48,16 @@ const Home = ({
     return user[1].nickName;
   };
 
+  const getUserPhotoURLFromUID = (uid: string) => {
+    const user = Object.entries(users).find((user) => user[0] === uid);
+
+    if (!user) {
+      return;
+    }
+
+    return user[1].photoURL;
+  };
+
   const handCloseModalConfirm = () => {
     setIsModalVisible(false);
     firebase.database().ref(`posts/${postID}/`).remove();
@@ -77,6 +87,7 @@ const Home = ({
                 commenterDisplayName={getUserDisplayNameFromUID(
                   currentUser.uid
                 )}
+                commenterPhotoURL={getUserPhotoURLFromUID(currentUser.uid)}
                 fetchPosts={postsContext.fetchPosts}
                 handleOpenModal={() => setIsModalVisible(true)}
                 key={post.id}

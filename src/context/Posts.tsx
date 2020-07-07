@@ -7,6 +7,7 @@ const numPosts = 5;
 export type CommentType = {
   user: string;
   message: string;
+  userPhotoURL: string;
 };
 
 export type PostType = {

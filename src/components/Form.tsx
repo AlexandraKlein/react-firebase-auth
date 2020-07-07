@@ -10,16 +10,17 @@ type Props = {
   onSubmit: (event: React.FormEvent) => void;
   isDisabled?: boolean;
   marginTop?: string;
+  width?: string;
   buttonMarginTop?: string;
 };
 
-const StyledForm = styled.form<{ marginTop: string }>`
+const StyledForm = styled.form<{ marginTop?: string; width?: string }>`
   display: flex;
   margin-bottom: ${Gutters.LARGE};
   margin-top: ${(props) => props.marginTop || "0px"};
 
   ${BreakPoint.TABLET} {
-    width: 480px;
+    width: ${(props) => props.width || "480px"};
   }
 `;
 
@@ -28,10 +29,10 @@ const Form = ({
   children,
   onSubmit,
   isDisabled,
-  marginTop,
   buttonMarginTop,
+  ...props
 }: Props): JSX.Element => (
-  <StyledForm marginTop={marginTop} onSubmit={onSubmit}>
+  <StyledForm onSubmit={onSubmit} {...props}>
     <Column flex="1" align="unset" justify="unset">
       {children}
       <Button

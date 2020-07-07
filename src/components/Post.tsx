@@ -11,7 +11,7 @@ import Like from "./Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
 import { PostsContext, PostType, PostData } from "../context/Posts";
 import Form from "./Form";
-import { Row, Column } from "./Container";
+import Container, { Row, Column } from "./Container";
 
 type Props = {
   currentUser: firebase.User;
@@ -25,6 +25,7 @@ type Props = {
   postID: string;
   setPostId: (postID: string) => void;
   commenterDisplayName: string;
+  commenterPhotoURL: string;
 };
 
 type State = {
@@ -76,6 +77,7 @@ class Post extends React.PureComponent<Props, State> {
       comment: {
         message,
         user: this.props.commenterDisplayName,
+        userPhotoURL: this.props.commenterPhotoURL,
       },
     });
   };
@@ -187,11 +189,23 @@ class Post extends React.PureComponent<Props, State> {
               <CommentsContainer>
                 {Object.entries(post.comments).map((comment) => (
                   <Comment key={comment[0]}>
-                    <SmallParagraph marginTop="0px">
-                      {comment[1].user}
-                      {": "}
-                      <Caption marginTop="0px">{comment[1].message}</Caption>
-                    </SmallParagraph>
+                    <Row justify="flex-start">
+                      <ProfileImage
+                        marginTop="0"
+                        marginBottomMobile="0"
+                        size="30px"
+                        imgSrc={
+                          comment[1].userPhotoURL ||
+                          "https://www.empa.ch/documents/56066/95227/Profile-Placeholder.png/34b47554-1996-4dd1-9b0d-63fa49e463c9?t=1513121750277"
+                        }
+                      />
+                      <SmallParagraph marginBottom="0px" marginTop="0px">
+                        {comment[1].user}
+                      </SmallParagraph>
+                    </Row>
+                    <Container margin={`${Gutters.MEDIUM} 0 0 0`}>
+                      <Caption>{comment[1].message}</Caption>
+                    </Container>
                   </Comment>
                 ))}
               </CommentsContainer>
@@ -199,6 +213,7 @@ class Post extends React.PureComponent<Props, State> {
           )}
 
           <CommentForm
+            width="auto"
             marginTop={Gutters.X_LARGE}
             isDisabled={!this.state.comment || !this.state.comment.message}
             submitText="Submit"
@@ -245,7 +260,7 @@ const InnerContainer = styled.div`
   flex-direction: column;
 
   ${BreakPoint.TABLET} {
-    width: 500px;
+    width: 600px;
   }
 `;
 
@@ -280,8 +295,8 @@ const CommentsContainer = styled.div`
 `;
 
 const Comment = styled.div`
-  margin-top: ${Gutters.SMALL};
-  margin-bottom: ${Gutters.SMALL};
+  margin-top: ${Gutters.X_LARGE};
+  margin-bottom: ${Gutters.X_LARGE};
 `;
 
 const StyledTextArea = styled.textarea`
