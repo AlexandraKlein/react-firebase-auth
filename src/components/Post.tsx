@@ -80,7 +80,9 @@ class Post extends React.PureComponent<Props, State> {
     });
   };
 
-  writeUserComment = () => {
+  writeUserComment = (event: React.FormEvent<Element>) => {
+    event.preventDefault();
+
     firebase
       .database()
       .ref(`posts/${this.props.postID}/comments`)
