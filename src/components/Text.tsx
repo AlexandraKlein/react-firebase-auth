@@ -56,3 +56,9 @@ export const Title = styled.h1<Props>`
   margin-top: ${(props) => props.marginTop || "1em"};
   margin-bottom: ${(props) => props.marginBottom || "1em"};
 `;
+
+export const Success = styled(Heading)<{ hasUpdated: boolean }>`
+  transition: all 0.2s ease-out;
+  overflow: hidden;
+  height: ${(props) => (props.hasUpdated ? "60px" : 0)};
+`;

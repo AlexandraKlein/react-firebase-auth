@@ -3,16 +3,17 @@ import * as firebase from "firebase/app";
 import "firebase/database";
 import styled from "styled-components";
 import { BsTrash } from "react-icons/bs";
-import { placeholderProfileUrl } from "../helpers";
-import { CommentType } from "../context/Posts";
-import ProfileImage from "./ProfileImage";
-import Error from "./Error";
-import { Paragraph, SmallParagraph, Caption, Heading } from "./Text";
-import Like from "./Like";
-import { BreakPoint, Colors, Gutters, fadeUp } from "../styles";
-import { PostsContext, PostType, PostData } from "../context/Posts";
-import Form from "./Form";
-import Container, { Row, Column } from "./Container";
+import { placeholderProfileUrl } from "../../helpers";
+import { CommentType } from "../../context/Posts";
+import ProfileImage from "../ProfileImage";
+import Error from "../Error";
+import { Paragraph, SmallParagraph, Caption, Heading } from "../Text";
+import Like from "../Like";
+import { BreakPoint, Colors, Gutters, fadeUp } from "../../styles";
+import { PostsContext, PostType, PostData } from "../../context/Posts";
+import Form from "../Form";
+import Container, { Row, Column } from "../Container";
+import CommentForm from "./CommentForm";
 
 type Props = {
   currentUser: firebase.User;
@@ -33,6 +34,7 @@ type State = {
   isLiked: boolean;
   error: Error["message"];
   comment: CommentType;
+  commentSuccess: boolean;
 };
 
 class Post extends React.PureComponent<Props, State> {
@@ -40,6 +42,7 @@ class Post extends React.PureComponent<Props, State> {
     isLiked: false,
     error: undefined,
     comment: undefined,
+    commentSuccess: false,
   };
 
   componentDidMount() {
@@ -211,11 +214,9 @@ class Post extends React.PureComponent<Props, State> {
           )}
 
           <CommentForm
-            width="auto"
-            marginTop={Gutters.X_LARGE}
-            isDisabled={!this.state.comment || !this.state.comment.message}
-            submitText="Submit"
             onSubmit={this.writeUserComment}
+            comment={this.state.comment}
+            onType={this.onTypeComment}
           >
             <Paragraph>Comment:</Paragraph>
             <StyledTextArea
@@ -279,12 +280,6 @@ const Delete = styled.div`
       color: ${Colors.PRIMARY_HOVER};
     }
   }
-`;
-
-const CommentForm = styled(Form)`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 `;
 
 const CommentsContainer = styled.div`

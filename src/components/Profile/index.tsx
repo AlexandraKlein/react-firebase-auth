@@ -1,6 +1,5 @@
 import React from "react";
 import "firebase/database";
-import styled from "styled-components";
 import { AuthConsumer, AuthContextType } from "../../context/Auth";
 import { ProfileConsumer, ProfileContext } from "../../context/Profile";
 import { Container, Column, Row } from "../Container";
@@ -9,7 +8,7 @@ import Form from "../Form";
 import Input from "../Input";
 import Radiobox from "../Radiobox";
 import Error from "../Error";
-import { Subheading, Heading } from "../Text";
+import { Subheading, Success } from "../Text";
 import { Colors, Gutters } from "../../styles";
 import { capitalize } from "../../helpers";
 import { choiceData } from "../../data";
@@ -171,9 +170,3 @@ const DataProvidedProfile = React.memo(() => (
 ));
 
 export default DataProvidedProfile;
-
-const Success = styled(Heading)<{ hasUpdated: boolean }>`
-  transition: all 0.2s ease-out;
-  overflow: hidden;
-  height: ${(props) => (props.hasUpdated ? "60px" : 0)};
-`;
