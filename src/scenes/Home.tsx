@@ -10,6 +10,7 @@ import { Column } from "../components/Container";
 import { Gutters } from "../styles";
 import { Heading, Paragraph } from "../components/Text";
 import PostForm from "../components/PostForm";
+import { formatDate } from "../helpers";
 
 type Props = {
   authContext: AuthContextType;
@@ -63,14 +64,6 @@ const Home = ({
     firebase.database().ref(`posts/${postID}/`).remove();
     postsContext.fetchPosts();
   };
-
-  const formatDate = (milliseconds: string) =>
-    new Intl.DateTimeFormat("en", {
-      year: "numeric",
-      month: "long",
-      day: "2-digit",
-      hour12: true,
-    }).format(new Date(Number(milliseconds)));
 
   return (
     <>

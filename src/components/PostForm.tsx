@@ -219,7 +219,6 @@ const StyledForm = styled(Form)`
   display: flex;
   justify-content: center;
   align-items: stretch;
-  padding: ${Gutters.MEDIUM};
 
   ${BreakPoint.TABLET} {
     width: 600px;

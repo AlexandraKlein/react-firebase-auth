@@ -137,7 +137,7 @@ class Post extends React.PureComponent<Props, State> {
                 marginBottomMobile="0"
                 marginTop="0"
                 altText={displayName || "User"}
-                size="40px"
+                size="64px"
                 imgSrc={photoURL || placeholderProfileUrl}
               />
               <Column align="flex-start" flex="1">
@@ -178,6 +178,7 @@ class Post extends React.PureComponent<Props, State> {
             />
           </LikeContainer>
 
+          {console.log(post.comments)}
           {post.comments && (
             <CommentsContainer>
               {Object.entries(post.comments).map((comment) => (

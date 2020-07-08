@@ -20,8 +20,9 @@ export const Colors = {
   LIGHT_GRAY: "#eeeeee",
   INPUT: "#e3f1ff",
   PRIMARY_LIGHT: "#e3f1ff",
+  WHITE_70: "rgba(255, 255, 255, .7)",
   ERROR: "#ff0033",
-  SUCCESS: "#4BB543",
+  SUCCESS: "#8DE969",
 };
 
 export const Type = {
