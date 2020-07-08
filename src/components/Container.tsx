@@ -57,5 +57,3 @@ export const FlexContainer = styled(Column)<
     flex-direction: ${(props) => props.directionTablet || "row"};
   }
 `;
-
-export default Container;

@@ -7,12 +7,13 @@ import { placeholderProfileUrl } from "../../helpers";
 import { CommentType } from "../../context/Posts";
 import ProfileImage from "../ProfileImage";
 import Error from "../Error";
-import { Paragraph, SmallParagraph, Caption, Heading } from "../Text";
+import { Paragraph, Caption, Heading } from "../Text";
 import Like from "../Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../../styles";
 import { PostsContext, PostType, PostData } from "../../context/Posts";
-import Container, { Row, Column } from "../Container";
+import { Row, Column } from "../Container";
 import CommentForm from "./CommentForm";
+import Comment from "./Comment";
 
 type Props = {
   currentUser: firebase.User;
@@ -158,7 +159,6 @@ class Post extends React.PureComponent<Props, State> {
                 </Delete>
               )}
             </Row>
-
             {post.message && (
               <Paragraph marginTop={Gutters.LARGE} marginBottom="0px">
                 {post.message}
@@ -179,37 +179,11 @@ class Post extends React.PureComponent<Props, State> {
           </LikeContainer>
 
           {post.comments && (
-            <>
-              <Paragraph
-                fontWeight="bold"
-                marginTop={Gutters.X_LARGE}
-                marginBottom={Gutters.X_SMALL}
-              >
-                Comments:
-              </Paragraph>
-              <CommentsContainer>
-                {Object.entries(post.comments).map((comment) => (
-                  <Comment key={comment[0]}>
-                    <Row justify="flex-start">
-                      <ProfileImage
-                        marginTop="0"
-                        marginBottomMobile="0"
-                        size="30px"
-                        imgSrc={
-                          comment[1].userPhotoURL || placeholderProfileUrl
-                        }
-                      />
-                      <SmallParagraph marginBottom="0px" marginTop="0px">
-                        {comment[1].user}
-                      </SmallParagraph>
-                    </Row>
-                    <Container margin={`${Gutters.MEDIUM} 0 0 0`}>
-                      <Caption>{comment[1].message}</Caption>
-                    </Container>
-                  </Comment>
-                ))}
-              </CommentsContainer>
-            </>
+            <CommentsContainer>
+              {Object.entries(post.comments).map((comment) => (
+                <Comment key={comment[0]} comment={comment} />
+              ))}
+            </CommentsContainer>
           )}
 
           <CommentForm
@@ -284,11 +258,6 @@ const Delete = styled.div`
 const CommentsContainer = styled.div`
   margin-left: ${Gutters.LARGE};
   margin-top: ${Gutters.MEDIUM};
-`;
-
-const Comment = styled.div`
-  margin-top: ${Gutters.X_LARGE};
-  margin-bottom: ${Gutters.X_LARGE};
 `;
 
 const StyledTextArea = styled.textarea`
