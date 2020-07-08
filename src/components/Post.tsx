@@ -158,9 +158,11 @@ class Post extends React.PureComponent<Props, State> {
               )}
             </Row>
 
-            <Paragraph marginTop={Gutters.LARGE} marginBottom="0px">
-              {post.message}
-            </Paragraph>
+            {post.message && (
+              <Paragraph marginTop={Gutters.LARGE} marginBottom="0px">
+                {post.message}
+              </Paragraph>
+            )}
           </PosterInfo>
 
           {post.imageURL && (
@@ -301,8 +303,10 @@ const StyledTextArea = styled.textarea`
   background-color: ${Colors.WHITE};
   font-size: 16px;
   border: none;
+  border-radius: 0;
   outline: 0;
   resize: none;
   padding: ${Gutters.MEDIUM};
   height: 100px;
+  -webkit-appearance: none;
 `;

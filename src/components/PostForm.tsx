@@ -137,7 +137,7 @@ class PostForm extends React.PureComponent<Props, State> {
             <Row justify="space-between">
               <ProfileImage
                 imgSrc={currentUser.photoURL}
-                marginRight="0px"
+                marginRightMobile="0px"
                 size="74px"
               />
               <StyledTextArea
@@ -231,11 +231,13 @@ const StyledTextArea = styled.textarea`
   background-color: ${Colors.INPUT};
   font-size: 16px;
   border: none;
+  border-radius: 0;
   outline: 0;
   resize: none;
   padding: ${Gutters.MEDIUM};
   height: 100px;
   margin-left: ${Gutters.MEDIUM};
+  -webkit-appearance: none;
 `;
 
 const ImagePreview = styled.img`
