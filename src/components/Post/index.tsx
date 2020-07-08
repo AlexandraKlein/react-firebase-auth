@@ -11,7 +11,6 @@ import { Paragraph, SmallParagraph, Caption, Heading } from "../Text";
 import Like from "../Like";
 import { BreakPoint, Colors, Gutters, fadeUp } from "../../styles";
 import { PostsContext, PostType, PostData } from "../../context/Posts";
-import Form from "../Form";
 import Container, { Row, Column } from "../Container";
 import CommentForm from "./CommentForm";
 
