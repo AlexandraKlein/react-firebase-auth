@@ -28,7 +28,6 @@ const GlobalStyle = createGlobalStyle`
      flex-grow: 1;
    }
 
-
    input, select, textarea, button {
      font-family: inherit;
      -webkit-appearance: none;
