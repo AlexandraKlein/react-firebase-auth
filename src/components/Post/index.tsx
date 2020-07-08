@@ -256,7 +256,6 @@ const Delete = styled.div`
 `;
 
 const CommentsContainer = styled.div`
-  margin-left: ${Gutters.LARGE};
   margin-top: ${Gutters.MEDIUM};
 `;
 
