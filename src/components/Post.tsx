@@ -141,7 +141,6 @@ class Post extends React.PureComponent<Props, State> {
                 <Paragraph fontWeight="bold" marginTop="0px" marginBottom="0px">
                   {displayName || "Anonymous"}
                 </Paragraph>
-
                 <Caption>{date}</Caption>
               </Column>
 
@@ -308,5 +307,4 @@ const StyledTextArea = styled.textarea`
   resize: none;
   padding: ${Gutters.MEDIUM};
   height: 100px;
-  -webkit-appearance: none;
 `;

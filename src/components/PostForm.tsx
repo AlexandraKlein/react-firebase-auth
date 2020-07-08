@@ -237,7 +237,6 @@ const StyledTextArea = styled.textarea`
   padding: ${Gutters.MEDIUM};
   height: 100px;
   margin-left: ${Gutters.MEDIUM};
-  -webkit-appearance: none;
 `;
 
 const ImagePreview = styled.img`

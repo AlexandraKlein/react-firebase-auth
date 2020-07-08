@@ -31,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
 
    input, select, textarea, button {
      font-family: inherit;
+     -webkit-appearance: none;
    }
 `;
 
